@@ -1,0 +1,529 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Outreach.io API Configuration",
+  "description": "Configuration schema for Outreach.io sales engagement platform integration with HaloPSA CRM workflow",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://api.outreach.io/api/v2",
+          "description": "Outreach.io API base URL"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["oauth2"],
+              "default": "oauth2"
+            },
+            "oauth2": {
+              "type": "object",
+              "properties": {
+                "client_id": {
+                  "type": "string",
+                  "description": "OAuth2 client ID from Outreach app"
+                },
+                "client_secret": {
+                  "type": "string",
+                  "description": "OAuth2 client secret"
+                },
+                "authorization_url": {
+                  "type": "string",
+                  "default": "https://api.outreach.io/oauth/authorize"
+                },
+                "token_url": {
+                  "type": "string",
+                  "default": "https://api.outreach.io/oauth/token"
+                },
+                "scope": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["prospects.all", "sequences.all", "mailings.all", "calls.all"]
+                }
+              },
+              "required": ["client_id", "client_secret"]
+            }
+          },
+          "required": ["method", "oauth2"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_hour": {
+              "type": "integer",
+              "default": 10000,
+              "description": "API requests per hour limit"
+            },
+            "burst_limit": {
+              "type": "integer",
+              "default": 1000,
+              "description": "Burst requests limit"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "prospects": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "method": "GET",
+                  "path": "/prospects"
+                },
+                "create": {
+                  "method": "POST",
+                  "path": "/prospects"
+                },
+                "update": {
+                  "method": "PATCH",
+                  "path": "/prospects/{id}"
+                },
+                "get": {
+                  "method": "GET",
+                  "path": "/prospects/{id}"
+                }
+              }
+            },
+            "sequences": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "method": "GET",
+                  "path": "/sequences"
+                },
+                "enroll_prospect": {
+                  "method": "POST",
+                  "path": "/sequenceSteps/{id}/sequenceStates"
+                },
+                "get_states": {
+                  "method": "GET",
+                  "path": "/sequenceStates"
+                }
+              }
+            },
+            "mailings": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "method": "GET",
+                  "path": "/mailings"
+                },
+                "get": {
+                  "method": "GET",
+                  "path": "/mailings/{id}"
+                }
+              }
+            },
+            "calls": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "method": "GET",
+                  "path": "/calls"
+                },
+                "create": {
+                  "method": "POST",
+                  "path": "/calls"
+                }
+              }
+            },
+            "accounts": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "method": "GET",
+                  "path": "/accounts"
+                },
+                "create": {
+                  "method": "POST",
+                  "path": "/accounts"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "workflow_templates": {
+      "type": "object",
+      "properties": {
+        "create_prospect_from_lead": {
+          "type": "object",
+          "description": "Create Outreach prospect from HaloPSA lead",
+          "properties": {
+            "prospect_data": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "halopsa_source": "contact.firstname"
+                },
+                "lastName": {
+                  "type": "string",
+                  "halopsa_source": "contact.surname"
+                },
+                "title": {
+                  "type": "string",
+                  "halopsa_source": "contact.jobtitle"
+                },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "value": {"type": "string"},
+                      "type": {"type": "string", "default": "work"}
+                    }
+                  },
+                  "halopsa_source": "[{value: contact.emailaddress, type: 'work'}]"
+                },
+                "phoneNumbers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "value": {"type": "string"},
+                      "type": {"type": "string", "default": "work"}
+                    }
+                  },
+                  "halopsa_source": "[{value: contact.phonenumber, type: 'work'}]"
+                },
+                "linkedInUrl": {
+                  "type": "string",
+                  "halopsa_source": "contact.linkedin_url"
+                }
+              }
+            },
+            "account_data": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "halopsa_source": "client.name"
+                },
+                "domain": {
+                  "type": "string",
+                  "halopsa_source": "client.website"
+                },
+                "industry": {
+                  "type": "string",
+                  "halopsa_source": "client.industry"
+                },
+                "employees": {
+                  "type": "integer",
+                  "halopsa_source": "client.employee_count"
+                }
+              }
+            }
+          }
+        },
+        "sync_engagement_data": {
+          "type": "object",
+          "description": "Sync engagement metrics back to HaloPSA",
+          "properties": {
+            "sequence_engagement": {
+              "type": "object",
+              "properties": {
+                "emails_sent": {
+                  "type": "integer",
+                  "description": "Total emails sent to prospect"
+                },
+                "emails_opened": {
+                  "type": "integer",
+                  "description": "Email opens count"
+                },
+                "emails_clicked": {
+                  "type": "integer",
+                  "description": "Email link clicks count"
+                },
+                "emails_replied": {
+                  "type": "integer",
+                  "description": "Email replies received"
+                },
+                "calls_made": {
+                  "type": "integer",
+                  "description": "Calls attempted"
+                },
+                "calls_connected": {
+                  "type": "integer",
+                  "description": "Successful call connections"
+                },
+                "last_engagement_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "sequence_status": {
+                  "type": "string",
+                  "enum": ["active", "paused", "finished", "bounced", "opted_out"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "halopsa_to_outreach_prospect": {
+          "type": "object",
+          "description": "Map HaloPSA lead to Outreach prospect",
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "prospects"
+            },
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "source": "contact.firstname"
+                },
+                "lastName": {
+                  "type": "string",
+                  "source": "contact.surname"
+                },
+                "title": {
+                  "type": "string",
+                  "source": "contact.jobtitle"
+                },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "value": {"type": "string"},
+                      "type": {"type": "string", "default": "work"}
+                    }
+                  },
+                  "transformation": "[{value: contact.emailaddress, type: 'work'}]"
+                },
+                "phoneNumbers": {
+                  "type": "array", 
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "value": {"type": "string"},
+                      "type": {"type": "string", "default": "work"}
+                    }
+                  },
+                  "transformation": "contact.phonenumber ? [{value: contact.phonenumber, type: 'work'}] : []"
+                },
+                "linkedInUrl": {
+                  "type": "string",
+                  "source": "contact.linkedin_url"
+                },
+                "personalNote1": {
+                  "type": "string",
+                  "template": "Lead Source: {{customfields.CF_101_lead_source}} | Services: {{customfields.CF_102_services_offered}}"
+                },
+                "personalNote2": {
+                  "type": "string",
+                  "template": "Growth Signals: {{customfields.CF_103_growth_signals}}"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["HaloPSA-Import", "Lead-Qualified"]
+                }
+              }
+            },
+            "relationships": {
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "type": {"type": "string", "default": "accounts"},
+                        "attributes": {
+                          "type": "object",
+                          "properties": {
+                            "name": {"source": "client.name"},
+                            "domain": {"source": "client.website"},
+                            "industry": {"source": "client.industry"},
+                            "employees": {"source": "client.employee_count"},
+                            "description": {"template": "{{client.notes}}"}
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "outreach_engagement_to_halopsa": {
+          "type": "object",
+          "description": "Map Outreach engagement data back to HaloPSA custom fields",
+          "properties": {
+            "engagement_custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_106_outreach_sequence_status": {
+                  "id": 106,
+                  "source": "sequenceState.state"
+                },
+                "CF_107_email_engagement_score": {
+                  "id": 107,
+                  "calculation": "(emails_opened * 2 + emails_clicked * 5 + emails_replied * 10) / emails_sent"
+                },
+                "CF_108_call_connection_rate": {
+                  "id": 108,
+                  "calculation": "calls_connected / calls_made * 100"
+                },
+                "CF_109_last_touch_date": {
+                  "id": 109,
+                  "source": "lastTouchedAt"
+                },
+                "CF_110_outreach_prospect_id": {
+                  "id": 110,
+                  "source": "id"
+                }
+              }
+            },
+            "lead_scoring_updates": {
+              "type": "object",
+              "properties": {
+                "engagement_score": {
+                  "type": "integer",
+                  "calculation": "base_score + email_engagement_score + call_engagement_score"
+                },
+                "priority_escalation": {
+                  "type": "boolean",
+                  "condition": "emails_replied > 0 || calls_connected > 2"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "automation_rules": {
+      "type": "object",
+      "properties": {
+        "sequence_enrollment": {
+          "type": "object",
+          "properties": {
+            "auto_enroll_conditions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "lead.status_id === 1",
+                "contact.emailaddress !== null",
+                "customfields.CF_105_do_not_contact === false"
+              ]
+            },
+            "sequence_selection": {
+              "type": "object",
+              "properties": {
+                "default_sequence_id": {
+                  "type": "integer",
+                  "description": "Default sequence for new leads"
+                },
+                "industry_specific_sequences": {
+                  "type": "object",
+                  "additionalProperties": {"type": "integer"}
+                },
+                "seniority_sequences": {
+                  "type": "object",
+                  "properties": {
+                    "c_level": {"type": "integer"},
+                    "vp_level": {"type": "integer"},
+                    "director": {"type": "integer"},
+                    "manager": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "engagement_triggers": {
+          "type": "object",
+          "properties": {
+            "reply_received": {
+              "type": "object",
+              "properties": {
+                "update_lead_status": {
+                  "type": "integer",
+                  "default": 2,
+                  "description": "Update to 'Responding' status"
+                },
+                "create_halopsa_action": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Create action item for follow-up"
+                },
+                "assign_to_sales_user": {
+                  "type": "string",
+                  "description": "Auto-assign to specific sales user"
+                }
+              }
+            },
+            "opted_out": {
+              "type": "object",
+              "properties": {
+                "update_do_not_contact": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "close_lead": {
+                  "type": "boolean",
+                  "default": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "webhook_configuration": {
+      "type": "object",
+      "properties": {
+        "webhook_events": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": [
+            "prospect.created",
+            "prospect.updated", 
+            "mailing.opened",
+            "mailing.clicked",
+            "mailing.replied",
+            "mailing.bounced",
+            "call.created",
+            "call.completed",
+            "sequenceState.changed"
+          ]
+        },
+        "webhook_url": {
+          "type": "string",
+          "description": "Your endpoint to receive Outreach webhooks"
+        },
+        "signature_verification": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "secret_key": {
+              "type": "string",
+              "description": "Webhook signature verification key"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "workflow_templates", "field_mappings", "automation_rules"]
+}

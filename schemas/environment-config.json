@@ -1,0 +1,390 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Environment Configuration Template",
+  "description": "Environment variables and configuration settings for HaloPSA B2B integrations",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string",
+      "enum": ["development", "staging", "production"],
+      "description": "Deployment environment"
+    },
+    "halopsa": {
+      "type": "object",
+      "properties": {
+        "tenant_url": {
+          "type": "string",
+          "pattern": "^https://[a-zA-Z0-9-]+\\.halopsa\\.com$",
+          "description": "Your HaloPSA tenant URL",
+          "examples": ["https://yourtenant.halopsa.com"]
+        },
+        "client_id": {
+          "type": "string",
+          "description": "OAuth 2.0 Client ID from HaloPSA"
+        },
+        "client_secret": {
+          "type": "string",
+          "description": "OAuth 2.0 Client Secret from HaloPSA"
+        },
+        "redirect_uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "OAuth redirect URI registered in HaloPSA"
+        },
+        "webhook_secret": {
+          "type": "string",
+          "description": "Secret for validating HaloPSA webhook signatures"
+        },
+        "custom_fields": {
+          "type": "object",
+          "description": "Custom field IDs for storing B2B data",
+          "properties": {
+            "apollo_id": {
+              "type": "integer",
+              "description": "Custom field ID for storing Apollo.io contact ID"
+            },
+            "zoominfo_id": {
+              "type": "integer",
+              "description": "Custom field ID for storing ZoomInfo person ID"
+            },
+            "data_source": {
+              "type": "integer",
+              "description": "Custom field ID for tracking data source"
+            },
+            "enrichment_date": {
+              "type": "integer",
+              "description": "Custom field ID for last enrichment date"
+            },
+            "data_quality_score": {
+              "type": "integer",
+              "description": "Custom field ID for data quality score"
+            },
+            "confidence_score": {
+              "type": "integer",
+              "description": "Custom field ID for confidence score"
+            }
+          }
+        }
+      },
+      "required": ["tenant_url", "client_id", "client_secret"]
+    },
+    "b2b_sources": {
+      "type": "object",
+      "properties": {
+        "apollo": {
+          "type": "object",
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "Apollo.io API key"
+            },
+            "webhook_secret": {
+              "type": "string",
+              "description": "Apollo webhook secret for signature verification"
+            },
+            "rate_limit_per_minute": {
+              "type": "integer",
+              "default": 100
+            }
+          }
+        },
+        "zoominfo": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "ZoomInfo username"
+            },
+            "password": {
+              "type": "string",
+              "description": "ZoomInfo password"
+            },
+            "webhook_secret": {
+              "type": "string"
+            },
+            "rate_limit_per_hour": {
+              "type": "integer",
+              "default": 1000
+            }
+          }
+        },
+        "hunter": {
+          "type": "object",
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "Hunter.io API key"
+            },
+            "webhook_secret": {
+              "type": "string"
+            },
+            "rate_limit_per_second": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        },
+        "uplead": {
+          "type": "object",
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "UpLead API key"
+            },
+            "rate_limit_per_minute": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        },
+        "lusha": {
+          "type": "object",
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "Lusha API key"
+            },
+            "rate_limit_per_minute": {
+              "type": "integer",
+              "default": 120
+            }
+          }
+        }
+      }
+    },
+    "integration_settings": {
+      "type": "object",
+      "properties": {
+        "halo_integrator": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "poll_interval_minutes": {
+              "type": "integer",
+              "default": 15,
+              "minimum": 5,
+              "maximum": 1440
+            },
+            "api_endpoint": {
+              "type": "string",
+              "format": "uri",
+              "description": "Your API endpoint that Halo Integrator will poll"
+            },
+            "auth_token": {
+              "type": "string",
+              "description": "Authentication token for Halo Integrator requests"
+            },
+            "timeout_seconds": {
+              "type": "integer",
+              "default": 30
+            },
+            "retry_attempts": {
+              "type": "integer",
+              "default": 3
+            }
+          }
+        },
+        "webhooks": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "base_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Base URL for webhook endpoints"
+            },
+            "auth_token": {
+              "type": "string",
+              "description": "Token for webhook authentication"
+            },
+            "rate_limit_per_minute": {
+              "type": "integer",
+              "default": 100
+            }
+          }
+        },
+        "data_quality": {
+          "type": "object",
+          "properties": {
+            "minimum_confidence_score": {
+              "type": "integer",
+              "default": 70,
+              "minimum": 0,
+              "maximum": 100
+            },
+            "verify_emails": {
+              "type": "boolean",
+              "default": true
+            },
+            "deduplicate_contacts": {
+              "type": "boolean",
+              "default": true
+            },
+            "similarity_threshold": {
+              "type": "number",
+              "default": 0.8,
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Similarity threshold for duplicate detection"
+            }
+          }
+        },
+        "error_handling": {
+          "type": "object",
+          "properties": {
+            "max_retries": {
+              "type": "integer",
+              "default": 3
+            },
+            "retry_delay_seconds": {
+              "type": "integer",
+              "default": 60
+            },
+            "dead_letter_queue": {
+              "type": "boolean",
+              "default": true
+            },
+            "alert_email": {
+              "type": "string",
+              "format": "email",
+              "description": "Email address for error alerts"
+            },
+            "alert_webhook": {
+              "type": "string",
+              "format": "uri",
+              "description": "Webhook URL for error notifications"
+            }
+          }
+        }
+      }
+    },
+    "logging": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["error", "warn", "info", "debug"],
+          "default": "info"
+        },
+        "file_path": {
+          "type": "string",
+          "description": "Path to log file"
+        },
+        "max_file_size": {
+          "type": "string",
+          "default": "10MB"
+        },
+        "max_files": {
+          "type": "integer",
+          "default": 5
+        },
+        "json_format": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "monitoring": {
+      "type": "object",
+      "properties": {
+        "health_check_interval": {
+          "type": "integer",
+          "default": 300,
+          "description": "Health check interval in seconds"
+        },
+        "metrics_enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "metrics_port": {
+          "type": "integer",
+          "default": 9090
+        },
+        "prometheus_endpoint": {
+          "type": "string",
+          "default": "/metrics"
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "encryption_key": {
+          "type": "string",
+          "description": "Key for encrypting sensitive data in storage"
+        },
+        "allowed_ips": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "IP addresses allowed to access webhook endpoints"
+        },
+        "cors_origins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Allowed CORS origins for web interface"
+        },
+        "rate_limit_window": {
+          "type": "integer",
+          "default": 900,
+          "description": "Rate limiting window in seconds"
+        }
+      }
+    }
+  },
+  "required": ["environment", "halopsa"],
+  "examples": [
+    {
+      "environment": "production",
+      "halopsa": {
+        "tenant_url": "https://mycompany.halopsa.com",
+        "client_id": "your_client_id_here",
+        "client_secret": "your_client_secret_here",
+        "redirect_uri": "https://your-integration.com/auth/callback",
+        "webhook_secret": "your_webhook_secret",
+        "custom_fields": {
+          "apollo_id": 100,
+          "zoominfo_id": 101,
+          "data_source": 102,
+          "enrichment_date": 103,
+          "data_quality_score": 104,
+          "confidence_score": 105
+        }
+      },
+      "b2b_sources": {
+        "apollo": {
+          "api_key": "your_apollo_api_key",
+          "webhook_secret": "apollo_webhook_secret"
+        },
+        "zoominfo": {
+          "username": "your_zoominfo_username",
+          "password": "your_zoominfo_password"
+        },
+        "hunter": {
+          "api_key": "your_hunter_api_key"
+        }
+      },
+      "integration_settings": {
+        "halo_integrator": {
+          "enabled": true,
+          "poll_interval_minutes": 15,
+          "api_endpoint": "https://your-integration-api.com/sync",
+          "auth_token": "your_api_auth_token"
+        },
+        "webhooks": {
+          "enabled": true,
+          "base_url": "https://your-integration.com"
+        }
+      }
+    }
+  ]
+}

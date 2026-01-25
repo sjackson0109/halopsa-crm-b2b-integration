@@ -1,0 +1,379 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Custom CRM Workflow Configuration",
+  "description": "Complete configuration schema for Lead → Prospect → Opportunity workflow integration",
+  "type": "object",
+  "properties": {
+    "workflow_settings": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automated workflow progression"
+        },
+        "polling_interval_minutes": {
+          "type": "integer",
+          "default": 15,
+          "minimum": 1,
+          "description": "How often to check for workflow progressions"
+        },
+        "entity_types": {
+          "type": "object",
+          "properties": {
+            "lead": {
+              "type": "object",
+              "properties": {
+                "ticket_type_id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "HaloPSA ticket type ID for Leads"
+                },
+                "statuses": {
+                  "type": "object",
+                  "patternProperties": {
+                    "^[a-zA-Z_]+$": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 1 },
+                        "name": { "type": "string", "minLength": 1 }
+                      },
+                      "required": ["id", "name"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "auto_conversion_rules": {
+                  "type": "object",
+                  "patternProperties": {
+                    "^[a-zA-Z_]+$": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": { "type": "boolean" },
+                        "conditions": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        },
+                        "required_fields": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      },
+                      "required": ["enabled"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "required": ["ticket_type_id", "statuses"],
+              "additionalProperties": false
+            },
+            "prospect": {
+              "type": "object",
+              "properties": {
+                "ticket_type_id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "HaloPSA ticket type ID for Prospects"
+                },
+                "statuses": {
+                  "type": "object",
+                  "patternProperties": {
+                    "^[a-zA-Z_]+$": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 1 },
+                        "name": { "type": "string", "minLength": 1 }
+                      },
+                      "required": ["id", "name"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "auto_promotion_rules": {
+                  "type": "object",
+                  "patternProperties": {
+                    "^[a-zA-Z_]+$": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": { "type": "boolean" },
+                        "conditions": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        },
+                        "required_fields": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      },
+                      "required": ["enabled"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "required": ["ticket_type_id", "statuses"],
+              "additionalProperties": false
+            },
+            "opportunity": {
+              "type": "object",
+              "properties": {
+                "use_opportunities_api": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Use HaloPSA Opportunities API instead of tickets"
+                },
+                "statuses": {
+                  "type": "object",
+                  "patternProperties": {
+                    "^[a-zA-Z_]+$": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 1 },
+                        "name": { "type": "string", "minLength": 1 }
+                      },
+                      "required": ["id", "name"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "default_values": {
+                  "type": "object",
+                  "properties": {
+                    "initial_probability_percent": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "default_close_date_months": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "minimum_opportunity_value": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "required": ["use_opportunities_api", "statuses"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["lead", "prospect", "opportunity"],
+          "additionalProperties": false
+        },
+        "custom_fields": {
+          "type": "object",
+          "properties": {
+            "lead_fields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "minimum": 1 },
+                  "name": { "type": "string", "minLength": 1 },
+                  "label": { "type": "string", "minLength": 1 },
+                  "type": { 
+                    "type": "string", 
+                    "enum": ["string", "number", "boolean", "array", "object"] 
+                  },
+                  "required": { "type": "boolean" },
+                  "default": {}
+                },
+                "required": ["id", "name", "label", "type"],
+                "additionalProperties": false
+              }
+            },
+            "prospect_fields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "minimum": 1 },
+                  "name": { "type": "string", "minLength": 1 },
+                  "label": { "type": "string", "minLength": 1 },
+                  "type": { 
+                    "type": "string", 
+                    "enum": ["string", "number", "boolean", "array", "object"] 
+                  },
+                  "required": { "type": "boolean" },
+                  "default": {}
+                },
+                "required": ["id", "name", "label", "type"],
+                "additionalProperties": false
+              }
+            },
+            "opportunity_fields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "minimum": 1 },
+                  "name": { "type": "string", "minLength": 1 },
+                  "label": { "type": "string", "minLength": 1 },
+                  "type": { 
+                    "type": "string", 
+                    "enum": ["string", "number", "boolean", "array", "object"] 
+                  },
+                  "required": { "type": "boolean" },
+                  "default": {}
+                },
+                "required": ["id", "name", "label", "type"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": ["enabled", "entity_types"],
+      "additionalProperties": false
+    },
+    "data_sources": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z_]+$": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "import_as": { 
+              "type": "string", 
+              "enum": ["lead", "prospect", "opportunity"] 
+            },
+            "enrichment_priority": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "auto_qualify_conditions": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "data_quality_filters": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-zA-Z_]+$": {
+                  "oneOf": [
+                    { "type": "boolean" },
+                    { "type": "number" },
+                    { "type": "string" }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "use_for": { "type": "string" }
+          },
+          "required": ["enabled"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "scoring": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "algorithms": {
+          "type": "object",
+          "properties": {
+            "fit_score": {
+              "type": "object",
+              "properties": {
+                "weights": {
+                  "type": "object",
+                  "patternProperties": {
+                    "^[a-zA-Z_]+$": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "auto_qualification_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "required": ["enabled"],
+      "additionalProperties": false
+    },
+    "deduplication": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "match_criteria": {
+          "type": "object",
+          "properties": {
+            "exact_match": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "fuzzy_match": {
+              "type": "array", 
+              "items": { "type": "string" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "conflict_resolution": {
+          "type": "string",
+          "enum": ["merge_prefer_newest", "merge_prefer_oldest", "manual_review", "skip_duplicate"]
+        }
+      },
+      "required": ["enabled"],
+      "additionalProperties": false
+    },
+    "maintenance": {
+      "type": "object",
+      "properties": {
+        "cleanup": {
+          "type": "object",
+          "properties": {
+            "inactive_lead_cleanup_days": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "prospect_stale_threshold_days": {
+              "type": "integer", 
+              "minimum": 1
+            },
+            "opportunity_archive_days": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "audit": {
+          "type": "object",
+          "properties": {
+            "log_all_transitions": { "type": "boolean" },
+            "retention_days": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["workflow_settings", "data_sources"],
+  "additionalProperties": false
+}

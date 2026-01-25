@@ -1,0 +1,1212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HaloPSA API Configuration - Enhanced Custom CRM Workflow",
+  "description": "Configuration for HaloPSA integration with enhanced Lead → Prospect → Opportunity workflow, extended custom fields (CF_101-113), smart updates, and bi-directional sync",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "pattern": "^https://[a-zA-Z0-9-]+\\.halopsa\\.com$",
+          "description": "HaloPSA tenant URL (e.g., https://yourtenant.halopsa.com)"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["oauth2"],
+              "default": "oauth2"
+            },
+            "oauth": {
+              "type": "object",
+              "properties": {
+                "client_id": {
+                  "type": "string"
+                },
+                "client_secret": {
+                  "type": "string"
+                },
+                "authorize_url": {
+                  "type": "string",
+                  "default": "/auth/authorize"
+                },
+                "token_url": {
+                  "type": "string", 
+                  "default": "/auth/token"
+                },
+                "scope": {
+                  "type": "string",
+                  "default": "all"
+                },
+                "redirect_uri": {
+                  "type": "string"
+                }
+              },
+              "required": ["client_id", "client_secret", "redirect_uri"]
+            }
+          },
+          "required": ["type", "oauth"]
+        },
+        "rate_limiting": {
+          "type": "object",
+          "properties": {
+            "requests_per_window": {
+              "type": "integer",
+              "default": 500,
+              "description": "Maximum requests per time window"
+            },
+            "window_duration_minutes": {
+              "type": "integer", 
+              "default": 5,
+              "description": "Rate limit window duration"
+            },
+            "retry_after_seconds": {
+              "type": "integer",
+              "default": 300,
+              "description": "Seconds to wait after rate limit hit"
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication"]
+    },
+    "custom_workflow": {
+      "type": "object",
+      "description": "Enhanced Lead → Prospect → Opportunity workflow configuration",
+      "properties": {
+        "lead_entity": {
+          "type": "object",
+          "properties": {
+            "ticket_type_id": {
+              "type": "integer",
+              "default": 1,
+              "description": "HaloPSA ticket type ID for leads"
+            },
+            "default_status_id": {
+              "type": "integer", 
+              "default": 1,
+              "description": "Default status: New Lead"
+            },
+            "default_priority_id": {
+              "type": "integer",
+              "default": 3,
+              "description": "Default priority level"
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_101_lead_source": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 101},
+                    "type": "dropdown",
+                    "options": [
+                      "Apollo.io", "ZoomInfo", "Hunter.io", "UpLead", 
+                      "Lusha", "Seamless.ai", "Lead411", "RocketReach", 
+                      "BookYourData", "LeadsBlue"
+                    ],
+                    "required": true,
+                    "description": "Source platform identification"
+                  }
+                },
+                "CF_102_services_offered": {
+                  "type": "object", 
+                  "properties": {
+                    "id": {"type": "integer", "default": 102},
+                    "type": "text",
+                    "max_length": 4000,
+                    "description": "Company's primary services/products"
+                  }
+                },
+                "CF_103_growth_signals": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 103},
+                    "type": "text", 
+                    "max_length": 4000,
+                    "description": "Expansion/growth indicators and funding events"
+                  }
+                },
+                "CF_104_project_pipelines": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 104},
+                    "type": "text",
+                    "max_length": 4000, 
+                    "description": "Known upcoming projects or initiatives"
+                  }
+                },
+                "CF_105_do_not_contact": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 105},
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Contact restriction flag for compliance"
+                  }
+                },
+                "CF_106_technology_stack": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 106},
+                    "type": "text",
+                    "max_length": 4000,
+                    "description": "Current technologies and software in use"
+                  }
+                },
+                "CF_107_revenue_range": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 107},
+                    "type": "dropdown",
+                    "options": ["<$1M", "$1M-$5M", "$5M-$25M", "$25M-$100M", "$100M+"],
+                    "description": "Annual revenue bracket"
+                  }
+                },
+                "CF_108_employee_count_range": {
+                  "type": "object", 
+                  "properties": {
+                    "id": {"type": "integer", "default": 108},
+                    "type": "dropdown",
+                    "options": ["1-10", "11-50", "51-200", "201-1000", "1001-5000", "5000+"],
+                    "description": "Company size category"
+                  }
+                },
+                "CF_109_management_level": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 109},
+                    "type": "dropdown", 
+                    "options": ["C-Suite", "VP", "SVP", "Director", "Manager", "Individual Contributor"],
+                    "description": "Contact's seniority level"
+                  }
+                },
+                "CF_110_department_function": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 110},
+                    "type": "dropdown",
+                    "options": ["IT", "Finance", "Operations", "HR", "Marketing", "Sales", "Legal", "Procurement"],
+                    "description": "Contact's department"
+                  }
+                },
+                "CF_111_intent_signals": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 111},
+                    "type": "text",
+                    "max_length": 4000,
+                    "description": "Buying intent indicators and behavioral signals"
+                  }
+                },
+                "CF_112_company_founded_year": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 112},
+                    "type": "integer",
+                    "minimum": 1800,
+                    "maximum": 2030,
+                    "description": "Year company was established"
+                  }
+                },
+                "CF_113_location_hq": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 113},
+                    "type": "text",
+                    "max_length": 1000,
+                    "description": "Company headquarters location"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "prospect_entity": {
+          "type": "object", 
+          "properties": {
+            "ticket_type_id": {
+              "type": "integer",
+              "default": 2,
+              "description": "HaloPSA ticket type ID for prospects"
+            },
+            "conversion_trigger": {
+              "type": "object",
+              "properties": {
+                "source_status": {
+                  "type": "string",
+                  "enum": ["engaged"],
+                  "description": "Lead status that triggers conversion"
+                },
+                "auto_convert": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Enable automatic conversion"
+                }
+              }
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_201_pain_points": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 201},
+                    "type": "text",
+                    "required": true,
+                    "description": "Confirmed business challenges/needs"
+                  }
+                },
+                "CF_202_qualified_services": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 202},
+                    "type": "text", 
+                    "required": true,
+                    "description": "Services that match prospect's needs"
+                  }
+                },
+                "CF_203_decision_maker": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 203},
+                    "type": "string",
+                    "required": true,
+                    "description": "Primary decision maker identification"
+                  }
+                },
+                "CF_204_budget_range": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 204},
+                    "type": "dropdown",
+                    "options": ["<$10K", "$10K-$50K", "$50K-$100K", "$100K-$500K", "$500K+"],
+                    "required": true,
+                    "description": "Estimated budget availability"
+                  }
+                },
+                "CF_205_timeframe": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 205},
+                    "type": "dropdown",
+                    "options": ["Immediate", "1-3 months", "3-6 months", "6-12 months", "12+ months"],
+                    "required": true,
+                    "description": "Expected implementation timeline"
+                  }
+                },
+                "CF_206_fit_score": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 206},
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "required": true,
+                    "description": "Overall qualification score"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "opportunity_entity": {
+          "type": "object",
+          "properties": {
+            "promotion_trigger": {
+              "type": "object", 
+              "properties": {
+                "min_fit_score": {
+                  "type": "integer",
+                  "default": 70,
+                  "description": "Minimum fit score for opportunity promotion"
+                },
+                "auto_promote": {
+                  "type": "boolean", 
+                  "default": true,
+                  "description": "Enable automatic promotion"
+                }
+              }
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_301_products_services": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 301},
+                    "type": "text",
+                    "required": true,
+                    "description": "Solution components being offered"
+                  }
+                },
+                "CF_302_quotes_proposals": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 302},
+                    "type": "text",
+                    "description": "Proposal and pricing information"
+                  }
+                },
+                "CF_303_competitors": {
+                  "type": "object", 
+                  "properties": {
+                    "id": {"type": "integer", "default": 303},
+                    "type": "text",
+                    "description": "Competitive landscape details"
+                  }
+                },
+                "CF_304_win_loss_reason": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "default": 304},
+                    "type": "text",
+                    "description": "Deal outcome analysis"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+          "required": ["type", "oauth"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 120
+            },
+            "burst_limit": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "organizations": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "type": "object",
+                  "properties": {
+                    "method": "GET",
+                    "path": "/api/Client",
+                    "description": "List all organizations"
+                  }
+                },
+                "create": {
+                  "type": "object",
+                  "properties": {
+                    "method": "POST",
+                    "path": "/api/Client",
+                    "description": "Create new organization"
+                  }
+                },
+                "update": {
+                  "type": "object",
+                  "properties": {
+                    "method": "POST",
+                    "path": "/api/Client/{id}",
+                    "description": "Update existing organization"
+                  }
+                },
+                "get": {
+                  "type": "object",
+                  "properties": {
+                    "method": "GET",
+                    "path": "/api/Client/{id}",
+                    "description": "Get organization by ID"
+                  }
+                }
+              }
+            },
+            "contacts": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "type": "object",
+                  "properties": {
+                    "method": "GET",
+                    "path": "/api/Users",
+                    "description": "List all contacts"
+                  }
+                },
+                "create": {
+                  "type": "object",
+                  "properties": {
+                    "method": "POST",
+                    "path": "/api/Users",
+                    "description": "Create new contact"
+                  }
+                },
+                "update": {
+                  "type": "object",
+                  "properties": {
+                    "method": "POST",
+                    "path": "/api/Users/{id}",
+                    "description": "Update existing contact"
+                  }
+                },
+                "search": {
+                  "type": "object",
+                  "properties": {
+                    "method": "GET",
+                    "path": "/api/Users",
+                    "query_params": {
+                      "search": "string",
+                      "client_id": "integer",
+                      "pageinate": "boolean",
+                      "page_size": "integer",
+                      "page_no": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "prospects": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "type": "object",
+                  "properties": {
+                    "method": "GET",
+                    "path": "/api/Opportunities",
+                    "description": "List all prospects/opportunities"
+                  }
+                },
+                "create": {
+                  "type": "object",
+                  "properties": {
+                    "method": "POST",
+                    "path": "/api/Opportunities",
+                    "description": "Create new prospect"
+                  }
+                },
+                "update": {
+                  "type": "object",
+                  "properties": {
+                    "method": "POST",
+                    "path": "/api/Opportunities/{id}",
+                    "description": "Update existing prospect"
+                  }
+                }
+              }
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "type": "object",
+                  "properties": {
+                    "method": "GET",
+                    "path": "/api/CustomFields",
+                    "query_params": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "entity_schemas": {
+      "type": "object",
+      "properties": {
+        "lead": {
+          "type": "object",
+          "description": "Lead entity - First stage in customer acquisition",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Lead name/title (required)"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["new_lead", "researching", "contacted", "engaged", "no_interest", "do_not_contact", "invalid_data"],
+              "default": "new_lead",
+              "description": "Lead workflow status"
+            },
+            "person_name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Full contact name"
+            },
+            "job_title": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Contact's position/role"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "maxLength": 255,
+              "description": "Primary email address"
+            },
+            "phone_numbers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "description": "Contact phone numbers"
+            },
+            "company_name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Organization name"
+            },
+            "website": {
+              "type": "string",
+              "format": "uri",
+              "description": "Company website URL"
+            },
+            "industry": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Business sector/vertical"
+            },
+            "headcount": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Company employee count"
+            },
+            "lead_source": {
+              "type": "string",
+              "maxLength": 50,
+              "description": "Origin of lead (Apollo, ZoomInfo, etc.)"
+            },
+            "do_not_contact": {
+              "type": "boolean",
+              "default": false,
+              "description": "Opt-out status"
+            },
+            "services_offered": {
+              "type": "string",
+              "description": "Company's service offerings"
+            },
+            "public_research": {
+              "type": "string",
+              "description": "Publicly available company information"
+            },
+            "news_articles": {
+              "type": "string",
+              "description": "Recent news and media coverage"
+            },
+            "growth_signals": {
+              "type": "string",
+              "description": "Indicators of company growth/expansion"
+            },
+            "project_pipelines": {
+              "type": "string",
+              "description": "Known upcoming projects"
+            },
+            "initial_notes": {
+              "type": "string",
+              "description": "Research notes and observations"
+            },
+            "customfields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string",
+                    "enum": ["CF_101_lead_source", "CF_102_services_offered", "CF_103_growth_signals", "CF_104_project_pipelines", "CF_105_do_not_contact"]
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id", "name", "value"]
+              }
+            }
+          },
+          "required": ["name", "person_name", "company_name"]
+        },
+        "prospect": {
+          "type": "object",
+          "description": "Prospect entity - Second stage with qualification data",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Prospect name (required)"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["new_prospect", "prospecting", "qualified", "disqualified"],
+              "default": "new_prospect",
+              "description": "Prospect workflow status"
+            },
+            "promoted_from_lead": {
+              "type": "integer",
+              "description": "Lead ID this prospect was converted from"
+            },
+            "person_name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Full contact name (inherited)"
+            },
+            "job_title": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Contact's position/role (inherited)"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "maxLength": 255,
+              "description": "Primary email address (inherited)"
+            },
+            "phone_numbers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Contact phone numbers (inherited)"
+            },
+            "company_name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Organization name (inherited)"
+            },
+            "website": {
+              "type": "string",
+              "format": "uri",
+              "description": "Company website URL (inherited)"
+            },
+            "industry": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Business sector/vertical (inherited)"
+            },
+            "headcount": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Company employee count (inherited)"
+            },
+            "lead_source": {
+              "type": "string",
+              "maxLength": 50,
+              "description": "Origin of lead (inherited)"
+            },
+            "confirmed_pain_points": {
+              "type": "string",
+              "description": "Validated business challenges"
+            },
+            "qualified_services": {
+              "type": "string",
+              "description": "Services that match prospect needs"
+            },
+            "decision_maker": {
+              "type": "string",
+              "description": "Key decision maker identification"
+            },
+            "budget_range": {
+              "type": "string",
+              "description": "Available budget for solution"
+            },
+            "timeframe": {
+              "type": "string",
+              "description": "Timeline for implementation"
+            },
+            "fit_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Numerical score of prospect fit"
+            },
+            "qualification_notes": {
+              "type": "string",
+              "description": "Detailed qualification notes"
+            },
+            "customfields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string",
+                    "enum": ["CF_201_pain_points", "CF_202_qualified_services", "CF_203_decision_maker", "CF_204_budget_range", "CF_205_timeframe", "CF_206_fit_score"]
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id", "name", "value"]
+              }
+            }
+          },
+          "required": ["name", "promoted_from_lead"]
+        },
+        "opportunity": {
+          "type": "object",
+          "description": "Opportunity entity - Final stage with sales data",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Opportunity name (required)"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["new_opportunity", "progressing", "negotiation", "won", "lost"],
+              "default": "new_opportunity",
+              "description": "Opportunity workflow status"
+            },
+            "promoted_from_prospect": {
+              "type": "integer",
+              "description": "Prospect ID this opportunity was converted from"
+            },
+            "person_name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Full contact name (inherited)"
+            },
+            "job_title": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Contact's position/role (inherited)"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "maxLength": 255,
+              "description": "Primary email address (inherited)"
+            },
+            "phone_numbers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Contact phone numbers (inherited)"
+            },
+            "company_name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Organization name (inherited)"
+            },
+            "opportunity_value": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Estimated deal value"
+            },
+            "products_services": {
+              "type": "string",
+              "description": "Specific products/services proposed"
+            },
+            "probability_percent": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Likelihood of winning (0-100%)"
+            },
+            "expected_close_date": {
+              "type": "string",
+              "format": "date",
+              "description": "Target close date"
+            },
+            "quotes_proposals": {
+              "type": "string",
+              "description": "Associated quotes/proposals"
+            },
+            "competitors": {
+              "type": "string",
+              "description": "Known competing vendors"
+            },
+            "win_loss_reason": {
+              "type": "string",
+              "description": "Reason for final outcome"
+            },
+            "customfields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string",
+                    "enum": ["CF_301_products_services", "CF_302_quotes_proposals", "CF_303_competitors", "CF_304_win_loss_reason"]
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id", "name", "value"]
+              }
+            }
+          },
+          "required": ["name", "promoted_from_prospect", "opportunity_value"]
+        },
+        "call_record": {
+          "type": "object",
+          "description": "Call record entity - Activity tracking",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "related_entity_type": {
+              "type": "string",
+              "enum": ["lead", "prospect", "opportunity"],
+              "description": "Type of entity this call is related to"
+            },
+            "related_entity_id": {
+              "type": "integer",
+              "description": "ID of related lead/prospect/opportunity"
+            },
+            "date_time": {
+              "type": "string",
+              "format": "date-time",
+              "description": "When call occurred"
+            },
+            "direction": {
+              "type": "string",
+              "enum": ["inbound", "outbound"],
+              "description": "Inbound or outbound call"
+            },
+            "dialled_number": {
+              "type": "string",
+              "maxLength": 50,
+              "description": "Phone number called/received"
+            },
+            "duration_minutes": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Length of call in minutes"
+            },
+            "agent": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Sales person who handled call"
+            },
+            "outcome": {
+              "type": "string",
+              "enum": ["connected", "voicemail", "busy", "no_answer", "invalid_number"],
+              "description": "Result of call"
+            },
+            "next_action": {
+              "type": "string",
+              "description": "Follow-up actions required"
+            },
+            "notes": {
+              "type": "string",
+              "description": "Call notes and summary"
+            }
+          },
+          "required": ["related_entity_type", "related_entity_id", "date_time", "direction", "agent", "outcome"]
+        },
+        "organization": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Organization name (required)"
+            },
+            "website": {
+              "type": "string",
+              "format": "uri"
+            },
+            "phonenumber": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "notes": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "city": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "county": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "postcode": {
+              "type": "string",
+              "maxLength": 20
+            },
+            "country": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "industry": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "employee_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "annual_revenue": {
+              "type": "number",
+              "minimum": 0
+            },
+            "client_type": {
+              "type": "integer",
+              "default": 1
+            },
+            "status": {
+              "type": "integer",
+              "enum": [1, 2],
+              "default": 1,
+              "description": "1=Active, 2=Inactive"
+            },
+            "customfields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id", "value"]
+              }
+            }
+          },
+          "required": ["name"]
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Full name (auto-generated from firstname + surname)"
+            },
+            "firstname": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "surname": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "emailaddress": {
+              "type": "string",
+              "format": "email",
+              "maxLength": 255
+            },
+            "phonenumber": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "mobilenumber": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "jobtitle": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "organisation_id": {
+              "type": "integer",
+              "description": "ID of associated organization"
+            },
+            "notes": {
+              "type": "string"
+            },
+            "linkedin_url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "twitter_handle": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "status": {
+              "type": "integer",
+              "default": 1
+            },
+            "customfields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id", "value"]
+              }
+            }
+          },
+          "anyOf": [
+            { "required": ["firstname"] },
+            { "required": ["surname"] },
+            { "required": ["emailaddress"] }
+          ]
+        }
+      }
+    },
+    "common_headers": {
+      "type": "object",
+      "properties": {
+        "Content-Type": {
+          "type": "string",
+          "default": "application/json"
+        },
+        "Authorization": {
+          "type": "string",
+          "pattern": "^Bearer .+",
+          "description": "OAuth 2.0 Bearer token"
+        },
+        "User-Agent": {
+          "type": "string",
+          "default": "HaloPSA-Integration/1.0"
+        }
+      },
+      "required": ["Authorization"]
+    },
+    "list_management": {
+      "type": "object",
+      "description": "HaloPSA list management configuration for lead organization",
+      "properties": {
+        "auto_assignment": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic list assignment for leads"
+        },
+        "list_structure": {
+          "type": "object",
+          "properties": {
+            "source_lists": {
+              "type": "object",
+              "properties": {
+                "apollo_leads": {"type": "string", "default": "Apollo.io Leads"},
+                "zoominfo_leads": {"type": "string", "default": "ZoomInfo Leads"},
+                "hunter_leads": {"type": "string", "default": "Hunter.io Leads"},
+                "uplead_leads": {"type": "string", "default": "UpLead Leads"},
+                "lusha_leads": {"type": "string", "default": "Lusha Leads"}
+              }
+            },
+            "qualification_lists": {
+              "type": "object",
+              "properties": {
+                "hot_leads": {"type": "string", "default": "Hot Leads (Fit Score >80)"},
+                "warm_leads": {"type": "string", "default": "Warm Leads (Fit Score 60-80)"},
+                "cold_leads": {"type": "string", "default": "Cold Leads (Fit Score <60)"},
+                "dnc_list": {"type": "string", "default": "Do Not Contact"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "smart_update": {
+      "type": "object",
+      "description": "Smart update configuration to preserve manual work while updating enriched data",
+      "properties": {
+        "enable_smart_updates": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable intelligent merge logic for existing leads"
+        },
+        "protected_fields": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": ["status_id", "agent_id", "priority_id", "notes", "last_update_date"],
+          "description": "Fields that should never be overwritten"
+        },
+        "always_update_fields": {
+          "type": "array", 
+          "items": {"type": "string"},
+          "default": ["CF_106", "CF_107", "CF_108", "CF_109", "CF_110", "CF_111", "CF_112", "CF_113"],
+          "description": "Enrichment fields that should always be updated with fresh data"
+        }
+      }
+    },
+    "bi_directional_sync": {
+      "type": "object",
+      "description": "Configuration for bi-directional synchronization with B2B data sources",
+      "properties": {
+        "enable_sync": {
+          "type": "boolean", 
+          "default": true,
+          "description": "Enable bi-directional data synchronization"
+        },
+        "sync_scenarios": {
+          "type": "object",
+          "properties": {
+            "do_not_contact": {
+              "type": "object",
+              "properties": {
+                "enabled": {"type": "boolean", "default": true},
+                "webhook_trigger": {"type": "boolean", "default": true},
+                "field_triggers": {
+                  "type": "array",
+                  "items": {"type": "string"}, 
+                  "default": ["CF_105", "status_id"]
+                }
+              }
+            },
+            "contact_updates": {
+              "type": "object",
+              "properties": {
+                "enabled": {"type": "boolean", "default": true},
+                "sync_fields": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["emailaddress", "phonenumber", "jobtitle"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "custom_workflow"]
+}

@@ -1,0 +1,662 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Lusha API Configuration", 
+  "description": "Configuration schema for Lusha contact enrichment API integration with HaloPSA CRM workflow",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://api.lusha.com/v1",
+          "description": "Lusha API base URL"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["api_key"],
+              "default": "api_key"
+            },
+            "api_key": {
+              "type": "string",
+              "description": "Lusha API key from account dashboard"
+            }
+          },
+          "required": ["method", "api_key"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 60,
+              "description": "API requests per minute limit"
+            },
+            "monthly_credits": {
+              "type": "integer",
+              "default": 2000,
+              "description": "Monthly enrichment credits based on plan"
+            },
+            "phone_credits_per_month": {
+              "type": "integer",
+              "default": 500,
+              "description": "Monthly phone number credits"
+            },
+            "email_credits_per_month": {
+              "type": "integer",
+              "default": 1500,
+              "description": "Monthly email credits"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "enrich_person": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/person"
+                }
+              }
+            },
+            "enrich_company": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/company"
+                }
+              }
+            },
+            "bulk_enrich": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/bulk"
+                }
+              }
+            },
+            "phone_finder": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/phone"
+                }
+              }
+            },
+            "email_finder": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/email"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "enrichment_templates": {
+      "type": "object",
+      "properties": {
+        "enrich_by_linkedin_url": {
+          "type": "object",
+          "description": "Enrich contact using LinkedIn profile URL",
+          "properties": {
+            "linkedin_url": {
+              "type": "string",
+              "description": "LinkedIn profile URL",
+              "pattern": "^https://www\\.linkedin\\.com/in/.+"
+            },
+            "include_phone": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include phone number in enrichment"
+            },
+            "include_email": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include email in enrichment"
+            },
+            "include_company": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include company information"
+            }
+          },
+          "required": ["linkedin_url"]
+        },
+        "enrich_by_name_company": {
+          "type": "object",
+          "description": "Enrich contact using name and company",
+          "properties": {
+            "first_name": {
+              "type": "string",
+              "description": "Contact first name"
+            },
+            "last_name": {
+              "type": "string",
+              "description": "Contact last name"
+            },
+            "company_name": {
+              "type": "string",
+              "description": "Company name"
+            },
+            "company_domain": {
+              "type": "string",
+              "description": "Company domain (optional)"
+            },
+            "location": {
+              "type": "string",
+              "description": "Geographic location (optional)"
+            }
+          },
+          "required": ["first_name", "last_name", "company_name"]
+        },
+        "find_phone_by_email": {
+          "type": "object",
+          "description": "Find phone number using email address",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Email address to find phone for"
+            },
+            "include_mobile": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include mobile phone numbers"
+            },
+            "include_direct": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include direct office phone"
+            }
+          },
+          "required": ["email"]
+        },
+        "bulk_enrichment": {
+          "type": "object",
+          "description": "Bulk enrichment of multiple contacts",
+          "properties": {
+            "contacts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "first_name": {"type": "string"},
+                  "last_name": {"type": "string"},
+                  "email": {"type": "string", "format": "email"},
+                  "linkedin_url": {"type": "string"},
+                  "company_name": {"type": "string"},
+                  "company_domain": {"type": "string"}
+                }
+              },
+              "maxItems": 50,
+              "description": "Up to 50 contacts per bulk request"
+            },
+            "enrichment_types": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["phone", "email", "company_info", "social_profiles"]
+              },
+              "default": ["phone", "email", "company_info"]
+            }
+          },
+          "required": ["contacts"]
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object", 
+      "properties": {
+        "lusha_to_halopsa_lead": {
+          "type": "object",
+          "description": "Map Lusha enrichment data to HaloPSA Lead ticket",
+          "properties": {
+            "basic_fields": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string",
+                  "lusha_source": "first_name + ' ' + last_name + ' - ' + company_name",
+                  "description": "HaloPSA ticket summary"
+                },
+                "details": {
+                  "type": "string",
+                  "default": "Lead enriched with Lusha verified contact data including phone numbers",
+                  "description": "HaloPSA ticket details"
+                },
+                "user_name": {
+                  "type": "string",
+                  "lusha_source": "first_name + ' ' + last_name"
+                },
+                "reportedby": {
+                  "type": "string",
+                  "lusha_source": "email || business_email || personal_email"
+                },
+                "category_1": {
+                  "type": "string",
+                  "default": "Lead"
+                },
+                "category_2": {
+                  "type": "string",
+                  "default": "Lusha"
+                },
+                "status_id": {
+                  "type": "integer",
+                  "default": 1
+                },
+                "priority_id": {
+                  "type": "integer",
+                  "default": 3
+                }
+              }
+            },
+            "contact_fields": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "lusha_source": "first_name"
+                },
+                "surname": {
+                  "type": "string",
+                  "lusha_source": "last_name"
+                },
+                "emailaddress": {
+                  "type": "string",
+                  "lusha_source": "business_email || personal_email || email"
+                },
+                "jobtitle": {
+                  "type": "string",
+                  "lusha_source": "job_title"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "lusha_source": "direct_phone || mobile_phone || office_phone",
+                  "priority": ["direct_phone", "mobile_phone", "office_phone"]
+                },
+                "mobile_phone": {
+                  "type": "string",
+                  "lusha_source": "mobile_phone"
+                },
+                "linkedin_url": {
+                  "type": "string",
+                  "lusha_source": "linkedin_url"
+                }
+              }
+            },
+            "company_fields": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "lusha_source": "company_name"
+                },
+                "website": {
+                  "type": "string",
+                  "lusha_source": "company_website"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "lusha_source": "company_phone"
+                },
+                "notes": {
+                  "type": "string",
+                  "template": "Lusha Enrichment - Industry: {{company_industry}} | Size: {{company_size}} | Location: {{company_location}} | Phone Verified: {{phone_verified}}"
+                }
+              }
+            },
+            "phone_intelligence": {
+              "type": "object",
+              "properties": {
+                "phone_types_available": {
+                  "type": "array",
+                  "lusha_source": "phone_numbers[].type"
+                },
+                "phone_verification_status": {
+                  "type": "string",
+                  "lusha_source": "phone_verification.status"
+                },
+                "phone_confidence_score": {
+                  "type": "number",
+                  "lusha_source": "phone_verification.confidence"
+                },
+                "best_contact_method": {
+                  "type": "string",
+                  "calculation": "phone_confidence_score > 0.8 ? 'phone' : 'email'"
+                }
+              }
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_101_lead_source": {
+                  "id": 101,
+                  "value": "Lusha"
+                },
+                "CF_102_services_offered": {
+                  "id": 102,
+                  "lusha_source": "company_industry + ' | ' + company_description"
+                },
+                "CF_103_growth_signals": {
+                  "id": 103,
+                  "lusha_source": "company_size + ' | ' + seniority_level + ' | ' + department"
+                },
+                "CF_104_project_pipelines": {
+                  "id": 104,
+                  "lusha_source": "technologies_used || 'Technology modernization'"
+                },
+                "CF_105_do_not_contact": {
+                  "id": 105,
+                  "value": false,
+                  "type": "boolean"
+                },
+                "CF_119_phone_verification": {
+                  "id": 119,
+                  "lusha_source": "phone_verification.status + ' (' + phone_verification.confidence + ')'"
+                },
+                "CF_120_contact_preference": {
+                  "id": 120,
+                  "lusha_source": "direct_phone ? 'Phone' : mobile_phone ? 'Mobile' : 'Email'"
+                },
+                "CF_121_lusha_person_id": {
+                  "id": 121,
+                  "lusha_source": "person_id"
+                }
+              }
+            }
+          }
+        },
+        "phone_number_prioritization": {
+          "type": "object",
+          "properties": {
+            "contact_method_scoring": {
+              "type": "object",
+              "properties": {
+                "direct_phone_score": {
+                  "type": "integer",
+                  "default": 100,
+                  "condition": "direct_phone && phone_verified === true"
+                },
+                "mobile_phone_score": {
+                  "type": "integer",
+                  "default": 90,
+                  "condition": "mobile_phone && phone_verified === true"
+                },
+                "office_phone_score": {
+                  "type": "integer",
+                  "default": 70,
+                  "condition": "office_phone"
+                },
+                "email_score": {
+                  "type": "integer",
+                  "default": 60,
+                  "condition": "business_email"
+                }
+              }
+            },
+            "verification_confidence_weights": {
+              "type": "object",
+              "properties": {
+                "high_confidence": {
+                  "type": "number",
+                  "default": 0.9,
+                  "description": "Confidence threshold for high-quality phone data"
+                },
+                "medium_confidence": {
+                  "type": "number",
+                  "default": 0.7,
+                  "description": "Confidence threshold for medium-quality phone data"
+                },
+                "low_confidence": {
+                  "type": "number",
+                  "default": 0.5,
+                  "description": "Minimum confidence threshold to accept data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "phone_intelligence_workflows": {
+      "type": "object",
+      "properties": {
+        "contact_scoring_system": {
+          "type": "object",
+          "properties": {
+            "phone_availability_bonus": {
+              "type": "integer",
+              "default": 25,
+              "description": "Bonus points for verified phone numbers"
+            },
+            "direct_dial_bonus": {
+              "type": "integer",
+              "default": 15,
+              "description": "Additional bonus for direct dial numbers"
+            },
+            "mobile_bonus": {
+              "type": "integer",
+              "default": 10,
+              "description": "Bonus for mobile phone availability"
+            },
+            "multi_number_bonus": {
+              "type": "integer",
+              "default": 5,
+              "description": "Bonus for having multiple contact numbers"
+            }
+          }
+        },
+        "outreach_optimization": {
+          "type": "object",
+          "properties": {
+            "preferred_contact_sequence": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": ["direct_phone", "mobile_phone", "business_email", "office_phone", "personal_email"]
+            },
+            "time_zone_optimization": {
+              "type": "boolean",
+              "default": true,
+              "description": "Optimize contact times based on location"
+            },
+            "phone_number_formatting": {
+              "type": "object",
+              "properties": {
+                "international_format": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "include_country_code": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "format_style": {
+                  "type": "string",
+                  "enum": ["e164", "national", "international"],
+                  "default": "international"
+                }
+              }
+            }
+          }
+        },
+        "verification_workflows": {
+          "type": "object",
+          "properties": {
+            "pre_call_verification": {
+              "type": "object",
+              "properties": {
+                "verify_before_calling": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Verify phone numbers before making calls"
+                },
+                "minimum_confidence_for_calls": {
+                  "type": "number",
+                  "default": 0.8,
+                  "description": "Minimum confidence score to attempt calls"
+                },
+                "fallback_to_email": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Use email if phone confidence is low"
+                }
+              }
+            },
+            "phone_verification_tracking": {
+              "type": "object",
+              "properties": {
+                "track_call_outcomes": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "update_confidence_scores": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Update Lusha confidence based on call results"
+                },
+                "mark_invalid_numbers": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Flag invalid numbers to avoid future charges"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "integration_settings": {
+      "type": "object",
+      "properties": {
+        "credit_management": {
+          "type": "object",
+          "properties": {
+            "monthly_budget_limit": {
+              "type": "number",
+              "description": "Maximum monthly spend on Lusha credits"
+            },
+            "credit_allocation": {
+              "type": "object",
+              "properties": {
+                "phone_credits_percentage": {
+                  "type": "number",
+                  "default": 60,
+                  "description": "Percentage of budget for phone number lookups"
+                },
+                "email_credits_percentage": {
+                  "type": "number",
+                  "default": 40,
+                  "description": "Percentage of budget for email lookups"
+                }
+              }
+            },
+            "priority_enrichment": {
+              "type": "object",
+              "properties": {
+                "high_value_leads_only": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Only use Lusha for high-value prospects"
+                },
+                "minimum_lead_score": {
+                  "type": "integer",
+                  "default": 70,
+                  "description": "Minimum lead score to trigger Lusha enrichment"
+                }
+              }
+            }
+          }
+        },
+        "data_quality_preferences": {
+          "type": "object",
+          "properties": {
+            "phone_verification_required": {
+              "type": "boolean",
+              "default": true,
+              "description": "Only accept verified phone numbers"
+            },
+            "minimum_phone_confidence": {
+              "type": "number",
+              "default": 0.7,
+              "description": "Minimum confidence score for phone data"
+            },
+            "prefer_direct_numbers": {
+              "type": "boolean",
+              "default": true,
+              "description": "Prioritize direct dial over switchboard numbers"
+            },
+            "include_mobile_numbers": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include mobile phone numbers in enrichment"
+            }
+          }
+        },
+        "compliance_settings": {
+          "type": "object",
+          "properties": {
+            "respect_do_not_call": {
+              "type": "boolean",
+              "default": true,
+              "description": "Check against do-not-call registries"
+            },
+            "gdpr_compliance": {
+              "type": "boolean",
+              "default": true,
+              "description": "Ensure GDPR compliance for EU contacts"
+            },
+            "data_retention_days": {
+              "type": "integer",
+              "default": 365,
+              "description": "Days to retain Lusha-sourced data"
+            },
+            "consent_tracking": {
+              "type": "boolean",
+              "default": true,
+              "description": "Track consent for contact data usage"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "enrichment_templates", "field_mappings", "phone_intelligence_workflows", "integration_settings"]
+}

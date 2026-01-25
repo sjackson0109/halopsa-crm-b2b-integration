@@ -1,0 +1,529 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Clearbit API Configuration",
+  "description": "Configuration schema for Clearbit (HubSpot) enrichment API integration with HaloPSA CRM workflow",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://person.clearbit.com/v2",
+          "description": "Clearbit Person API base URL"
+        },
+        "company_api_url": {
+          "type": "string",
+          "default": "https://company.clearbit.com/v2",
+          "description": "Clearbit Company API base URL"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["api_key"],
+              "default": "api_key"
+            },
+            "api_key": {
+              "type": "string",
+              "description": "Clearbit API key (sk_xxxxx format)"
+            }
+          },
+          "required": ["method", "api_key"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_hour": {
+              "type": "integer",
+              "default": 600,
+              "description": "API requests per hour limit"
+            },
+            "concurrent_requests": {
+              "type": "integer",
+              "default": 10,
+              "description": "Maximum concurrent requests"
+            },
+            "monthly_enrichments": {
+              "type": "integer",
+              "default": 5000,
+              "description": "Monthly enrichment credits based on plan"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "enrich_person": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/people/find"
+                }
+              }
+            },
+            "enrich_company": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/companies/find"
+                }
+              }
+            },
+            "combined_enrichment": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/combined/find"
+                }
+              }
+            },
+            "prospect_api": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/prospector/people"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "enrichment_templates": {
+      "type": "object",
+      "properties": {
+        "enrich_by_email": {
+          "type": "object",
+          "description": "Enrich person and company data by email",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Email address to enrich"
+            },
+            "webhook_url": {
+              "type": "string",
+              "description": "Optional webhook for async enrichment"
+            },
+            "subscribe": {
+              "type": "boolean",
+              "default": true,
+              "description": "Subscribe to data updates"
+            }
+          },
+          "required": ["email"]
+        },
+        "enrich_by_domain": {
+          "type": "object", 
+          "description": "Enrich company data by domain",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "Company domain to enrich"
+            },
+            "company_name": {
+              "type": "string",
+              "description": "Optional company name for better matching"
+            },
+            "webhook_url": {
+              "type": "string",
+              "description": "Optional webhook for async enrichment"
+            }
+          },
+          "required": ["domain"]
+        },
+        "prospect_search": {
+          "type": "object",
+          "description": "Search for prospects using Clearbit Prospector",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "Target company domain"
+            },
+            "role": {
+              "type": "string",
+              "description": "Target job role (engineering, sales, marketing, etc.)"
+            },
+            "seniority": {
+              "type": "string",
+              "enum": ["junior", "senior", "manager", "director", "vp", "c-level"],
+              "description": "Target seniority level"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 20,
+              "description": "Number of prospects to return"
+            },
+            "offset": {
+              "type": "integer",
+              "default": 0,
+              "description": "Pagination offset"
+            }
+          },
+          "required": ["domain"]
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "clearbit_to_halopsa_lead": {
+          "type": "object",
+          "description": "Map Clearbit enrichment data to HaloPSA Lead ticket",
+          "properties": {
+            "basic_fields": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string",
+                  "clearbit_source": "person.name.fullName + ' - ' + person.employment.name",
+                  "description": "HaloPSA ticket summary"
+                },
+                "details": {
+                  "type": "string",
+                  "default": "Lead enriched with Clearbit intelligence data",
+                  "description": "HaloPSA ticket details"
+                },
+                "user_name": {
+                  "type": "string",
+                  "clearbit_source": "person.name.fullName"
+                },
+                "reportedby": {
+                  "type": "string",
+                  "clearbit_source": "person.email"
+                },
+                "category_1": {
+                  "type": "string",
+                  "default": "Lead"
+                },
+                "category_2": {
+                  "type": "string",
+                  "default": "Clearbit"
+                },
+                "status_id": {
+                  "type": "integer",
+                  "default": 1
+                },
+                "priority_id": {
+                  "type": "integer",
+                  "default": 3
+                }
+              }
+            },
+            "person_fields": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "clearbit_source": "person.name.givenName"
+                },
+                "surname": {
+                  "type": "string",
+                  "clearbit_source": "person.name.familyName"
+                },
+                "emailaddress": {
+                  "type": "string",
+                  "clearbit_source": "person.email"
+                },
+                "jobtitle": {
+                  "type": "string",
+                  "clearbit_source": "person.employment.title"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "clearbit_source": "person.phone"
+                },
+                "linkedin_url": {
+                  "type": "string",
+                  "clearbit_source": "person.linkedin.handle",
+                  "transformation": "https://linkedin.com/in/ + person.linkedin.handle"
+                },
+                "twitter_url": {
+                  "type": "string",
+                  "clearbit_source": "person.twitter.handle",
+                  "transformation": "https://twitter.com/ + person.twitter.handle"
+                }
+              }
+            },
+            "company_fields": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "clearbit_source": "company.name"
+                },
+                "website": {
+                  "type": "string",
+                  "clearbit_source": "company.domain"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "clearbit_source": "company.phone"
+                },
+                "notes": {
+                  "type": "string",
+                  "template": "Industry: {{company.category.industry}} | Sector: {{company.category.sector}} | Tags: {{company.tags}} | Founded: {{company.foundedYear}} | Employees: {{company.metrics.employees}}"
+                }
+              }
+            },
+            "intelligence_fields": {
+              "type": "object",
+              "properties": {
+                "funding_info": {
+                  "type": "string",
+                  "clearbit_source": "company.metrics.raised + ' raised | ' + company.metrics.estimatedAnnualRevenue + ' estimated revenue'"
+                },
+                "technology_stack": {
+                  "type": "array",
+                  "clearbit_source": "company.tech",
+                  "transformation": "JOIN(', ')"
+                },
+                "company_description": {
+                  "type": "string",
+                  "clearbit_source": "company.description"
+                },
+                "location_data": {
+                  "type": "string",
+                  "clearbit_source": "company.geo.city + ', ' + company.geo.state + ', ' + company.geo.country"
+                }
+              }
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_101_lead_source": {
+                  "id": 101,
+                  "value": "Clearbit"
+                },
+                "CF_102_services_offered": {
+                  "id": 102,
+                  "clearbit_source": "company.category.industry + ' | ' + company.description"
+                },
+                "CF_103_growth_signals": {
+                  "id": 103,
+                  "clearbit_source": "company.metrics.estimatedAnnualRevenue + ' | ' + company.metrics.employees + ' employees | ' + company.metrics.raised + ' funding'"
+                },
+                "CF_104_project_pipelines": {
+                  "id": 104,
+                  "clearbit_source": "company.tech",
+                  "transformation": "JOIN(', ')"
+                },
+                "CF_105_do_not_contact": {
+                  "id": 105,
+                  "value": false,
+                  "type": "boolean"
+                },
+                "CF_114_clearbit_confidence": {
+                  "id": 114,
+                  "clearbit_source": "person.fuzzy ? 'Low' : 'High'"
+                },
+                "CF_115_company_category": {
+                  "id": 115,
+                  "clearbit_source": "company.category.sector + ' - ' + company.category.industry"
+                }
+              }
+            }
+          }
+        },
+        "data_confidence_scoring": {
+          "type": "object",
+          "properties": {
+            "person_confidence_score": {
+              "type": "integer",
+              "weight": 40,
+              "condition": "!person.fuzzy && person.email && person.employment.title"
+            },
+            "company_intelligence_score": {
+              "type": "integer",
+              "weight": 30,
+              "condition": "company.metrics.employees > 10 && company.category.industry"
+            },
+            "contact_completeness_score": {
+              "type": "integer",
+              "weight": 20,
+              "condition": "person.phone || person.linkedin.handle"
+            },
+            "technology_insight_score": {
+              "type": "integer",
+              "weight": 10,
+              "condition": "company.tech && company.tech.length > 0"
+            }
+          }
+        }
+      }
+    },
+    "enrichment_workflows": {
+      "type": "object",
+      "properties": {
+        "lead_enrichment_pipeline": {
+          "type": "object",
+          "properties": {
+            "trigger_conditions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "contact.emailaddress !== null",
+                "client.website !== null",
+                "customfields.CF_114_clearbit_confidence === null"
+              ]
+            },
+            "enrichment_sequence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "step": {"type": "string"},
+                  "api_endpoint": {"type": "string"},
+                  "fallback_action": {"type": "string"}
+                }
+              },
+              "default": [
+                {
+                  "step": "person_enrichment",
+                  "api_endpoint": "/people/find",
+                  "fallback_action": "company_enrichment"
+                },
+                {
+                  "step": "company_enrichment", 
+                  "api_endpoint": "/companies/find",
+                  "fallback_action": "basic_domain_lookup"
+                },
+                {
+                  "step": "technology_discovery",
+                  "api_endpoint": "/companies/find",
+                  "fallback_action": "industry_inference"
+                }
+              ]
+            }
+          }
+        },
+        "data_update_monitoring": {
+          "type": "object",
+          "properties": {
+            "webhook_subscriptions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": ["person.changed", "company.changed"]
+            },
+            "update_frequency": {
+              "type": "string",
+              "enum": ["real-time", "daily", "weekly", "monthly"],
+              "default": "weekly"
+            },
+            "auto_update_conditions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "person.employment.title !== existing_job_title",
+                "company.metrics.employees > existing_employee_count * 1.2"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "integration_settings": {
+      "type": "object",
+      "properties": {
+        "data_quality_preferences": {
+          "type": "object",
+          "properties": {
+            "minimum_confidence_threshold": {
+              "type": "string",
+              "enum": ["high", "medium", "low"],
+              "default": "medium",
+              "description": "Minimum data confidence level to accept"
+            },
+            "require_person_data": {
+              "type": "boolean",
+              "default": true,
+              "description": "Require successful person enrichment"
+            },
+            "require_company_data": {
+              "type": "boolean",
+              "default": false,
+              "description": "Require successful company enrichment"
+            },
+            "skip_fuzzy_matches": {
+              "type": "boolean",
+              "default": true,
+              "description": "Skip low-confidence fuzzy matches"
+            }
+          }
+        },
+        "cost_management": {
+          "type": "object",
+          "properties": {
+            "enable_cost_tracking": {
+              "type": "boolean",
+              "default": true
+            },
+            "monthly_budget_limit": {
+              "type": "number",
+              "description": "Monthly budget limit in USD"
+            },
+            "priority_enrichment_only": {
+              "type": "boolean",
+              "default": false,
+              "description": "Only enrich high-priority leads"
+            },
+            "batch_processing": {
+              "type": "boolean",
+              "default": true,
+              "description": "Use batch processing to optimize costs"
+            }
+          }
+        },
+        "compliance_settings": {
+          "type": "object",
+          "properties": {
+            "data_retention_policy": {
+              "type": "string",
+              "enum": ["30_days", "90_days", "1_year", "indefinite"],
+              "default": "1_year"
+            },
+            "gdpr_compliance": {
+              "type": "boolean",
+              "default": true
+            },
+            "consent_required": {
+              "type": "boolean",
+              "default": false,
+              "description": "Require explicit consent before enrichment"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "enrichment_templates", "field_mappings", "enrichment_workflows", "integration_settings"]
+}

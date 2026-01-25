@@ -1,0 +1,440 @@
+{
+  "name": "ZoomInfo to HaloPSA Lead Sync",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start_node_001",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "zoominfo-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook_zoominfo_002",
+      "name": "ZoomInfo Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "webhookId": "zoominfo-contact-sync"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "data_quality_check",
+              "leftValue": "={{ $json.data?.contact?.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "rightType": "any"
+              }
+            },
+            {
+              "id": "company_check",
+              "leftValue": "={{ $json.data?.contact?.companyName }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists"
+              }
+            },
+            {
+              "id": "management_level_check",
+              "leftValue": "={{ $json.data?.contact?.managementLevel }}",
+              "rightValue": "individual-contributor",
+              "operator": {
+                "type": "string",
+                "operation": "notEqual"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "data_quality_filter_003",
+      "name": "Data Quality Filter",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Transform ZoomInfo contact data to HaloPSA Lead format\nconst contact = $input.first().json.data.contact;\n\n// Calculate data quality score\nconst calculateDataQualityScore = (contact) => {\n  let score = 0;\n  \n  // Email validation (30 points)\n  if (contact.email && contact.email.includes('@')) {\n    score += 30;\n  }\n  \n  // Phone number (25 points)\n  if (contact.directPhone || contact.companyPhone) {\n    score += 25;\n  }\n  \n  // Complete name (20 points)\n  if (contact.firstName && contact.lastName) {\n    score += 20;\n  }\n  \n  // Company data (15 points)\n  if (contact.companyName && contact.companyWebsite && contact.industry) {\n    score += 15;\n  }\n  \n  // Social media presence (10 points)\n  if (contact.linkedInUrl) {\n    score += 10;\n  }\n  \n  return score;\n};\n\nconst dataQualityScore = calculateDataQualityScore(contact);\n\n// Skip if data quality is too low\nif (dataQualityScore < 50) {\n  return [{\n    skip: true,\n    reason: 'Data quality score too low',\n    score: dataQualityScore\n  }];\n}\n\n// Transform to HaloPSA Lead format\nconst haloLead = {\n  // Standard ticket fields\n  summary: `${contact.firstName} ${contact.lastName} - ${contact.companyName}`,\n  details: `Lead imported from ZoomInfo enrichment. Data Quality Score: ${dataQualityScore}/100`,\n  user_name: `${contact.firstName} ${contact.lastName}`,\n  reportedby: contact.email,\n  category_1: \"Lead\",\n  category_2: \"ZoomInfo\",\n  status_id: 1, // New Lead\n  priority_id: 3, // Medium\n  \n  // Contact information\n  firstname: contact.firstName,\n  surname: contact.lastName,\n  emailaddress: contact.email,\n  jobtitle: contact.jobTitle,\n  phonenumber: contact.directPhone || contact.companyPhone,\n  \n  // Company information\n  client_name: contact.companyName,\n  client_website: contact.companyWebsite,\n  client_phone: contact.companyPhone,\n  \n  // Custom fields\n  customfields: [\n    {\n      id: 101, // Lead Source\n      value: \"ZoomInfo\"\n    },\n    {\n      id: 102, // Services Offered\n      value: `${contact.industry} | ${contact.companyDescription || 'Industry solution services'}`\n    },\n    {\n      id: 103, // Growth Signals\n      value: `Revenue: ${contact.revenue} | Employees: ${contact.employeeCount} | Level: ${contact.managementLevel} | Dept: ${contact.department}`\n    },\n    {\n      id: 104, // Project Pipelines\n      value: contact.technologies ? contact.technologies.join(', ') : 'Technology modernization'\n    },\n    {\n      id: 105, // Do Not Contact\n      value: false\n    }\n  ],\n  \n  // Additional metadata\n  notes: `Enriched via ZoomInfo on ${new Date().toISOString()}\\n` +\n         `Management Level: ${contact.managementLevel}\\n` +\n         `Department: ${contact.department}\\n` +\n         `LinkedIn: ${contact.linkedInUrl || 'Not available'}\\n` +\n         `Data Quality Score: ${dataQualityScore}/100`,\n  \n  // ZoomInfo tracking\n  zoominfo_person_id: contact.personId,\n  zoominfo_company_id: contact.companyId,\n  data_quality_score: dataQualityScore\n};\n\nreturn [haloLead];"
+      },
+      "id": "transform_contact_004",
+      "name": "Transform Contact Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 240]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "skip_check",
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "notEqual"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "quality_gate_005",
+      "name": "Quality Gate",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 240]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.halo_base_url }}/api/tickets",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "haloPSAApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "search",
+              "value": "={{ $json.emailaddress }}"
+            },
+            {
+              "name": "columns",
+              "value": "id,summary,reportedby"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "check_existing_lead_006",
+      "name": "Check Existing Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 180]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "duplicate_check",
+              "leftValue": "={{ $json.tickets?.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equal"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "deduplication_check_007",
+      "name": "Deduplication Check",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1560, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.halo_base_url }}/api/tickets",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "haloPSAApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $json.access_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": []
+        },
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "create_halo_lead_008",
+      "name": "Create HaloPSA Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1780, 120]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{ $json.halo_base_url }}/api/tickets/{{ $json.existing_ticket_id }}",
+        "authentication": "predefinedCredentialType", 
+        "nodeCredentialType": "haloPSAApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "jsonBody": "={{ JSON.stringify($json.update_data) }}",
+        "options": {}
+      },
+      "id": "update_existing_lead_009",
+      "name": "Update Existing Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1780, 240]
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "id": "webhook_response_010",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2000, 180]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"skipped\", \"reason\": \"{{ $json.reason }}\", \"score\": {{ $json.score }} }",
+        "options": {}
+      },
+      "id": "skip_response_011",
+      "name": "Skip Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"filtered\", \"reason\": \"Failed data quality check\" }",
+        "options": {}
+      },
+      "id": "filter_response_012",
+      "name": "Filter Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [680, 460]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Log successful creation/update for monitoring\nconst leadData = $input.first().json;\n\nconsole.log('ZoomInfo Lead Processing:', {\n  action: leadData.id ? 'created' : 'updated',\n  email: leadData.emailaddress,\n  company: leadData.client_name,\n  quality_score: leadData.data_quality_score,\n  timestamp: new Date().toISOString()\n});\n\n// Prepare success response\nreturn [{\n  status: 'success',\n  action: leadData.id ? 'created' : 'updated',\n  lead_id: leadData.id,\n  email: leadData.emailaddress,\n  company: leadData.client_name,\n  quality_score: leadData.data_quality_score\n}];"
+      },
+      "id": "success_logging_013",
+      "name": "Success Logging",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1920, 180]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "ZoomInfo Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ZoomInfo Webhook": {
+      "main": [
+        [
+          {
+            "node": "Data Quality Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Quality Filter": {
+      "main": [
+        [
+          {
+            "node": "Transform Contact Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Filter Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform Contact Data": {
+      "main": [
+        [
+          {
+            "node": "Quality Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quality Gate": {
+      "main": [
+        [
+          {
+            "node": "Check Existing Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Existing Lead": {
+      "main": [
+        [
+          {
+            "node": "Deduplication Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deduplication Check": {
+      "main": [
+        [
+          {
+            "node": "Create HaloPSA Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Existing Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create HaloPSA Lead": {
+      "main": [
+        [
+          {
+            "node": "Success Logging",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Existing Lead": {
+      "main": [
+        [
+          {
+            "node": "Success Logging",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success Logging": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1.0.0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "zoominfo-halopsa-integration"
+  },
+  "id": "zoominfo-to-halopsa-sync",
+  "tags": [
+    {
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-01-15T10:00:00.000Z",
+      "id": "tag_zoominfo",
+      "name": "ZoomInfo"
+    },
+    {
+      "createdAt": "2024-01-15T10:00:00.000Z", 
+      "updatedAt": "2024-01-15T10:00:00.000Z",
+      "id": "tag_halopsa",
+      "name": "HaloPSA"
+    },
+    {
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-01-15T10:00:00.000Z", 
+      "id": "tag_integration",
+      "name": "Integration"
+    }
+  ]
+}

@@ -1,0 +1,630 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedIn Sales Navigator API Configuration",
+  "description": "Configuration schema for LinkedIn Sales Navigator integration with HaloPSA CRM workflow",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://api.linkedin.com/v2",
+          "description": "LinkedIn API base URL"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["oauth2"],
+              "default": "oauth2"
+            },
+            "oauth2": {
+              "type": "object",
+              "properties": {
+                "client_id": {
+                  "type": "string",
+                  "description": "LinkedIn app client ID"
+                },
+                "client_secret": {
+                  "type": "string",
+                  "description": "LinkedIn app client secret"
+                },
+                "authorization_url": {
+                  "type": "string",
+                  "default": "https://www.linkedin.com/oauth/v2/authorization"
+                },
+                "token_url": {
+                  "type": "string",
+                  "default": "https://www.linkedin.com/oauth/v2/accessToken"
+                },
+                "scope": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["r_liteprofile", "r_emailaddress", "r_sales_nav_display", "rw_sales_nav_display"]
+                }
+              },
+              "required": ["client_id", "client_secret"]
+            }
+          },
+          "required": ["method", "oauth2"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_day": {
+              "type": "integer",
+              "default": 5000,
+              "description": "Daily API request limit"
+            },
+            "search_requests_per_month": {
+              "type": "integer",
+              "default": 1000,
+              "description": "Monthly search API requests"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "search_people": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/salesNavigatorSearch/people"
+                }
+              }
+            },
+            "search_companies": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/salesNavigatorSearch/companies"
+                }
+              }
+            },
+            "get_profile": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/people/(id={profile-id})"
+                }
+              }
+            },
+            "save_lead": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/salesNavigatorLeads"
+                }
+              }
+            },
+            "get_saved_leads": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/salesNavigatorLeads"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "search_templates": {
+      "type": "object",
+      "properties": {
+        "search_by_company": {
+          "type": "object",
+          "description": "Search LinkedIn Sales Navigator by company criteria",
+          "properties": {
+            "companyName": {
+              "type": "string",
+              "description": "Target company name"
+            },
+            "companySize": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+              },
+              "description": "Company size codes (A=1-10, B=11-50, C=51-200, etc.)"
+            },
+            "industry": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Industry categories"
+            },
+            "geography": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Geographic locations"
+            },
+            "keywords": {
+              "type": "string",
+              "description": "Profile keywords to search for"
+            },
+            "currentCompany": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Current company filters"
+            },
+            "pastCompany": {
+              "type": "array", 
+              "items": {"type": "string"},
+              "description": "Past company experience"
+            },
+            "title": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Current job titles"
+            },
+            "pastTitle": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Past job titles"
+            },
+            "function": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Job functions (IT, Sales, Marketing, etc.)"
+            },
+            "seniority": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+              },
+              "description": "Seniority levels (1=Unpaid, 10=CXO)"
+            },
+            "yearsInCurrentPosition": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["1", "2", "3", "4", "5"]
+              },
+              "description": "Years in current position ranges"
+            },
+            "yearsOfExperience": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["1", "2", "3", "4", "5", "6"]
+              },
+              "description": "Total years of experience ranges"
+            },
+            "start": {
+              "type": "integer",
+              "default": 0,
+              "description": "Search result start index"
+            },
+            "count": {
+              "type": "integer",
+              "default": 25,
+              "minimum": 1,
+              "maximum": 25,
+              "description": "Number of results per page"
+            }
+          }
+        },
+        "connection_search": {
+          "type": "object",
+          "description": "Search through existing LinkedIn connections",
+          "properties": {
+            "keywords": {
+              "type": "string",
+              "description": "Keywords to search in connections"
+            },
+            "company": {
+              "type": "string",
+              "description": "Filter by company name"
+            },
+            "location": {
+              "type": "string",
+              "description": "Geographic location filter"
+            },
+            "industry": {
+              "type": "string",
+              "description": "Industry filter"
+            },
+            "count": {
+              "type": "integer",
+              "default": 50,
+              "maximum": 50
+            }
+          }
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "linkedin_profile_to_halopsa": {
+          "type": "object",
+          "description": "Map LinkedIn Sales Navigator profile to HaloPSA Lead",
+          "properties": {
+            "basic_fields": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string",
+                  "linkedin_source": "firstName + ' ' + lastName + ' - ' + currentPositions[0].companyName",
+                  "description": "HaloPSA ticket summary"
+                },
+                "details": {
+                  "type": "string",
+                  "default": "Lead imported from LinkedIn Sales Navigator with social profile data",
+                  "description": "HaloPSA ticket details"
+                },
+                "user_name": {
+                  "type": "string",
+                  "linkedin_source": "firstName + ' ' + lastName"
+                },
+                "reportedby": {
+                  "type": "string",
+                  "linkedin_source": "emailAddress",
+                  "fallback": "Generated from profile"
+                },
+                "category_1": {
+                  "type": "string",
+                  "default": "Lead"
+                },
+                "category_2": {
+                  "type": "string",
+                  "default": "LinkedIn"
+                },
+                "status_id": {
+                  "type": "integer",
+                  "default": 1
+                },
+                "priority_id": {
+                  "type": "integer",
+                  "default": 3
+                }
+              }
+            },
+            "contact_fields": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "linkedin_source": "firstName"
+                },
+                "surname": {
+                  "type": "string",
+                  "linkedin_source": "lastName"
+                },
+                "emailaddress": {
+                  "type": "string",
+                  "linkedin_source": "emailAddress",
+                  "note": "Limited availability based on user's privacy settings"
+                },
+                "jobtitle": {
+                  "type": "string",
+                  "linkedin_source": "currentPositions[0].title"
+                },
+                "linkedin_url": {
+                  "type": "string",
+                  "linkedin_source": "publicProfileUrl"
+                }
+              }
+            },
+            "company_fields": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "linkedin_source": "currentPositions[0].companyName"
+                },
+                "website": {
+                  "type": "string",
+                  "linkedin_source": "currentPositions[0].companyUrn",
+                  "transformation": "resolve company URN to get website"
+                },
+                "notes": {
+                  "type": "string",
+                  "template": "LinkedIn Profile: {{publicProfileUrl}} | Industry: {{industry}} | Location: {{geoLocation}} | Connections: {{numConnections}}"
+                }
+              }
+            },
+            "social_intelligence": {
+              "type": "object",
+              "properties": {
+                "connection_degree": {
+                  "type": "string",
+                  "linkedin_source": "distance"
+                },
+                "mutual_connections": {
+                  "type": "integer",
+                  "linkedin_source": "numConnections"
+                },
+                "profile_completeness": {
+                  "type": "string",
+                  "linkedin_source": "profileStrength"
+                },
+                "recent_activity": {
+                  "type": "array",
+                  "linkedin_source": "recentActivity"
+                },
+                "shared_experiences": {
+                  "type": "array",
+                  "linkedin_source": "sharedExperiences"
+                }
+              }
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_101_lead_source": {
+                  "id": 101,
+                  "value": "LinkedIn Sales Navigator"
+                },
+                "CF_102_services_offered": {
+                  "id": 102,
+                  "linkedin_source": "currentPositions[0].description + ' | ' + industry"
+                },
+                "CF_103_growth_signals": {
+                  "id": 103,
+                  "linkedin_source": "recentActivity + ' | ' + profileChanges"
+                },
+                "CF_104_project_pipelines": {
+                  "id": 104,
+                  "linkedin_source": "skills + ' | ' + currentPositions[0].description"
+                },
+                "CF_105_do_not_contact": {
+                  "id": 105,
+                  "value": false,
+                  "type": "boolean"
+                },
+                "CF_111_linkedin_profile_id": {
+                  "id": 111,
+                  "linkedin_source": "id"
+                },
+                "CF_112_connection_degree": {
+                  "id": 112,
+                  "linkedin_source": "distance"
+                },
+                "CF_113_mutual_connections": {
+                  "id": 113,
+                  "linkedin_source": "numConnections"
+                }
+              }
+            }
+          }
+        },
+        "social_engagement_scoring": {
+          "type": "object",
+          "properties": {
+            "profile_quality_score": {
+              "type": "integer",
+              "weight": 30,
+              "condition": "profileStrength === 'HIGH'"
+            },
+            "connection_proximity_score": {
+              "type": "integer",
+              "weight": 25,
+              "calculation": "distance === '1' ? 25 : distance === '2' ? 15 : 5"
+            },
+            "activity_recency_score": {
+              "type": "integer",
+              "weight": 20,
+              "condition": "recentActivity.length > 0"
+            },
+            "profile_completeness_score": {
+              "type": "integer",
+              "weight": 15,
+              "condition": "emailAddress && currentPositions.length > 0"
+            },
+            "shared_network_score": {
+              "type": "integer",
+              "weight": 10,
+              "calculation": "numConnections > 10 ? 10 : numConnections"
+            }
+          }
+        }
+      }
+    },
+    "social_selling_workflows": {
+      "type": "object",
+      "properties": {
+        "connection_request_workflow": {
+          "type": "object",
+          "properties": {
+            "auto_send_conditions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "distance === '2'",
+                "numConnections > 5",
+                "currentPositions[0].companySize > 'B'"
+              ]
+            },
+            "message_templates": {
+              "type": "object",
+              "properties": {
+                "warm_introduction": {
+                  "type": "string",
+                  "template": "Hi {{firstName}}, I noticed we share {{numConnections}} mutual connections. I'd love to connect and discuss how {{companyName}} approaches {{industry}} challenges."
+                },
+                "industry_connection": {
+                  "type": "string", 
+                  "template": "Hi {{firstName}}, Fellow {{industry}} professional here. Would love to connect and exchange insights about {{currentPositions[0].title}} best practices."
+                },
+                "event_follow_up": {
+                  "type": "string",
+                  "template": "Hi {{firstName}}, Great to connect after our conversation about {{topic}}. Looking forward to continuing our discussion."
+                }
+              }
+            }
+          }
+        },
+        "lead_nurturing_sequences": {
+          "type": "object",
+          "properties": {
+            "post_connection_sequence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "delay_days": {"type": "integer"},
+                  "message_type": {"type": "string", "enum": ["direct_message", "inmil", "comment", "post_engagement"]},
+                  "content_template": {"type": "string"}
+                }
+              },
+              "default": [
+                {
+                  "delay_days": 1,
+                  "message_type": "direct_message",
+                  "content_template": "Thanks for connecting {{firstName}}! I help {{industry}} companies like {{companyName}} optimize their {{relevant_technology}} infrastructure."
+                },
+                {
+                  "delay_days": 7,
+                  "message_type": "inmil",
+                  "content_template": "{{firstName}}, thought you might find this {{industry}} insight relevant: [attach relevant content]"
+                }
+              ]
+            }
+          }
+        },
+        "prospect_intelligence_gathering": {
+          "type": "object",
+          "properties": {
+            "profile_monitoring": {
+              "type": "object",
+              "properties": {
+                "track_job_changes": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "track_company_updates": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "track_post_activity": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "track_connection_growth": {
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "intelligence_triggers": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "job_title_change",
+                "company_change",
+                "new_post_published",
+                "profile_view_spike",
+                "mutual_connection_added"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "integration_settings": {
+      "type": "object",
+      "properties": {
+        "data_collection": {
+          "type": "object",
+          "properties": {
+            "respect_privacy_settings": {
+              "type": "boolean",
+              "default": true,
+              "description": "Honor LinkedIn user privacy preferences"
+            },
+            "minimum_connection_degree": {
+              "type": "string",
+              "enum": ["1", "2", "3"],
+              "default": "2",
+              "description": "Only collect data for connections within X degrees"
+            },
+            "exclude_competitors": {
+              "type": "boolean",
+              "default": true
+            },
+            "exclude_existing_clients": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "compliance_settings": {
+          "type": "object",
+          "properties": {
+            "gdpr_compliance": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_retention_days": {
+              "type": "integer",
+              "default": 730,
+              "description": "Days to retain LinkedIn profile data"
+            },
+            "consent_tracking": {
+              "type": "boolean",
+              "default": true,
+              "description": "Track explicit consent for data collection"
+            }
+          }
+        },
+        "sync_preferences": {
+          "type": "object",
+          "properties": {
+            "bidirectional_sync": {
+              "type": "boolean",
+              "default": false,
+              "description": "Sync HaloPSA updates back to LinkedIn"
+            },
+            "auto_save_prospects": {
+              "type": "boolean",
+              "default": true,
+              "description": "Auto-save qualified prospects to Sales Navigator"
+            },
+            "update_frequency": {
+              "type": "string",
+              "enum": ["daily", "weekly", "manual"],
+              "default": "weekly"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "search_templates", "field_mappings", "social_selling_workflows", "integration_settings"]
+}

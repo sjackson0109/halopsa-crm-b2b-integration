@@ -1,0 +1,934 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ZoomInfo API Configuration - Enhanced B2B Integration",
+  "description": "Comprehensive configuration schema for ZoomInfo integration with enhanced data fields and intent signals",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string",
+          "description": "ZoomInfo OAuth client ID"
+        },
+        "client_secret": {
+          "type": "string",
+          "description": "ZoomInfo OAuth client secret"
+        },
+        "access_token": {
+          "type": "string",
+          "description": "Current OAuth access token"
+        },
+        "refresh_token": {
+          "type": "string",
+          "description": "OAuth refresh token"
+        },
+        "token_expires_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["client_id", "client_secret"]
+    },
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://api.zoominfo.com"
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {"type": "integer", "default": 50},
+            "requests_per_day": {"type": "integer", "default": 5000},
+            "concurrent_requests": {"type": "integer", "default": 5}
+          }
+        }
+      }
+    },
+    "data_enrichment": {
+      "type": "object",
+      "properties": {
+        "include_intent_data": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include buyer intent signals"
+        },
+        "include_technographics": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include technology stack data"
+        },
+        "include_firmographics": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include company demographic data"
+        },
+        "include_news_alerts": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include company news and alerts"
+        },
+        "confidence_threshold": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 75
+        }
+      }
+    },
+    "halopsa_field_mapping": {
+      "type": "object",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "CF_101_source_platform": {"const": "ZoomInfo"},
+            "CF_102_confidence_score": {
+              "description": "ZoomInfo contact confidence score"
+            },
+            "CF_103_company_size": {
+              "description": "Number of employees from ZoomInfo"
+            },
+            "CF_104_industry": {
+              "description": "Primary industry classification"
+            },
+            "CF_106_contact_seniority": {
+              "description": "Management level from ZoomInfo"
+            },
+            "CF_107_technologies_used": {
+              "description": "Technology stack (JSON)"
+            },
+            "CF_108_funding_status": {
+              "description": "Recent funding information"
+            },
+            "CF_109_intent_strength": {
+              "description": "Buyer intent signal strength"
+            },
+            "CF_110_lead_fit_score": {
+              "description": "Calculated based on ICP match"
+            },
+            "CF_111_engagement_score": {
+              "description": "ZoomInfo engagement metrics"
+            },
+            "CF_112_data_freshness": {
+              "description": "Last data verification date"
+            },
+            "CF_113_contact_reachability": {
+              "description": "Email/phone verification status"
+            }
+          }
+        }
+      }
+    },
+    "intent_signals": {
+      "type": "object",
+      "properties": {
+        "tracking_keywords": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Keywords to track for intent signals"
+        },
+        "intent_topics": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Intent topic categories to monitor"
+        },
+        "surge_analysis": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable surge analysis for intent spikes"
+        }
+      }
+    },
+    "search_filters": {
+      "type": "object",
+      "properties": {
+        "default_company_filters": {
+          "type": "object",
+          "properties": {
+            "min_employees": {"type": "integer", "default": 50},
+            "max_employees": {"type": "integer", "default": 5000},
+            "revenue_min": {"type": "integer"},
+            "revenue_max": {"type": "integer"},
+            "industries": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "locations": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "exclude_competitors": {"type": "boolean", "default": true}
+          }
+        },
+        "default_contact_filters": {
+          "type": "object",
+          "properties": {
+            "job_titles": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "seniority_levels": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "departments": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "webhooks": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "contact_enriched",
+              "company_enriched",
+              "intent_signal_detected",
+              "news_alert_triggered",
+              "technographic_change"
+            ]
+          }
+        },
+        "secret": {"type": "string"}
+      }
+    },
+    "bi_directional_sync": {
+      "type": "object",
+      "properties": {
+        "enable_dnc_sync": {"type": "boolean", "default": true},
+        "enable_engagement_feedback": {"type": "boolean", "default": true},
+        "enable_data_corrections": {"type": "boolean", "default": true},
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "hourly", "daily"],
+          "default": "hourly"
+        }
+      }
+    }
+  },
+  "required": ["authentication", "halopsa_field_mapping"]
+}
+  "description": "Configuration schema for ZoomInfo GTM API v1 integration with HaloPSA",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://api.zoominfo.com/gtm",
+          "description": "ZoomInfo GTM API base URL"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string", 
+              "enum": ["oauth2", "pki", "username_password"],
+              "default": "oauth2",
+              "description": "Authentication method (OAuth2 Bearer recommended)"
+            },
+            "oauth2": {
+              "type": "object",
+              "properties": {
+                "client_id": {
+                  "type": "string",
+                  "description": "OAuth2 Client ID from ZoomInfo Developer Portal"
+                },
+                "client_secret": {
+                  "type": "string",
+                  "description": "OAuth2 Client Secret from ZoomInfo Developer Portal"
+                },
+                "token_endpoint": {
+                  "type": "string",
+                  "default": "https://api.zoominfo.com/oauth/token",
+                  "description": "OAuth2 token endpoint"
+                },
+                "scope": {
+                  "type": "string",
+                  "default": "read",
+                  "description": "OAuth2 scope for API access"
+                }
+              },
+              "required": ["client_id", "client_secret"]
+            },
+            "pki": {
+              "type": "object",
+              "properties": {
+                "client_id": {
+                  "type": "string",
+                  "description": "PKI Client ID from ZoomInfo Admin Portal"
+                },
+                "private_key": {
+                  "type": "string",
+                  "description": "PKI Private Key from ZoomInfo Admin Portal"
+                }
+              },
+              "required": ["client_id", "private_key"]
+            },
+            "username_password": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "ZoomInfo account username"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "ZoomInfo account password"
+                },
+                "auth_endpoint": {
+                  "type": "string",
+                  "default": "https://api.zoominfo.com/authenticate",
+                  "description": "Authentication endpoint for username/password"
+                }
+              },
+              "required": ["username", "password"]
+            },
+            "token_expiry": {
+              "type": "integer",
+              "default": 3600,
+              "description": "JWT token expiry time in seconds"
+            }
+          },
+          "required": ["type"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 1500,
+              "description": "Standard API rate limit: 25 requests/second (1500/minute)"
+            },
+            "requests_per_second": {
+              "type": "integer", 
+              "default": 25,
+              "description": "Standard API rate limit"
+            },
+            "bulk_requests_per_minute": {
+              "type": "integer",
+              "default": 2000,
+              "description": "Bulk API rate limit: 33 requests/second (2000/minute)"
+            },
+            "concurrent_requests": {
+              "type": "integer",
+              "default": 10,
+              "description": "Maximum concurrent requests"
+            },
+            "daily_record_limit": {
+              "type": "integer",
+              "description": "Daily record enrichment limit based on subscription"
+            },
+            "unique_contact_limit": {
+              "type": "integer",
+              "description": "Unique contact enrichment limit per contract term"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "search_contacts": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/data/v1/contacts/search"
+                },
+                "description": {
+                  "type": "string",
+                  "default": "Search contacts without consuming credits"
+                },
+                "max_results_per_page": {
+                  "type": "integer",
+                  "default": 100
+                },
+                "max_total_results": {
+                  "type": "integer", 
+                  "default": 1000
+                }
+              }
+            },
+            "enrich_contacts": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/data/v1/contacts/enrich"
+                },
+                "description": {
+                  "type": "string",
+                  "default": "Enrich up to 25 contacts (consumes credits)"
+                },
+                "max_contacts_per_request": {
+                  "type": "integer",
+                  "default": 25
+                }
+              }
+            },
+            "search_companies": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string", 
+                  "default": "/data/v1/companies/search"
+                },
+                "description": {
+                  "type": "string",
+                  "default": "Search companies without consuming credits"
+                }
+              }
+            },
+            "enrich_companies": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/data/v1/companies/enrich"
+                },
+                "description": {
+                  "type": "string",
+                  "default": "Enrich company data (consumes credits)"
+                }
+              }
+            },
+            "lookup_fields": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/lookup/v1"
+                },
+                "description": {
+                  "type": "string",
+                  "default": "Get available fields and parameters"
+                }
+              }
+            },
+            "usage_stats": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/user/v1/usage"
+                },
+                "description": {
+                  "type": "string",
+                  "default": "Check API usage and limits"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "query_templates": {
+      "type": "object",
+      "properties": {
+        "search_contacts_by_company": {
+          "type": "object",
+          "description": "Search contacts within specific companies",
+          "properties": {
+            "companyName": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Company names to search"
+            },
+            "companyDomain": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Company website domains"
+            },
+            "jobTitle": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Job titles to target (e.g., CEO, CTO, IT Director)"
+            },
+            "managementLevel": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["c-level", "vp-level", "director", "manager", "individual-contributor"]
+              }
+            },
+            "department": {
+              "type": "array",
+              "items": {
+                "type": "string", 
+                "enum": ["information-technology", "sales", "marketing", "engineering", "operations", "finance", "human-resources"]
+              }
+            },
+            "companyLocation": {
+              "type": "object",
+              "properties": {
+                "country": {"type": "array", "items": {"type": "string"}},
+                "state": {"type": "array", "items": {"type": "string"}},
+                "city": {"type": "array", "items": {"type": "string"}}
+              }
+            },
+            "companySize": {
+              "type": "object",
+              "properties": {
+                "min": {"type": "integer", "minimum": 1},
+                "max": {"type": "integer"}
+              }
+            },
+            "companyRevenue": {
+              "type": "object",
+              "properties": {
+                "min": {"type": "integer", "minimum": 1000000},
+                "max": {"type": "integer"}
+              }
+            },
+            "industry": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Industry categories to target"
+            },
+            "technologies": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Technologies used by target companies"
+            },
+            "pagination": {
+              "type": "object",
+              "properties": {
+                "rpp": {
+                  "type": "integer",
+                  "default": 25,
+                  "minimum": 1,
+                  "maximum": 100,
+                  "description": "Results per page"
+                },
+                "page": {
+                  "type": "integer",
+                  "default": 1,
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        },
+        "enrich_contact_by_identifiers": {
+          "type": "object",
+          "description": "Enrich contacts using multiple identifiers",
+          "properties": {
+            "contacts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "contactId": {
+                    "type": "string",
+                    "description": "ZoomInfo contact ID from search results"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Contact email address"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "description": "Contact first name"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "Contact last name"
+                  },
+                  "companyName": {
+                    "type": "string",
+                    "description": "Company name"
+                  },
+                  "companyDomain": {
+                    "type": "string",
+                    "description": "Company website domain"
+                  },
+                  "linkedInUrl": {
+                    "type": "string",
+                    "description": "LinkedIn profile URL"
+                  }
+                }
+              },
+              "maxItems": 25,
+              "description": "Up to 25 contacts to enrich per request"
+            },
+            "outputFields": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Specific fields to return in enrichment response"
+            },
+            "requiredFields": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Fields that must be available to return a record"
+            }
+          },
+          "required": ["contacts", "outputFields"]
+        },
+        "search_companies_by_criteria": {
+          "type": "object",
+          "description": "Search companies by various criteria",
+          "properties": {
+            "companyName": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "website": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "industry": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "employeeCount": {
+              "type": "object",
+              "properties": {
+                "min": {"type": "integer"},
+                "max": {"type": "integer"}
+              }
+            },
+            "revenue": {
+              "type": "object",
+              "properties": {
+                "min": {"type": "integer"},
+                "max": {"type": "integer"}
+              }
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "country": {"type": "array", "items": {"type": "string"}},
+                "state": {"type": "array", "items": {"type": "string"}},
+                "city": {"type": "array", "items": {"type": "string"}}
+              }
+            },
+            "technologies": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "contact_to_halopsa_lead": {
+          "type": "object",
+          "description": "Map ZoomInfo contact fields to HaloPSA Lead ticket",
+          "properties": {
+            "basic_fields": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string",
+                  "zoominfo_source": "firstName + ' ' + lastName + ' - ' + companyName",
+                  "description": "HaloPSA ticket summary"
+                },
+                "details": {
+                  "type": "string", 
+                  "default": "Lead imported from ZoomInfo enrichment",
+                  "description": "HaloPSA ticket details"
+                },
+                "user_name": {
+                  "type": "string",
+                  "zoominfo_source": "firstName + ' ' + lastName",
+                  "description": "Contact full name"
+                },
+                "reportedby": {
+                  "type": "string",
+                  "zoominfo_source": "email",
+                  "description": "Contact email"
+                },
+                "category_1": {
+                  "type": "string",
+                  "default": "Lead"
+                },
+                "category_2": {
+                  "type": "string",
+                  "default": "ZoomInfo"
+                },
+                "status_id": {
+                  "type": "integer",
+                  "default": 1,
+                  "description": "New Lead status"
+                },
+                "priority_id": {
+                  "type": "integer",
+                  "default": 3,
+                  "description": "Medium priority"
+                }
+              }
+            },
+            "contact_fields": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "zoominfo_source": "firstName"
+                },
+                "surname": {
+                  "type": "string",
+                  "zoominfo_source": "lastName"
+                },
+                "emailaddress": {
+                  "type": "string",
+                  "zoominfo_source": "email"
+                },
+                "jobtitle": {
+                  "type": "string",
+                  "zoominfo_source": "jobTitle"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "zoominfo_source": "directPhone",
+                  "fallback": "companyPhone"
+                },
+                "linkedin_url": {
+                  "type": "string",
+                  "zoominfo_source": "linkedInUrl"
+                }
+              }
+            },
+            "company_fields": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "zoominfo_source": "companyName"
+                },
+                "website": {
+                  "type": "string",
+                  "zoominfo_source": "companyWebsite"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "zoominfo_source": "companyPhone"
+                },
+                "notes": {
+                  "type": "string",
+                  "template": "Industry: {{industry}} | Employees: {{employeeCount}} | Revenue: {{revenue}} | Department: {{department}} | Management Level: {{managementLevel}}"
+                }
+              }
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_101_lead_source": {
+                  "id": 101,
+                  "value": "ZoomInfo"
+                },
+                "CF_102_services_offered": {
+                  "id": 102,
+                  "zoominfo_source": "industry + ' | ' + companyDescription"
+                },
+                "CF_103_growth_signals": {
+                  "id": 103,
+                  "zoominfo_source": "revenue + ' | ' + employeeCount + ' employees | ' + companyGrowthRate"
+                },
+                "CF_104_project_pipelines": {
+                  "id": 104,
+                  "zoominfo_source": "technologies[]",
+                  "transformation": "JOIN(', ')"
+                },
+                "CF_105_do_not_contact": {
+                  "id": 105,
+                  "value": false,
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "company_to_halopsa_client": {
+          "type": "object",
+          "description": "Map ZoomInfo company fields to HaloPSA Client",
+          "properties": {
+            "name": {
+              "type": "string",
+              "zoominfo_source": "companyName"
+            },
+            "website": {
+              "type": "string",
+              "zoominfo_source": "website"
+            },
+            "phonenumber": {
+              "type": "string",
+              "zoominfo_source": "phone"
+            },
+            "notes": {
+              "type": "string",
+              "template": "ZoomInfo Company ID: {{companyId}} | Industry: {{industry}} | Founded: {{foundedYear}} | Employees: {{employeeCount}} | Revenue: {{revenue}}"
+            },
+            "address": {
+              "type": "string",
+              "zoominfo_source": "street"
+            },
+            "city": {
+              "type": "string",
+              "zoominfo_source": "city"
+            },
+            "county": {
+              "type": "string",
+              "zoominfo_source": "state"
+            },
+            "postcode": {
+              "type": "string",
+              "zoominfo_source": "zipCode"
+            },
+            "country": {
+              "type": "string",
+              "zoominfo_source": "country"
+            }
+          }
+        },
+        "data_quality_scoring": {
+          "type": "object",
+          "properties": {
+            "email_score": {
+              "type": "integer",
+              "weight": 30,
+              "condition": "email && email.includes('@')"
+            },
+            "phone_score": {
+              "type": "integer", 
+              "weight": 25,
+              "condition": "directPhone || companyPhone"
+            },
+            "complete_name_score": {
+              "type": "integer",
+              "weight": 20,
+              "condition": "firstName && lastName"
+            },
+            "company_data_score": {
+              "type": "integer",
+              "weight": 15,
+              "condition": "companyName && website && industry"
+            },
+            "social_media_score": {
+              "type": "integer",
+              "weight": 10,
+              "condition": "linkedInUrl"
+            }
+          }
+        }
+      }
+    },
+    "integration_settings": {
+      "type": "object",
+      "properties": {
+        "import_preferences": {
+          "type": "object",
+          "properties": {
+            "default_import_as": {
+              "type": "string",
+              "enum": ["lead", "prospect"],
+              "default": "lead"
+            },
+            "auto_create_organization": {
+              "type": "boolean",
+              "default": true
+            },
+            "auto_create_contact": {
+              "type": "boolean",
+              "default": true
+            },
+            "minimum_data_quality_score": {
+              "type": "integer",
+              "default": 50,
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "deduplication": {
+          "type": "object",
+          "properties": {
+            "match_criteria": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["email", "company_name + contact_name", "phone", "linkedin_url"]
+              },
+              "default": ["email", "company_name + contact_name"]
+            },
+            "conflict_resolution": {
+              "type": "string",
+              "enum": ["skip_duplicate", "update_existing", "create_new"],
+              "default": "skip_duplicate"
+            }
+          }
+        },
+        "automation_rules": {
+          "type": "object", 
+          "properties": {
+            "auto_qualify_conditions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "managementLevel.includes('c-level|vp-level|director')",
+                "employeeCount >= 50",
+                "technologies.length > 0"
+              ]
+            },
+            "enrichment_triggers": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": ["new_lead_created", "contact_email_updated", "company_domain_added"]
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "query_templates", "field_mappings", "integration_settings"]
+}

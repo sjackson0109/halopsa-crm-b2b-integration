@@ -1,0 +1,1074 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Enhanced Webhook Payload Schemas - B2B to HaloPSA Integration",
+  "description": "JSON schemas for webhook payloads supporting enhanced custom workflow, bi-directional sync, and smart updates",
+  "type": "object",
+  "properties": {
+    "halopsa_enhanced_webhooks": {
+      "type": "object",
+      "description": "Enhanced HaloPSA webhook payloads for custom CRM workflow",
+      "properties": {
+        "ticket_updated": {
+          "type": "object",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "const": "tickets.updated"
+            },
+            "event_id": {
+              "type": "string"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "entity_type": {
+                  "type": "string",
+                  "const": "ticket"
+                },
+                "entity_id": {
+                  "type": "integer"
+                },
+                "ticket_type": {
+                  "type": "string",
+                  "enum": ["lead", "prospect"]
+                }
+              }
+            },
+            "changes": {
+              "type": "object",
+              "properties": {
+                "status_id": {
+                  "type": "object",
+                  "properties": {
+                    "old_value": {"type": "integer"},
+                    "new_value": {"type": "integer"}
+                  }
+                },
+                "customfields": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "minimum": 101,
+                        "maximum": 206
+                      },
+                      "old_value": {"type": ["string", "number", "boolean", "null"]},
+                      "new_value": {"type": ["string", "number", "boolean", "null"]}
+                    }
+                  }
+                },
+                "last_update_user": {
+                  "type": "string",
+                  "description": "User who made the update"
+                }
+              }
+            }
+          },
+          "required": ["event_type", "event_id", "timestamp", "data", "changes"]
+        },
+        "dnc_flag_changed": {
+          "type": "object",
+          "description": "Do Not Contact flag change event",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "const": "tickets.custom_field_changed"
+            },
+            "event_id": {
+              "type": "string"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "entity_id": {
+                  "type": "integer"
+                },
+                "contact_email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "lead_source": {
+                  "type": "string",
+                  "enum": ["Apollo.io", "ZoomInfo", "Hunter.io", "UpLead", "Lusha", "Seamless.ai", "Lead411", "RocketReach", "BookYourData"]
+                }
+              }
+            },
+            "changes": {
+              "type": "object",
+              "properties": {
+                "CF_105_do_not_contact": {
+                  "type": "object",
+                  "properties": {
+                    "old_value": {"type": "boolean"},
+                    "new_value": {"type": "boolean", "const": true}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "lead_conversion": {
+          "type": "object",
+          "description": "Lead to Prospect conversion event",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "const": "tickets.type_changed"
+            },
+            "event_id": {
+              "type": "string"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "entity_id": {
+                  "type": "integer"
+                },
+                "conversion_type": {
+                  "type": "string",
+                  "const": "lead_to_prospect"
+                }
+              }
+            },
+            "changes": {
+              "type": "object",
+              "properties": {
+                "ticket_type_id": {
+                  "type": "object",
+                  "properties": {
+                    "old_value": {"type": "integer", "const": 1},
+                    "new_value": {"type": "integer", "const": 2}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "opportunity_promotion": {
+          "type": "object",
+          "description": "Prospect to Opportunity promotion event",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "const": "opportunities.created"
+            },
+            "event_id": {
+              "type": "string"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "opportunity_id": {
+                  "type": "integer"
+                },
+                "source_prospect_id": {
+                  "type": "integer"
+                },
+                "fit_score": {
+                  "type": "integer",
+                  "minimum": 70
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "apollo_enhanced_webhooks": {
+      "type": "object",
+      "description": "Enhanced Apollo.io webhook payloads with extended data",
+      "properties": {
+        "person_enriched": {
+          "type": "object",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "const": "person_enriched"
+            },
+            "event_id": {
+              "type": "string"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "person": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"},
+                    "first_name": {"type": "string"},
+                    "last_name": {"type": "string"},
+                    "email": {"type": "string", "format": "email"},
+                    "title": {"type": "string"},
+                    "seniority": {"type": "string"},
+                    "departments": {
+                      "type": "array",
+                      "items": {"type": "string"}
+                    },
+                    "linkedin_url": {"type": "string"},
+                    "phone_numbers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "raw_number": {"type": "string"},
+                          "sanitized_number": {"type": "string"},
+                          "type": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                },
+                "organization": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"},
+                    "name": {"type": "string"},
+                    "website_url": {"type": "string"},
+                    "industry": {"type": "string"},
+                    "keywords": {
+                      "type": "array",
+                      "items": {"type": "string"}
+                    },
+                    "estimated_num_employees": {"type": "integer"},
+                    "technologies": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {"type": "string"},
+                          "category": {"type": "string"}
+                        }
+                      }
+                    },
+                    "funding_events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "amount": {"type": "string"},
+                          "type": {"type": "string"},
+                          "date": {"type": "string", "format": "date"}
+                        }
+                      }
+                    },
+                    "intent_strength": {"type": "string"},
+                    "buyer_intent_topics": {
+                      "type": "array",
+                      "items": {"type": "string"}
+                    },
+                    "founded_year": {"type": "integer"},
+                    "headquarters_address": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "engagement_updated": {
+          "type": "object",
+          "description": "Apollo engagement tracking update",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "const": "engagement_updated"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "person_id": {"type": "string"},
+                "email": {"type": "string", "format": "email"},
+                "engagement_metrics": {
+                  "type": "object",
+                  "properties": {
+                    "emails_sent": {"type": "integer"},
+                    "emails_opened": {"type": "integer"},
+                    "emails_clicked": {"type": "integer"},
+                    "emails_replied": {"type": "integer"},
+                    "calls_made": {"type": "integer"},
+                    "calls_connected": {"type": "integer"},
+                    "meetings_scheduled": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "bi_directional_sync_payloads": {
+      "type": "object",
+      "description": "Bi-directional synchronization webhook payloads",
+      "properties": {
+        "dnc_sync_request": {
+          "type": "object",
+          "description": "Request to sync Do Not Contact to B2B platform",
+          "properties": {
+            "sync_type": {
+              "type": "string",
+              "const": "do_not_contact"
+            },
+            "source_platform": {
+              "type": "string",
+              "enum": ["Apollo.io", "ZoomInfo", "Hunter.io"]
+            },
+            "contact_data": {
+              "type": "object",
+              "properties": {
+                "email": {"type": "string", "format": "email"},
+                "firstName": {"type": "string"},
+                "lastName": {"type": "string"},
+                "companyName": {"type": "string"},
+                "reason": {"type": "string"},
+                "halo_ticket_id": {"type": "integer"}
+              },
+              "required": ["email", "reason", "halo_ticket_id"]
+            }
+          }
+        },
+        "contact_update_sync": {
+          "type": "object",
+          "description": "Contact information update sync",
+          "properties": {
+            "sync_type": {
+              "type": "string",
+              "const": "contact_update"
+            },
+            "updates": {
+              "type": "object",
+              "properties": {
+                "verified_email": {"type": "string", "format": "email"},
+                "verified_phone": {"type": "string"},
+                "corrected_title": {"type": "string"},
+                "corrected_department": {"type": "string"},
+                "verification_source": {"type": "string", "const": "direct_contact"}
+              }
+            }
+          }
+        },
+        "lead_quality_feedback": {
+          "type": "object",
+          "description": "Lead quality feedback for B2B platform algorithm improvement",
+          "properties": {
+            "sync_type": {
+              "type": "string", 
+              "const": "quality_feedback"
+            },
+            "feedback_data": {
+              "type": "object",
+              "properties": {
+                "lead_id": {"type": "string"},
+                "source_platform": {"type": "string"},
+                "conversion_outcome": {
+                  "type": "string",
+                  "enum": ["won", "lost", "qualified", "disqualified", "no_response"]
+                },
+                "data_accuracy_score": {"type": "integer", "minimum": 0, "maximum": 100},
+                "contact_reachability": {"type": "integer", "minimum": 0, "maximum": 100},
+                "sales_feedback": {
+                  "type": "object",
+                  "properties": {
+                    "lead_quality": {"type": "integer", "minimum": 1, "maximum": 10},
+                    "missing_data_points": {
+                      "type": "array",
+                      "items": {"type": "string"}
+                    }
+                  }
+                },
+                "deal_value": {"type": "number", "minimum": 0}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+                    },
+                    "phone_numbers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "raw_number": {
+                            "type": "string"
+                          },
+                          "sanitized_number": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "organization": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "website_url": {
+                          "type": "string"
+                        },
+                        "industry": {
+                          "type": "string"
+                        },
+                        "estimated_num_employees": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["id", "email"]
+                }
+              },
+              "required": ["person"]
+            }
+          },
+          "required": ["event_type", "timestamp", "data"]
+        },
+        "organization_updated": {
+          "type": "object",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "const": "organization_updated"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "organization": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "website_url": {
+                      "type": "string"
+                    },
+                    "changes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "old_value": {
+                            "type": "string"
+                          },
+                          "new_value": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "zoominfo_webhooks": {
+      "type": "object",
+      "properties": {
+        "contact_updated": {
+          "type": "object",
+          "properties": {
+            "eventType": {
+              "type": "string",
+              "const": "CONTACT_UPDATED"
+            },
+            "eventId": {
+              "type": "string"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "contact": {
+                  "type": "object",
+                  "properties": {
+                    "personId": {
+                      "type": "string"
+                    },
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "directPhone": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "department": {
+                      "type": "string"
+                    },
+                    "companyId": {
+                      "type": "string"
+                    },
+                    "lastUpdated": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "changes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string"
+                      },
+                      "oldValue": {
+                        "type": "string"
+                      },
+                      "newValue": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "company_updated": {
+          "type": "object",
+          "properties": {
+            "eventType": {
+              "type": "string",
+              "const": "COMPANY_UPDATED"
+            },
+            "eventId": {
+              "type": "string"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "company": {
+                  "type": "object",
+                  "properties": {
+                    "companyId": {
+                      "type": "string"
+                    },
+                    "companyName": {
+                      "type": "string"
+                    },
+                    "website": {
+                      "type": "string"
+                    },
+                    "industry": {
+                      "type": "string"
+                    },
+                    "employees": {
+                      "type": "integer"
+                    },
+                    "revenue": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "hunter_webhooks": {
+      "type": "object",
+      "properties": {
+        "email_verified": {
+          "type": "object",
+          "properties": {
+            "event": {
+              "type": "string",
+              "const": "email_verified"
+            },
+            "webhook_id": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "result": {
+                  "type": "string",
+                  "enum": ["deliverable", "undeliverable", "risky", "unknown"]
+                },
+                "score": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "regexp": {
+                  "type": "boolean"
+                },
+                "gibberish": {
+                  "type": "boolean"
+                },
+                "disposable": {
+                  "type": "boolean"
+                },
+                "webmail": {
+                  "type": "boolean"
+                },
+                "mx_records": {
+                  "type": "boolean"
+                },
+                "smtp_server": {
+                  "type": "boolean"
+                },
+                "smtp_check": {
+                  "type": "boolean"
+                },
+                "accept_all": {
+                  "type": "boolean"
+                },
+                "block": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "email_discovered": {
+          "type": "object",
+          "properties": {
+            "event": {
+              "type": "string",
+              "const": "email_discovered"
+            },
+            "webhook_id": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "type": "integer"
+                },
+                "source": {
+                  "type": "object",
+                  "properties": {
+                    "domain": {
+                      "type": "string"
+                    },
+                    "uri": {
+                      "type": "string"
+                    },
+                    "extracted_on": {
+                      "type": "string"
+                    },
+                    "still_on_page": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "halopsa_webhooks": {
+      "type": "object",
+      "properties": {
+        "organization_created": {
+          "type": "object",
+          "properties": {
+            "event": {
+              "type": "string",
+              "const": "organisation.created"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "webhook_id": {
+              "type": "string"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "website": {
+                  "type": "string"
+                },
+                "phonenumber": {
+                  "type": "string"
+                },
+                "industry": {
+                  "type": "string"
+                },
+                "created_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "created_by": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "contact_created": {
+          "type": "object",
+          "properties": {
+            "event": {
+              "type": "string",
+              "const": "contact.created"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "firstname": {
+                  "type": "string"
+                },
+                "surname": {
+                  "type": "string"
+                },
+                "emailaddress": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "organisation_id": {
+                  "type": "integer"
+                },
+                "organisation_name": {
+                  "type": "string"
+                },
+                "jobtitle": {
+                  "type": "string"
+                },
+                "created_date": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        },
+        "prospect_created": {
+          "type": "object",
+          "properties": {
+            "event": {
+              "type": "string",
+              "const": "prospect.created"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "contact_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "company": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "probability": {
+                  "type": "integer"
+                },
+                "created_date": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "webhook_security": {
+      "type": "object",
+      "properties": {
+        "signature_verification": {
+          "type": "object",
+          "properties": {
+            "apollo": {
+              "type": "object",
+              "properties": {
+                "header_name": {
+                  "type": "string",
+                  "default": "X-Apollo-Signature"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "default": "sha256"
+                },
+                "secret_key": {
+                  "type": "string",
+                  "description": "Webhook secret from Apollo settings"
+                }
+              }
+            },
+            "zoominfo": {
+              "type": "object",
+              "properties": {
+                "header_name": {
+                  "type": "string",
+                  "default": "X-ZoomInfo-Signature"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "default": "sha256"
+                }
+              }
+            },
+            "hunter": {
+              "type": "object",
+              "properties": {
+                "header_name": {
+                  "type": "string",
+                  "default": "X-Hunter-Signature"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "default": "sha256"
+                }
+              }
+            },
+            "halopsa": {
+              "type": "object",
+              "properties": {
+                "header_name": {
+                  "type": "string",
+                  "default": "X-HaloPSA-Signature"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "default": "sha256"
+                }
+              }
+            }
+          }
+        },
+        "ip_allowlists": {
+          "type": "object",
+          "properties": {
+            "apollo": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Apollo.io IP ranges"
+            },
+            "zoominfo": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "ZoomInfo IP ranges"
+            },
+            "hunter": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Hunter.io IP ranges"
+            },
+            "halopsa": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "HaloPSA IP ranges (varies by tenant)"
+            }
+          }
+        }
+      }
+    },
+    "webhook_endpoints": {
+      "type": "object",
+      "properties": {
+        "url_patterns": {
+          "type": "object",
+          "properties": {
+            "apollo": {
+              "type": "string",
+              "default": "/webhook/apollo",
+              "description": "Endpoint to receive Apollo webhooks"
+            },
+            "zoominfo": {
+              "type": "string",
+              "default": "/webhook/zoominfo",
+              "description": "Endpoint to receive ZoomInfo webhooks"
+            },
+            "hunter": {
+              "type": "string",
+              "default": "/webhook/hunter",
+              "description": "Endpoint to receive Hunter webhooks"
+            },
+            "halopsa_inbound": {
+              "type": "string",
+              "default": "/webhook/halopsa",
+              "description": "Endpoint to receive HaloPSA webhooks"
+            }
+          }
+        },
+        "response_format": {
+          "type": "object",
+          "description": "Expected response format for webhook acknowledgment",
+          "properties": {
+            "success": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "const": 200
+                },
+                "body": {
+                  "type": "string",
+                  "default": "OK"
+                }
+              }
+            },
+            "error": {
+              "type": "object",
+              "properties": {
+                "status_codes": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "default": [400, 401, 403, 422, 500]
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "retry_after": {
+                      "type": "integer",
+                      "description": "Seconds to wait before retrying"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["apollo_webhooks", "zoominfo_webhooks", "hunter_webhooks", "halopsa_webhooks"]
+}

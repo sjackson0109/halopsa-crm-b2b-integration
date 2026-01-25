@@ -1,0 +1,589 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ConnectWise Sell API Configuration",
+  "description": "Configuration schema for ConnectWise Sell CRM integration with HaloPSA CRM workflow for MSP environments",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://api-na.myconnectwise.net/v4_6_release/apis/3.0",
+          "description": "ConnectWise API base URL (region-specific)"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["api_key", "oauth2"],
+              "default": "api_key"
+            },
+            "api_key_auth": {
+              "type": "object",
+              "properties": {
+                "company_id": {
+                  "type": "string",
+                  "description": "ConnectWise company identifier"
+                },
+                "public_key": {
+                  "type": "string",
+                  "description": "API public key"
+                },
+                "private_key": {
+                  "type": "string",
+                  "description": "API private key"
+                },
+                "client_id": {
+                  "type": "string",
+                  "description": "Client ID for API access"
+                }
+              },
+              "required": ["company_id", "public_key", "private_key", "client_id"]
+            },
+            "oauth2": {
+              "type": "object",
+              "properties": {
+                "client_id": {"type": "string"},
+                "client_secret": {"type": "string"},
+                "authorization_url": {
+                  "type": "string",
+                  "default": "https://login.connectwise.com/authorize"
+                },
+                "token_url": {
+                  "type": "string",
+                  "default": "https://login.connectwise.com/token"
+                }
+              }
+            }
+          },
+          "required": ["method"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 300,
+              "description": "API requests per minute limit"
+            },
+            "concurrent_requests": {
+              "type": "integer",
+              "default": 10,
+              "description": "Maximum concurrent API requests"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "companies": {
+              "type": "object",
+              "properties": {
+                "list": {"method": "GET", "path": "/company/companies"},
+                "get": {"method": "GET", "path": "/company/companies/{id}"},
+                "create": {"method": "POST", "path": "/company/companies"},
+                "update": {"method": "PATCH", "path": "/company/companies/{id}"}
+              }
+            },
+            "contacts": {
+              "type": "object",
+              "properties": {
+                "list": {"method": "GET", "path": "/company/contacts"},
+                "get": {"method": "GET", "path": "/company/contacts/{id}"},
+                "create": {"method": "POST", "path": "/company/contacts"},
+                "update": {"method": "PATCH", "path": "/company/contacts/{id}"}
+              }
+            },
+            "opportunities": {
+              "type": "object",
+              "properties": {
+                "list": {"method": "GET", "path": "/sales/opportunities"},
+                "get": {"method": "GET", "path": "/sales/opportunities/{id}"},
+                "create": {"method": "POST", "path": "/sales/opportunities"},
+                "update": {"method": "PATCH", "path": "/sales/opportunities/{id}"}
+              }
+            },
+            "activities": {
+              "type": "object",
+              "properties": {
+                "list": {"method": "GET", "path": "/sales/activities"},
+                "create": {"method": "POST", "path": "/sales/activities"},
+                "update": {"method": "PATCH", "path": "/sales/activities/{id}"}
+              }
+            },
+            "quotes": {
+              "type": "object",
+              "properties": {
+                "list": {"method": "GET", "path": "/sales/quotes"},
+                "create": {"method": "POST", "path": "/sales/quotes"},
+                "get": {"method": "GET", "path": "/sales/quotes/{id}"}
+              }
+            },
+            "products": {
+              "type": "object",
+              "properties": {
+                "catalog": {"method": "GET", "path": "/procurement/catalog"},
+                "pricing": {"method": "GET", "path": "/procurement/pricingschedules"}
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "msp_specific_mappings": {
+      "type": "object",
+      "properties": {
+        "service_offerings": {
+          "type": "object",
+          "description": "Map MSP service categories to ConnectWise opportunities",
+          "properties": {
+            "managed_it_services": {
+              "type": "object",
+              "properties": {
+                "opportunity_type": {"type": "string", "default": "Managed IT Services"},
+                "stage_mappings": {
+                  "type": "object",
+                  "properties": {
+                    "discovery": {"connectwise_stage": "Initial Meeting"},
+                    "assessment": {"connectwise_stage": "Technical Assessment"},
+                    "proposal": {"connectwise_stage": "Proposal Sent"},
+                    "negotiation": {"connectwise_stage": "Contract Review"},
+                    "closed_won": {"connectwise_stage": "Closed Won"},
+                    "closed_lost": {"connectwise_stage": "Closed Lost"}
+                  }
+                },
+                "product_categories": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["Network Management", "Server Management", "Endpoint Security", "Help Desk"]
+                }
+              }
+            },
+            "cloud_migration": {
+              "type": "object",
+              "properties": {
+                "opportunity_type": {"type": "string", "default": "Cloud Migration"},
+                "stage_mappings": {
+                  "type": "object",
+                  "properties": {
+                    "discovery": {"connectwise_stage": "Cloud Assessment"},
+                    "planning": {"connectwise_stage": "Migration Planning"},
+                    "proposal": {"connectwise_stage": "Migration Proposal"},
+                    "execution": {"connectwise_stage": "Migration Execution"},
+                    "completed": {"connectwise_stage": "Migration Complete"}
+                  }
+                }
+              }
+            },
+            "cybersecurity": {
+              "type": "object",
+              "properties": {
+                "opportunity_type": {"type": "string", "default": "Cybersecurity Services"},
+                "stage_mappings": {
+                  "type": "object",
+                  "properties": {
+                    "security_audit": {"connectwise_stage": "Security Assessment"},
+                    "risk_analysis": {"connectwise_stage": "Risk Analysis"},
+                    "solution_design": {"connectwise_stage": "Security Design"},
+                    "implementation": {"connectwise_stage": "Security Implementation"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "technology_stack_integration": {
+          "type": "object",
+          "properties": {
+            "vendor_partnerships": {
+              "type": "object",
+              "properties": {
+                "microsoft": {
+                  "products": ["Office 365", "Azure", "Teams", "SharePoint"],
+                  "pricing_tiers": ["Business Basic", "Business Standard", "Business Premium", "Enterprise"]
+                },
+                "vmware": {
+                  "products": ["vSphere", "NSX", "vSAN", "Horizon"],
+                  "licensing_models": ["per_socket", "per_vm", "subscription"]
+                },
+                "cisco": {
+                  "products": ["Meraki", "Unified Communications", "Security Solutions"],
+                  "support_tiers": ["Essential", "Advantage", "Premier"]
+                }
+              }
+            },
+            "solution_bundling": {
+              "type": "object",
+              "properties": {
+                "small_business_bundle": {
+                  "target_employees": {"min": 5, "max": 25},
+                  "included_services": ["Basic Monitoring", "Email Security", "Backup"],
+                  "monthly_price_range": {"min": 2500, "max": 7500}
+                },
+                "mid_market_bundle": {
+                  "target_employees": {"min": 26, "max": 250},
+                  "included_services": ["Advanced Monitoring", "SOC Services", "Cloud Migration"],
+                  "monthly_price_range": {"min": 7500, "max": 25000}
+                },
+                "enterprise_bundle": {
+                  "target_employees": {"min": 251},
+                  "included_services": ["24/7 NOC", "CISO Services", "Compliance Management"],
+                  "monthly_price_range": {"min": 25000}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "halopsa_to_connectwise_sync": {
+          "type": "object",
+          "description": "Bidirectional sync between HaloPSA and ConnectWise Sell",
+          "properties": {
+            "lead_to_opportunity": {
+              "type": "object",
+              "properties": {
+                "opportunity_fields": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "halopsa_source": "ticket.summary"
+                    },
+                    "type": {
+                      "type": "string",
+                      "halopsa_source": "customfields.CF_102_services_offered",
+                      "transformation": "mapServiceToOpportunityType()"
+                    },
+                    "stage": {
+                      "type": "string",
+                      "halopsa_source": "status.name",
+                      "mapping": {
+                        "New Lead": "Initial Contact",
+                        "Qualified": "Qualified",
+                        "Proposal": "Proposal Sent",
+                        "Negotiation": "Negotiation",
+                        "Won": "Closed Won",
+                        "Lost": "Closed Lost"
+                      }
+                    },
+                    "expectedCloseDate": {
+                      "type": "string",
+                      "halopsa_source": "customfields.CF_205_timeframe",
+                      "transformation": "calculateCloseDate()"
+                    },
+                    "probabilityPercent": {
+                      "type": "integer",
+                      "halopsa_source": "customfields.CF_206_fit_score"
+                    }
+                  }
+                },
+                "company_mapping": {
+                  "type": "object",
+                  "properties": {
+                    "name": {"halopsa_source": "client.name"},
+                    "website": {"halopsa_source": "client.website"},
+                    "phoneNumber": {"halopsa_source": "client.phonenumber"},
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "addressLine1": {"halopsa_source": "client.address"},
+                        "city": {"halopsa_source": "client.city"},
+                        "state": {"halopsa_source": "client.county"},
+                        "postalCode": {"halopsa_source": "client.postcode"},
+                        "country": {"halopsa_source": "client.country"}
+                      }
+                    }
+                  }
+                },
+                "contact_mapping": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {"halopsa_source": "contact.firstname"},
+                    "lastName": {"halopsa_source": "contact.surname"},
+                    "title": {"halopsa_source": "contact.jobtitle"},
+                    "email": {"halopsa_source": "contact.emailaddress"},
+                    "phoneNumber": {"halopsa_source": "contact.phonenumber"},
+                    "isPrimary": {"type": "boolean", "default": true}
+                  }
+                }
+              }
+            },
+            "connectwise_to_halopsa_sync": {
+              "type": "object",
+              "properties": {
+                "opportunity_updates": {
+                  "type": "object",
+                  "properties": {
+                    "stage_changes": {
+                      "type": "object",
+                      "connectwise_trigger": "opportunity.stage.changed",
+                      "halopsa_update": {
+                        "status_mapping": {
+                          "Initial Contact": 1,
+                          "Qualified": 2,
+                          "Proposal Sent": 3,
+                          "Negotiation": 4,
+                          "Closed Won": 5,
+                          "Closed Lost": 6
+                        }
+                      }
+                    },
+                    "value_changes": {
+                      "type": "object",
+                      "connectwise_trigger": "opportunity.expectedValue.changed",
+                      "halopsa_update": "customfields.CF_301_opportunity_value"
+                    }
+                  }
+                },
+                "activity_sync": {
+                  "type": "object",
+                  "properties": {
+                    "meeting_created": {
+                      "connectwise_trigger": "activity.meeting.created",
+                      "halopsa_action": "create_appointment"
+                    },
+                    "call_logged": {
+                      "connectwise_trigger": "activity.call.logged",
+                      "halopsa_action": "add_ticket_note"
+                    },
+                    "email_sent": {
+                      "connectwise_trigger": "activity.email.sent",
+                      "halopsa_action": "add_ticket_note"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "quote_integration": {
+          "type": "object",
+          "properties": {
+            "product_catalog_sync": {
+              "type": "object",
+              "properties": {
+                "hardware_products": {
+                  "type": "object",
+                  "properties": {
+                    "servers": {
+                      "connectwise_category": "Server Hardware",
+                      "margin_targets": {"min": 15, "max": 25},
+                      "warranty_options": ["1_year", "3_year", "5_year"]
+                    },
+                    "networking": {
+                      "connectwise_category": "Network Equipment",
+                      "margin_targets": {"min": 20, "max": 30},
+                      "support_plans": ["basic", "advanced", "premium"]
+                    }
+                  }
+                },
+                "software_licenses": {
+                  "type": "object",
+                  "properties": {
+                    "microsoft": {
+                      "pricing_model": "subscription",
+                      "margin_targets": {"min": 10, "max": 20},
+                      "billing_cycle": ["monthly", "annual"]
+                    },
+                    "security_software": {
+                      "pricing_model": "per_user_per_month",
+                      "margin_targets": {"min": 25, "max": 40}
+                    }
+                  }
+                },
+                "managed_services": {
+                  "type": "object",
+                  "properties": {
+                    "monitoring": {
+                      "pricing_model": "per_device_per_month",
+                      "price_ranges": {"min": 15, "max": 50},
+                      "sla_tiers": ["basic", "business", "enterprise"]
+                    },
+                    "backup_services": {
+                      "pricing_model": "per_gb_per_month",
+                      "retention_policies": ["30_days", "90_days", "1_year"],
+                      "recovery_options": ["file_level", "bare_metal", "vm_level"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "msp_workflow_automation": {
+      "type": "object",
+      "properties": {
+        "sales_process_automation": {
+          "type": "object",
+          "properties": {
+            "discovery_to_assessment": {
+              "type": "object",
+              "properties": {
+                "trigger_conditions": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": [
+                    "opportunity.stage === 'Initial Contact'",
+                    "discovery_call_completed === true",
+                    "technical_requirements_identified === true"
+                  ]
+                },
+                "automated_actions": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": [
+                    "schedule_technical_assessment",
+                    "send_assessment_questionnaire",
+                    "create_assessment_project_tasks",
+                    "assign_technical_resources"
+                  ]
+                }
+              }
+            },
+            "proposal_generation": {
+              "type": "object",
+              "properties": {
+                "trigger_conditions": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": [
+                    "technical_assessment_completed",
+                    "solution_design_approved",
+                    "pricing_approved"
+                  ]
+                },
+                "automated_actions": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": [
+                    "generate_msp_proposal_template",
+                    "populate_technical_specifications",
+                    "calculate_service_pricing",
+                    "create_sla_document",
+                    "schedule_proposal_presentation"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "client_onboarding_automation": {
+          "type": "object",
+          "properties": {
+            "contract_signed_triggers": {
+              "type": "object",
+              "properties": {
+                "immediate_actions": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": [
+                    "create_client_in_rmm_system",
+                    "provision_monitoring_agents",
+                    "create_backup_policies",
+                    "setup_helpdesk_portal_access"
+                  ]
+                },
+                "scheduled_actions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "action": {"type": "string"},
+                      "delay_days": {"type": "integer"}
+                    }
+                  },
+                  "default": [
+                    {"action": "schedule_onboarding_kickoff", "delay_days": 1},
+                    {"action": "begin_asset_discovery", "delay_days": 3},
+                    {"action": "complete_security_assessment", "delay_days": 7},
+                    {"action": "deliver_monthly_service_review", "delay_days": 30}
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "integration_settings": {
+      "type": "object",
+      "properties": {
+        "sync_preferences": {
+          "type": "object",
+          "properties": {
+            "bidirectional_sync": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable two-way sync between systems"
+            },
+            "real_time_sync": {
+              "type": "boolean",
+              "default": false,
+              "description": "Real-time vs batch synchronization"
+            },
+            "sync_frequency": {
+              "type": "string",
+              "enum": ["5_minutes", "15_minutes", "hourly", "daily"],
+              "default": "15_minutes"
+            },
+            "conflict_resolution": {
+              "type": "string",
+              "enum": ["halopsa_wins", "connectwise_wins", "latest_timestamp_wins"],
+              "default": "latest_timestamp_wins"
+            }
+          }
+        },
+        "field_mapping_preferences": {
+          "type": "object",
+          "properties": {
+            "custom_field_sync": {
+              "type": "boolean",
+              "default": true,
+              "description": "Sync custom fields between systems"
+            },
+            "attachment_sync": {
+              "type": "boolean",
+              "default": false,
+              "description": "Sync file attachments (may impact performance)"
+            },
+            "activity_history_sync": {
+              "type": "boolean",
+              "default": true,
+              "description": "Sync activity and communication history"
+            }
+          }
+        },
+        "msp_specific_settings": {
+          "type": "object",
+          "properties": {
+            "auto_create_service_agreements": {
+              "type": "boolean",
+              "default": true,
+              "description": "Automatically create service agreements from won opportunities"
+            },
+            "integrate_with_psa_billing": {
+              "type": "boolean",
+              "default": true,
+              "description": "Connect with PSA billing for recurring revenue tracking"
+            },
+            "rmm_integration_hooks": {
+              "type": "boolean",
+              "default": true,
+              "description": "Trigger RMM provisioning from sales workflows"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "msp_specific_mappings", "field_mappings", "msp_workflow_automation", "integration_settings"]
+}

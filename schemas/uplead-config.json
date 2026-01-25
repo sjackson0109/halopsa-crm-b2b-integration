@@ -1,0 +1,457 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UpLead API Configuration",
+  "description": "Configuration schema for UpLead B2B contact database integration with HaloPSA CRM workflow",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://api.uplead.com/v2",
+          "description": "UpLead API base URL"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["api_key"],
+              "default": "api_key"
+            },
+            "api_key": {
+              "type": "string",
+              "description": "UpLead API key from account settings",
+              "pattern": "^ul_[a-zA-Z0-9]{40,}$"
+            }
+          },
+          "required": ["method", "api_key"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 60,
+              "description": "API requests per minute limit"
+            },
+            "daily_search_credits": {
+              "type": "integer",
+              "default": 1000,
+              "description": "Daily search credits based on plan"
+            },
+            "monthly_email_verifications": {
+              "type": "integer",
+              "default": 5000,
+              "description": "Monthly email verification credits"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "search_people": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/people-search"
+                }
+              }
+            },
+            "search_companies": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/companies-search"
+                }
+              }
+            },
+            "verify_email": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/email-verification"
+                }
+              }
+            },
+            "enrich_person": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/person-enrichment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "query_templates": {
+      "type": "object",
+      "properties": {
+        "search_contacts_by_company": {
+          "type": "object",
+          "description": "Search contacts within specific companies",
+          "properties": {
+            "company_name": {
+              "type": "string",
+              "description": "Company name to search"
+            },
+            "company_domain": {
+              "type": "string",
+              "description": "Company website domain"
+            },
+            "job_titles": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Target job titles (e.g., CEO, CTO, IT Manager)"
+            },
+            "seniority": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["c_level", "vp", "director", "manager", "senior", "entry"]
+              },
+              "description": "Management seniority levels"
+            },
+            "departments": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["information_technology", "sales", "marketing", "operations", "finance", "engineering"]
+              }
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "country": {"type": "string"},
+                "state": {"type": "string"},
+                "city": {"type": "string"}
+              }
+            },
+            "company_size": {
+              "type": "object",
+              "properties": {
+                "min": {"type": "integer", "minimum": 1},
+                "max": {"type": "integer"}
+              }
+            },
+            "industry": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Industry categories"
+            },
+            "exclude_roles": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Job titles to exclude"
+            },
+            "page": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            },
+            "page_size": {
+              "type": "integer",
+              "default": 25,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "enrich_contact_by_identifiers": {
+          "type": "object",
+          "description": "Enrich contact using multiple identifiers",
+          "properties": {
+            "first_name": {
+              "type": "string",
+              "description": "Contact first name"
+            },
+            "last_name": {
+              "type": "string",
+              "description": "Contact last name"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Contact email address"
+            },
+            "company_name": {
+              "type": "string",
+              "description": "Company name"
+            },
+            "company_domain": {
+              "type": "string",
+              "description": "Company website domain"
+            },
+            "linkedin_url": {
+              "type": "string",
+              "description": "LinkedIn profile URL"
+            }
+          }
+        },
+        "verify_email_addresses": {
+          "type": "object",
+          "description": "Bulk email verification",
+          "properties": {
+            "emails": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "email"
+              },
+              "maxItems": 100,
+              "description": "Up to 100 emails per request"
+            },
+            "include_catch_all": {
+              "type": "boolean",
+              "default": false,
+              "description": "Include catch-all email addresses"
+            }
+          },
+          "required": ["emails"]
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "contact_to_halopsa_lead": {
+          "type": "object",
+          "description": "Map UpLead contact fields to HaloPSA Lead ticket",
+          "properties": {
+            "basic_fields": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string",
+                  "uplead_source": "first_name + ' ' + last_name + ' - ' + company_name",
+                  "description": "HaloPSA ticket summary"
+                },
+                "details": {
+                  "type": "string",
+                  "default": "Lead imported from UpLead with verified contact data",
+                  "description": "HaloPSA ticket details"
+                },
+                "user_name": {
+                  "type": "string",
+                  "uplead_source": "first_name + ' ' + last_name"
+                },
+                "reportedby": {
+                  "type": "string",
+                  "uplead_source": "email"
+                },
+                "category_1": {
+                  "type": "string",
+                  "default": "Lead"
+                },
+                "category_2": {
+                  "type": "string",
+                  "default": "UpLead"
+                },
+                "status_id": {
+                  "type": "integer",
+                  "default": 1
+                },
+                "priority_id": {
+                  "type": "integer",
+                  "default": 3
+                }
+              }
+            },
+            "contact_fields": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "uplead_source": "first_name"
+                },
+                "surname": {
+                  "type": "string",
+                  "uplead_source": "last_name"
+                },
+                "emailaddress": {
+                  "type": "string",
+                  "uplead_source": "email"
+                },
+                "jobtitle": {
+                  "type": "string",
+                  "uplead_source": "job_title"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "uplead_source": "phone_number",
+                  "fallback": "mobile_phone"
+                },
+                "linkedin_url": {
+                  "type": "string",
+                  "uplead_source": "linkedin_url"
+                }
+              }
+            },
+            "company_fields": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "uplead_source": "company_name"
+                },
+                "website": {
+                  "type": "string",
+                  "uplead_source": "company_domain"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "uplead_source": "company_phone"
+                },
+                "notes": {
+                  "type": "string",
+                  "template": "Industry: {{industry}} | Employees: {{company_size}} | Founded: {{founded_year}} | Email Verified: {{email_verification_status}}"
+                }
+              }
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_101_lead_source": {
+                  "id": 101,
+                  "value": "UpLead"
+                },
+                "CF_102_services_offered": {
+                  "id": 102,
+                  "uplead_source": "industry + ' | ' + company_description"
+                },
+                "CF_103_growth_signals": {
+                  "id": 103,
+                  "uplead_source": "company_size + ' employees | ' + annual_revenue + ' revenue | ' + technologies"
+                },
+                "CF_104_project_pipelines": {
+                  "id": 104,
+                  "uplead_source": "technologies",
+                  "transformation": "JOIN(', ')"
+                },
+                "CF_105_do_not_contact": {
+                  "id": 105,
+                  "value": false,
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "data_quality_scoring": {
+          "type": "object",
+          "properties": {
+            "email_verification_score": {
+              "type": "integer",
+              "weight": 40,
+              "condition": "email_verification_status === 'valid'"
+            },
+            "phone_verification_score": {
+              "type": "integer",
+              "weight": 30,
+              "condition": "phone_number && phone_verified === true"
+            },
+            "complete_profile_score": {
+              "type": "integer",
+              "weight": 20,
+              "condition": "first_name && last_name && job_title"
+            },
+            "social_presence_score": {
+              "type": "integer",
+              "weight": 10,
+              "condition": "linkedin_url || twitter_url"
+            }
+          }
+        }
+      }
+    },
+    "integration_settings": {
+      "type": "object",
+      "properties": {
+        "data_quality_requirements": {
+          "type": "object",
+          "properties": {
+            "minimum_email_verification": {
+              "type": "string",
+              "enum": ["valid", "catch_all", "unknown"],
+              "default": "valid"
+            },
+            "require_phone_number": {
+              "type": "boolean",
+              "default": true
+            },
+            "minimum_data_score": {
+              "type": "integer",
+              "default": 70,
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "import_preferences": {
+          "type": "object",
+          "properties": {
+            "auto_verify_emails": {
+              "type": "boolean",
+              "default": true
+            },
+            "auto_create_organization": {
+              "type": "boolean",
+              "default": true
+            },
+            "duplicate_handling": {
+              "type": "string",
+              "enum": ["skip", "update", "create_new"],
+              "default": "update"
+            }
+          }
+        },
+        "enrichment_triggers": {
+          "type": "object",
+          "properties": {
+            "enrich_on_import": {
+              "type": "boolean",
+              "default": true
+            },
+            "verify_email_on_import": {
+              "type": "boolean",
+              "default": true
+            },
+            "update_existing_records": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "query_templates", "field_mappings", "integration_settings"]
+}

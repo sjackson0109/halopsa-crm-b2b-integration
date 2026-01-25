@@ -1,0 +1,700 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Seamless.ai API Configuration",
+  "description": "Configuration schema for Seamless.ai real-time contact discovery integration with HaloPSA CRM workflow",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://api.seamless.ai/v1",
+          "description": "Seamless.ai API base URL"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["api_key"],
+              "default": "api_key"
+            },
+            "api_key": {
+              "type": "string",
+              "description": "Seamless.ai API key from account settings"
+            }
+          },
+          "required": ["method", "api_key"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 120,
+              "description": "API requests per minute limit"
+            },
+            "exports_per_month": {
+              "type": "integer",
+              "default": 5000,
+              "description": "Monthly contact export limit based on plan"
+            },
+            "searches_per_day": {
+              "type": "integer",
+              "default": 1000,
+              "description": "Daily search requests limit"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "search_contacts": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/search/person"
+                }
+              }
+            },
+            "search_companies": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/search/company"
+                }
+              }
+            },
+            "verify_email": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/verify/email"
+                }
+              }
+            },
+            "real_time_search": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["GET"],
+                  "default": "GET"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/realtime/search"
+                }
+              }
+            },
+            "chrome_extension_sync": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/chrome/capture"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "search_templates": {
+      "type": "object",
+      "properties": {
+        "prospect_discovery_search": {
+          "type": "object",
+          "description": "Real-time prospect discovery and capture",
+          "properties": {
+            "company_criteria": {
+              "type": "object",
+              "properties": {
+                "company_name": {
+                  "type": "string",
+                  "description": "Target company name"
+                },
+                "company_domain": {
+                  "type": "string",
+                  "description": "Company website domain"
+                },
+                "industry": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "description": "Industry categories"
+                },
+                "employee_count": {
+                  "type": "object",
+                  "properties": {
+                    "min": {"type": "integer"},
+                    "max": {"type": "integer"}
+                  }
+                },
+                "location": {
+                  "type": "object",
+                  "properties": {
+                    "country": {"type": "string"},
+                    "state": {"type": "string"},
+                    "city": {"type": "string"}
+                  }
+                },
+                "revenue_range": {
+                  "type": "object",
+                  "properties": {
+                    "min": {"type": "integer"},
+                    "max": {"type": "integer"}
+                  }
+                }
+              }
+            },
+            "contact_criteria": {
+              "type": "object",
+              "properties": {
+                "job_titles": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "description": "Target job titles"
+                },
+                "departments": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": ["IT", "Technology", "Sales", "Marketing", "Operations", "Finance", "Executive", "Engineering"]
+                  }
+                },
+                "seniority_levels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": ["C-Level", "VP", "Director", "Manager", "Senior", "Individual Contributor"]
+                  }
+                },
+                "exclude_titles": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "description": "Job titles to exclude"
+                },
+                "include_personal_emails": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "phone_number_required": {
+                  "type": "boolean",
+                  "default": true
+                }
+              }
+            },
+            "search_parameters": {
+              "type": "object",
+              "properties": {
+                "limit": {
+                  "type": "integer",
+                  "default": 25,
+                  "minimum": 1,
+                  "maximum": 100
+                },
+                "offset": {
+                  "type": "integer",
+                  "default": 0
+                },
+                "sort_by": {
+                  "type": "string",
+                  "enum": ["relevance", "last_updated", "job_level"],
+                  "default": "relevance"
+                },
+                "include_social_profiles": {
+                  "type": "boolean",
+                  "default": true
+                }
+              }
+            }
+          }
+        },
+        "chrome_extension_capture": {
+          "type": "object",
+          "description": "Capture prospects from browser activity",
+          "properties": {
+            "capture_triggers": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": ["linkedin_profile_visit", "company_website_visit", "social_media_profile"]
+            },
+            "auto_capture_settings": {
+              "type": "object",
+              "properties": {
+                "capture_linkedin_profiles": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "capture_company_pages": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "capture_contact_pages": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "minimum_data_threshold": {
+                  "type": "integer",
+                  "default": 3,
+                  "description": "Minimum fields required for capture"
+                }
+              }
+            }
+          }
+        },
+        "email_verification_bulk": {
+          "type": "object",
+          "description": "Bulk email verification",
+          "properties": {
+            "email_list": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "email"
+              },
+              "maxItems": 1000,
+              "description": "Up to 1000 emails per batch"
+            },
+            "verification_level": {
+              "type": "string",
+              "enum": ["basic", "enhanced", "comprehensive"],
+              "default": "enhanced"
+            },
+            "include_confidence_score": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "seamless_to_halopsa_lead": {
+          "type": "object",
+          "description": "Map Seamless.ai contact data to HaloPSA Lead ticket",
+          "properties": {
+            "basic_fields": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string",
+                  "seamless_source": "first_name + ' ' + last_name + ' - ' + company",
+                  "description": "HaloPSA ticket summary"
+                },
+                "details": {
+                  "type": "string",
+                  "default": "Lead captured via Seamless.ai real-time prospect discovery",
+                  "description": "HaloPSA ticket details"
+                },
+                "user_name": {
+                  "type": "string",
+                  "seamless_source": "first_name + ' ' + last_name"
+                },
+                "reportedby": {
+                  "type": "string",
+                  "seamless_source": "work_email || personal_email"
+                },
+                "category_1": {
+                  "type": "string",
+                  "default": "Lead"
+                },
+                "category_2": {
+                  "type": "string",
+                  "default": "Seamless.ai"
+                },
+                "status_id": {
+                  "type": "integer",
+                  "default": 1
+                },
+                "priority_id": {
+                  "type": "integer",
+                  "default": 3
+                }
+              }
+            },
+            "contact_fields": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "seamless_source": "first_name"
+                },
+                "surname": {
+                  "type": "string",
+                  "seamless_source": "last_name"
+                },
+                "emailaddress": {
+                  "type": "string",
+                  "seamless_source": "work_email || personal_email"
+                },
+                "jobtitle": {
+                  "type": "string",
+                  "seamless_source": "title"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "seamless_source": "work_phone || mobile_phone || phone"
+                },
+                "mobile_phone": {
+                  "type": "string",
+                  "seamless_source": "mobile_phone"
+                },
+                "linkedin_url": {
+                  "type": "string",
+                  "seamless_source": "linkedin_url"
+                },
+                "twitter_url": {
+                  "type": "string",
+                  "seamless_source": "twitter_url"
+                }
+              }
+            },
+            "company_fields": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "seamless_source": "company"
+                },
+                "website": {
+                  "type": "string",
+                  "seamless_source": "company_website"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "seamless_source": "company_phone"
+                },
+                "notes": {
+                  "type": "string",
+                  "template": "Seamless.ai Discovery - Industry: {{industry}} | Size: {{company_size}} | Location: {{city}}, {{state}} | Capture Method: {{capture_method}}"
+                }
+              }
+            },
+            "real_time_intelligence": {
+              "type": "object",
+              "properties": {
+                "discovery_context": {
+                  "type": "string",
+                  "seamless_source": "capture_source + ' | ' + capture_timestamp"
+                },
+                "data_freshness": {
+                  "type": "string",
+                  "seamless_source": "last_updated"
+                },
+                "confidence_indicators": {
+                  "type": "object",
+                  "properties": {
+                    "email_confidence": {"seamless_source": "email_confidence"},
+                    "phone_confidence": {"seamless_source": "phone_confidence"},
+                    "job_title_confidence": {"seamless_source": "title_confidence"}
+                  }
+                }
+              }
+            },
+            "custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_101_lead_source": {
+                  "id": 101,
+                  "value": "Seamless.ai"
+                },
+                "CF_102_services_offered": {
+                  "id": 102,
+                  "seamless_source": "industry + ' | ' + company_description"
+                },
+                "CF_103_growth_signals": {
+                  "id": 103,
+                  "seamless_source": "company_size + ' employees | ' + location + ' | ' + department"
+                },
+                "CF_104_project_pipelines": {
+                  "id": 104,
+                  "seamless_source": "technologies || 'Digital transformation'"
+                },
+                "CF_105_do_not_contact": {
+                  "id": 105,
+                  "value": false,
+                  "type": "boolean"
+                },
+                "CF_122_capture_method": {
+                  "id": 122,
+                  "seamless_source": "capture_source"
+                },
+                "CF_123_data_confidence": {
+                  "id": 123,
+                  "seamless_source": "overall_confidence + '/100'"
+                },
+                "CF_124_seamless_contact_id": {
+                  "id": 124,
+                  "seamless_source": "contact_id"
+                }
+              }
+            }
+          }
+        },
+        "chrome_extension_integration": {
+          "type": "object",
+          "properties": {
+            "browser_capture_mapping": {
+              "type": "object",
+              "properties": {
+                "linkedin_profile_data": {
+                  "type": "object",
+                  "properties": {
+                    "profile_url": {"seamless_source": "linkedin_profile_url"},
+                    "headline": {"seamless_source": "linkedin_headline"},
+                    "summary": {"seamless_source": "linkedin_summary"},
+                    "connections_count": {"seamless_source": "linkedin_connections"},
+                    "activity_level": {"seamless_source": "linkedin_activity_score"}
+                  }
+                },
+                "company_page_data": {
+                  "type": "object",
+                  "properties": {
+                    "page_url": {"seamless_source": "company_page_url"},
+                    "about_section": {"seamless_source": "company_about"},
+                    "employee_count": {"seamless_source": "company_employee_count"},
+                    "follower_count": {"seamless_source": "company_followers"}
+                  }
+                },
+                "capture_metadata": {
+                  "type": "object",
+                  "properties": {
+                    "capture_timestamp": {"seamless_source": "captured_at"},
+                    "user_agent": {"seamless_source": "browser_info"},
+                    "referrer_url": {"seamless_source": "referrer"},
+                    "session_id": {"seamless_source": "session_id"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "real_time_workflows": {
+      "type": "object",
+      "properties": {
+        "instant_lead_capture": {
+          "type": "object",
+          "properties": {
+            "auto_capture_triggers": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "linkedin_profile_viewed",
+                "company_website_visited",
+                "contact_page_accessed",
+                "crunchbase_profile_viewed"
+              ]
+            },
+            "data_quality_gates": {
+              "type": "object",
+              "properties": {
+                "minimum_fields_required": {
+                  "type": "integer",
+                  "default": 4,
+                  "description": "Minimum fields for auto-capture"
+                },
+                "required_fields": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["first_name", "last_name", "company", "work_email || phone"]
+                },
+                "confidence_threshold": {
+                  "type": "integer",
+                  "default": 75,
+                  "description": "Minimum confidence score for auto-import"
+                }
+              }
+            },
+            "real_time_enrichment": {
+              "type": "object",
+              "properties": {
+                "enrich_on_capture": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "verify_email_instantly": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "find_additional_contacts": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Find other contacts at same company"
+                }
+              }
+            }
+          }
+        },
+        "prospect_scoring_system": {
+          "type": "object",
+          "properties": {
+            "real_time_scoring_factors": {
+              "type": "object",
+              "properties": {
+                "job_title_relevance": {
+                  "type": "integer",
+                  "weight": 30,
+                  "condition": "title.includes('CTO|IT|Technology|Engineering')"
+                },
+                "company_size_fit": {
+                  "type": "integer",
+                  "weight": 25,
+                  "calculation": "company_size >= 50 && company_size <= 1000 ? 25 : 10"
+                },
+                "contact_data_quality": {
+                  "type": "integer",
+                  "weight": 20,
+                  "calculation": "(work_email ? 10 : 0) + (phone ? 10 : 0)"
+                },
+                "timing_indicators": {
+                  "type": "integer",
+                  "weight": 15,
+                  "condition": "recent_job_change || company_growth || funding_news"
+                },
+                "engagement_signals": {
+                  "type": "integer",
+                  "weight": 10,
+                  "calculation": "linkedin_activity_score > 7 ? 10 : 5"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "integration_settings": {
+      "type": "object",
+      "properties": {
+        "chrome_extension_config": {
+          "type": "object",
+          "properties": {
+            "auto_capture_enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "capture_frequency": {
+              "type": "string",
+              "enum": ["immediate", "batch_hourly", "batch_daily"],
+              "default": "immediate"
+            },
+            "notification_settings": {
+              "type": "object",
+              "properties": {
+                "show_capture_notifications": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "play_capture_sound": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "highlight_captured_prospects": {
+                  "type": "boolean",
+                  "default": true
+                }
+              }
+            }
+          }
+        },
+        "data_management": {
+          "type": "object",
+          "properties": {
+            "duplicate_detection": {
+              "type": "object",
+              "properties": {
+                "match_criteria": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["email", "first_name + last_name + company"]
+                },
+                "auto_merge_duplicates": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "prefer_latest_data": {
+                  "type": "boolean",
+                  "default": true
+                }
+              }
+            },
+            "data_retention": {
+              "type": "object",
+              "properties": {
+                "raw_capture_data_retention": {
+                  "type": "integer",
+                  "default": 90,
+                  "description": "Days to retain raw capture data"
+                },
+                "processed_lead_retention": {
+                  "type": "string",
+                  "enum": ["indefinite", "1_year", "2_years"],
+                  "default": "indefinite"
+                }
+              }
+            }
+          }
+        },
+        "cost_optimization": {
+          "type": "object",
+          "properties": {
+            "usage_monitoring": {
+              "type": "object",
+              "properties": {
+                "track_monthly_exports": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "alert_at_usage_percentage": {
+                  "type": "integer",
+                  "default": 80,
+                  "description": "Alert when monthly usage reaches this percentage"
+                },
+                "pause_at_limit": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Auto-pause when monthly limit reached"
+                }
+              }
+            },
+            "quality_vs_cost_balance": {
+              "type": "string",
+              "enum": ["maximum_quality", "balanced", "cost_optimized"],
+              "default": "balanced"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "search_templates", "field_mappings", "real_time_workflows", "integration_settings"]
+}

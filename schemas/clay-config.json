@@ -1,0 +1,613 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Clay.com API Configuration",
+  "description": "Configuration schema for Clay.com data enrichment waterfall integration with HaloPSA CRM workflow",
+  "type": "object",
+  "properties": {
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "default": "https://api.clay.com/v1",
+          "description": "Clay.com API base URL"
+        },
+        "authentication": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["api_key"],
+              "default": "api_key"
+            },
+            "api_key": {
+              "type": "string",
+              "description": "Clay.com API key from account settings"
+            }
+          },
+          "required": ["method", "api_key"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 100,
+              "description": "API requests per minute limit"
+            },
+            "concurrent_enrichments": {
+              "type": "integer",
+              "default": 50,
+              "description": "Maximum concurrent enrichment requests"
+            },
+            "monthly_credits": {
+              "type": "integer",
+              "default": 10000,
+              "description": "Monthly enrichment credits based on plan"
+            }
+          }
+        },
+        "endpoints": {
+          "type": "object",
+          "properties": {
+            "tables": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "method": "GET",
+                  "path": "/tables"
+                },
+                "create": {
+                  "method": "POST",
+                  "path": "/tables"
+                },
+                "get": {
+                  "method": "GET",
+                  "path": "/tables/{tableId}"
+                }
+              }
+            },
+            "rows": {
+              "type": "object",
+              "properties": {
+                "list": {
+                  "method": "GET",
+                  "path": "/tables/{tableId}/rows"
+                },
+                "create": {
+                  "method": "POST",
+                  "path": "/tables/{tableId}/rows"
+                },
+                "update": {
+                  "method": "PUT",
+                  "path": "/tables/{tableId}/rows/{rowId}"
+                }
+              }
+            },
+            "enrichments": {
+              "type": "object",
+              "properties": {
+                "run": {
+                  "method": "POST",
+                  "path": "/tables/{tableId}/enrichments/{enrichmentId}/run"
+                },
+                "status": {
+                  "method": "GET",
+                  "path": "/tables/{tableId}/enrichments/{enrichmentId}/status"
+                }
+              }
+            },
+            "webhooks": {
+              "type": "object",
+              "properties": {
+                "create": {
+                  "method": "POST",
+                  "path": "/webhooks"
+                },
+                "list": {
+                  "method": "GET",
+                  "path": "/webhooks"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "enrichment_waterfall_templates": {
+      "type": "object",
+      "properties": {
+        "comprehensive_contact_enrichment": {
+          "type": "object",
+          "description": "Multi-source contact enrichment waterfall",
+          "properties": {
+            "input_fields": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "priority": 1
+                },
+                "first_name": {
+                  "type": "string",
+                  "priority": 2
+                },
+                "last_name": {
+                  "type": "string", 
+                  "priority": 2
+                },
+                "company_name": {
+                  "type": "string",
+                  "priority": 3
+                },
+                "company_domain": {
+                  "type": "string",
+                  "priority": 3
+                },
+                "linkedin_url": {
+                  "type": "string",
+                  "priority": 4
+                }
+              }
+            },
+            "enrichment_sequence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "provider": {"type": "string"},
+                  "priority": {"type": "integer"},
+                  "fallback_condition": {"type": "string"},
+                  "data_sources": {"type": "array", "items": {"type": "string"}},
+                  "cost_per_enrichment": {"type": "number"}
+                }
+              },
+              "default": [
+                {
+                  "provider": "Apollo",
+                  "priority": 1,
+                  "fallback_condition": "no_email || no_phone",
+                  "data_sources": ["email", "phone", "job_title", "company"],
+                  "cost_per_enrichment": 0.05
+                },
+                {
+                  "provider": "ZoomInfo",
+                  "priority": 2,
+                  "fallback_condition": "no_direct_phone || no_management_level",
+                  "data_sources": ["direct_phone", "technologies", "revenue"],
+                  "cost_per_enrichment": 0.15
+                },
+                {
+                  "provider": "Clearbit",
+                  "priority": 3,
+                  "fallback_condition": "no_social_profiles || no_company_tech",
+                  "data_sources": ["social_profiles", "company_tech", "funding"],
+                  "cost_per_enrichment": 0.12
+                },
+                {
+                  "provider": "Hunter.io",
+                  "priority": 4,
+                  "fallback_condition": "no_email_verification",
+                  "data_sources": ["email_verification", "email_finder"],
+                  "cost_per_enrichment": 0.03
+                }
+              ]
+            },
+            "data_validation": {
+              "type": "object",
+              "properties": {
+                "cross_source_verification": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Verify data consistency across sources"
+                },
+                "confidence_scoring": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Generate confidence scores for each field"
+                },
+                "duplicate_detection": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Detect and merge duplicate records"
+                }
+              }
+            }
+          }
+        },
+        "company_intelligence_enrichment": {
+          "type": "object",
+          "description": "Multi-source company intelligence gathering",
+          "properties": {
+            "input_fields": {
+              "type": "object",
+              "properties": {
+                "company_domain": {"type": "string", "priority": 1},
+                "company_name": {"type": "string", "priority": 2},
+                "linkedin_company_url": {"type": "string", "priority": 3}
+              }
+            },
+            "enrichment_layers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "layer": {"type": "string"},
+                  "providers": {"type": "array", "items": {"type": "string"}},
+                  "data_types": {"type": "array", "items": {"type": "string"}}
+                }
+              },
+              "default": [
+                {
+                  "layer": "basic_company_data",
+                  "providers": ["Clearbit", "ZoomInfo"],
+                  "data_types": ["company_size", "industry", "location", "founded_year"]
+                },
+                {
+                  "layer": "technology_stack",
+                  "providers": ["Clearbit", "BuiltWith", "Datanyze"],
+                  "data_types": ["technologies", "integrations", "tech_spending"]
+                },
+                {
+                  "layer": "financial_intelligence",
+                  "providers": ["Clearbit", "PitchBook", "Crunchbase"],
+                  "data_types": ["funding", "revenue", "growth_rate", "investors"]
+                },
+                {
+                  "layer": "social_presence",
+                  "providers": ["LinkedIn", "Twitter", "Facebook"],
+                  "data_types": ["social_followers", "engagement_rates", "posting_frequency"]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "clay_enriched_to_halopsa": {
+          "type": "object",
+          "description": "Map Clay enriched data to HaloPSA Lead ticket",
+          "properties": {
+            "basic_fields": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string",
+                  "clay_source": "enriched_first_name + ' ' + enriched_last_name + ' - ' + enriched_company_name",
+                  "description": "HaloPSA ticket summary"
+                },
+                "details": {
+                  "type": "string",
+                  "template": "Lead enriched with Clay.com multi-source validation. Confidence Score: {{confidence_score}}/100. Sources: {{data_sources_used}}",
+                  "description": "HaloPSA ticket details"
+                },
+                "user_name": {
+                  "type": "string",
+                  "clay_source": "best_available(enriched_first_name, apollo_first_name, zoominfo_first_name) + ' ' + best_available(enriched_last_name, apollo_last_name, zoominfo_last_name)"
+                },
+                "reportedby": {
+                  "type": "string",
+                  "clay_source": "best_available(verified_email, apollo_email, zoominfo_email, hunter_email)"
+                },
+                "category_1": {
+                  "type": "string",
+                  "default": "Lead"
+                },
+                "category_2": {
+                  "type": "string",
+                  "default": "Clay"
+                },
+                "status_id": {
+                  "type": "integer",
+                  "default": 1
+                },
+                "priority_id": {
+                  "type": "integer",
+                  "calculation": "confidence_score > 80 ? 2 : 3"
+                }
+              }
+            },
+            "enriched_contact_fields": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "clay_source": "best_available(enriched_first_name, apollo_first_name, zoominfo_first_name)"
+                },
+                "surname": {
+                  "type": "string",
+                  "clay_source": "best_available(enriched_last_name, apollo_last_name, zoominfo_last_name)"
+                },
+                "emailaddress": {
+                  "type": "string",
+                  "clay_source": "best_available(verified_email, apollo_email, zoominfo_email)"
+                },
+                "jobtitle": {
+                  "type": "string",
+                  "clay_source": "best_available(zoominfo_job_title, apollo_title, clearbit_title)"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "clay_source": "best_available(zoominfo_direct_phone, apollo_phone, clearbit_phone)"
+                },
+                "linkedin_url": {
+                  "type": "string",
+                  "clay_source": "best_available(clearbit_linkedin, apollo_linkedin, zoominfo_linkedin)"
+                }
+              }
+            },
+            "enriched_company_fields": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "clay_source": "best_available(clearbit_company_name, zoominfo_company_name, apollo_company_name)"
+                },
+                "website": {
+                  "type": "string",
+                  "clay_source": "normalized_domain"
+                },
+                "phonenumber": {
+                  "type": "string",
+                  "clay_source": "best_available(clearbit_company_phone, zoominfo_company_phone)"
+                },
+                "notes": {
+                  "type": "string",
+                  "template": "Multi-source enrichment: {{data_sources_used}} | Confidence: {{confidence_score}}% | Industry: {{enriched_industry}} | Size: {{enriched_company_size}} | Tech Stack: {{technology_summary}}"
+                }
+              }
+            },
+            "intelligence_custom_fields": {
+              "type": "object",
+              "properties": {
+                "CF_101_lead_source": {
+                  "id": 101,
+                  "value": "Clay Multi-Source"
+                },
+                "CF_102_services_offered": {
+                  "id": 102,
+                  "clay_source": "enriched_industry + ' | ' + technology_summary"
+                },
+                "CF_103_growth_signals": {
+                  "id": 103,
+                  "clay_source": "funding_info + ' | ' + employee_growth + ' | ' + revenue_estimate"
+                },
+                "CF_104_project_pipelines": {
+                  "id": 104,
+                  "clay_source": "technology_stack",
+                  "transformation": "JOIN(', ')"
+                },
+                "CF_105_do_not_contact": {
+                  "id": 105,
+                  "value": false,
+                  "type": "boolean"
+                },
+                "CF_116_data_confidence": {
+                  "id": 116,
+                  "clay_source": "confidence_score + '% (' + data_sources_count + ' sources)'"
+                },
+                "CF_117_enrichment_cost": {
+                  "id": 117,
+                  "clay_source": "total_enrichment_cost",
+                  "format": "$0.00"
+                },
+                "CF_118_technology_stack": {
+                  "id": 118,
+                  "clay_source": "technology_categories",
+                  "transformation": "JOIN(' | ')"
+                }
+              }
+            }
+          }
+        },
+        "data_quality_matrix": {
+          "type": "object",
+          "properties": {
+            "confidence_calculation": {
+              "type": "object",
+              "properties": {
+                "email_verification_weight": {
+                  "type": "integer",
+                  "default": 25,
+                  "condition": "email_deliverable === true"
+                },
+                "phone_verification_weight": {
+                  "type": "integer",
+                  "default": 20,
+                  "condition": "phone_valid === true"
+                },
+                "cross_source_consistency_weight": {
+                  "type": "integer",
+                  "default": 20,
+                  "calculation": "matches_across_sources / total_sources * 20"
+                },
+                "data_freshness_weight": {
+                  "type": "integer",
+                  "default": 15,
+                  "calculation": "days_since_update < 30 ? 15 : days_since_update < 90 ? 10 : 5"
+                },
+                "completeness_weight": {
+                  "type": "integer",
+                  "default": 20,
+                  "calculation": "filled_fields / total_fields * 20"
+                }
+              }
+            },
+            "source_priority_matrix": {
+              "type": "object",
+              "properties": {
+                "email_priority": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["Hunter.io", "ZoomInfo", "Apollo", "Clearbit"]
+                },
+                "phone_priority": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["ZoomInfo", "UpLead", "Apollo", "Clearbit"]
+                },
+                "job_title_priority": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["ZoomInfo", "LinkedIn", "Apollo", "Clearbit"]
+                },
+                "company_data_priority": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["Clearbit", "ZoomInfo", "Apollo"]
+                },
+                "technology_priority": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["Clearbit", "BuiltWith", "ZoomInfo"]
+                },
+                "funding_priority": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": ["Clearbit", "PitchBook", "Crunchbase"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "workflow_automation": {
+      "type": "object",
+      "properties": {
+        "enrichment_triggers": {
+          "type": "object",
+          "properties": {
+            "new_lead_enrichment": {
+              "type": "object",
+              "properties": {
+                "trigger_conditions": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": [
+                    "lead_created === true",
+                    "contact.emailaddress !== null OR client.website !== null",
+                    "customfields.CF_116_data_confidence === null"
+                  ]
+                },
+                "enrichment_budget_per_lead": {
+                  "type": "number",
+                  "default": 0.50,
+                  "description": "Maximum spend per lead enrichment"
+                },
+                "minimum_confidence_threshold": {
+                  "type": "integer",
+                  "default": 70,
+                  "description": "Minimum confidence score to proceed"
+                }
+              }
+            },
+            "scheduled_enrichment_updates": {
+              "type": "object",
+              "properties": {
+                "frequency": {
+                  "type": "string",
+                  "enum": ["weekly", "monthly", "quarterly"],
+                  "default": "monthly"
+                },
+                "update_conditions": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "default": [
+                    "customfields.CF_116_data_confidence < 60",
+                    "lead_status === 'active'",
+                    "last_enrichment > 90_days_ago"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "cost_optimization": {
+          "type": "object",
+          "properties": {
+            "smart_enrichment_routing": {
+              "type": "object",
+              "properties": {
+                "cost_per_credit_thresholds": {
+                  "type": "object",
+                  "properties": {
+                    "apollo": {"type": "number", "default": 0.05},
+                    "zoominfo": {"type": "number", "default": 0.15},
+                    "clearbit": {"type": "number", "default": 0.12},
+                    "hunter": {"type": "number", "default": 0.03}
+                  }
+                },
+                "roi_optimization": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Optimize enrichment path for best ROI"
+                },
+                "budget_caps": {
+                  "type": "object",
+                  "properties": {
+                    "daily_budget": {"type": "number"},
+                    "monthly_budget": {"type": "number"},
+                    "per_lead_maximum": {"type": "number", "default": 1.00}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "integration_settings": {
+      "type": "object",
+      "properties": {
+        "data_processing": {
+          "type": "object",
+          "properties": {
+            "real_time_processing": {
+              "type": "boolean",
+              "default": false,
+              "description": "Process enrichments in real-time vs batch"
+            },
+            "batch_size": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1,
+              "maximum": 1000
+            },
+            "parallel_enrichments": {
+              "type": "integer",
+              "default": 10,
+              "description": "Number of concurrent enrichment requests"
+            }
+          }
+        },
+        "data_governance": {
+          "type": "object",
+          "properties": {
+            "data_retention_policy": {
+              "type": "string",
+              "enum": ["30_days", "90_days", "1_year", "indefinite"],
+              "default": "1_year"
+            },
+            "pii_handling": {
+              "type": "string",
+              "enum": ["mask", "encrypt", "remove"],
+              "default": "encrypt"
+            },
+            "audit_logging": {
+              "type": "boolean",
+              "default": true,
+              "description": "Log all enrichment activities"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "enrichment_waterfall_templates", "field_mappings", "workflow_automation", "integration_settings"]
+}

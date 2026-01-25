@@ -1,0 +1,592 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Apollo.io API Configuration - Enhanced B2B Integration",
+  "description": "Comprehensive configuration schema for Apollo.io integration with enhanced custom fields and bi-directional sync",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "type": "string",
+          "description": "Apollo.io API key with enhanced permissions"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 100
+            },
+            "requests_per_day": {
+              "type": "integer", 
+              "default": 10000
+            },
+            "burst_limit": {
+              "type": "integer",
+              "default": 10,
+              "description": "Maximum concurrent requests"
+            }
+          }
+        }
+      },
+      "required": ["api_key"]
+    },
+    "webhook_config": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your endpoint to receive Apollo webhooks"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "person_discovered",
+              "person_enriched",
+              "contact_created", 
+              "email_opened",
+              "email_clicked",
+              "email_replied",
+              "engagement_updated",
+              "intent_signals_detected",
+              "company_funding_event"
+            ]
+          }
+        },
+        "secret": {
+          "type": "string",
+          "description": "Webhook signature secret"
+        },
+        "retry_config": {
+          "type": "object",
+          "properties": {
+            "max_retries": {"type": "integer", "default": 3},
+            "retry_delay": {"type": "integer", "default": 5}
+          }
+        }
+      }
+    },
+    "data_enrichment": {
+      "type": "object",
+      "properties": {
+        "enrich_companies": {
+          "type": "boolean",
+          "default": true
+        },
+        "enrich_contacts": {
+          "type": "boolean", 
+          "default": true
+        },
+        "include_technologies": {
+          "type": "boolean",
+          "default": true
+        },
+        "include_funding_data": {
+          "type": "boolean",
+          "default": true
+        },
+        "include_intent_data": {
+          "type": "boolean",
+          "default": true
+        },
+        "confidence_threshold": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 70,
+          "description": "Minimum confidence score for accepting enriched data"
+        }
+      }
+    },
+    "halopsa_field_mapping": {
+      "type": "object",
+      "description": "Mapping Apollo.io data to HaloPSA custom fields",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "CF_101_source_platform": {"const": "Apollo.io"},
+            "CF_102_confidence_score": {
+              "type": "string",
+              "description": "Maps to Apollo person confidence_score"
+            },
+            "CF_103_company_size": {
+              "type": "string", 
+              "description": "Maps to estimated_num_employees"
+            },
+            "CF_104_industry": {
+              "type": "string",
+              "description": "Maps to organization.industry"
+            },
+            "CF_106_contact_seniority": {
+              "type": "string",
+              "description": "Maps to person.seniority"
+            },
+            "CF_107_technologies_used": {
+              "type": "string",
+              "description": "Maps to organization.technologies (JSON string)"
+            },
+            "CF_108_funding_status": {
+              "type": "string",
+              "description": "Maps to latest funding event"
+            },
+            "CF_109_intent_strength": {
+              "type": "string", 
+              "description": "Maps to buyer intent signals"
+            },
+            "CF_110_lead_fit_score": {
+              "type": "integer",
+              "description": "Calculated lead fit score"
+            },
+            "CF_111_engagement_score": {
+              "type": "integer",
+              "description": "Apollo engagement metrics"
+            },
+            "CF_112_data_freshness": {
+              "type": "string",
+              "description": "Last verification date"
+            },
+            "CF_113_contact_reachability": {
+              "type": "string",
+              "description": "Phone/email verification status"
+            }
+          }
+        }
+      }
+    },
+    "search_preferences": {
+      "type": "object",
+      "properties": {
+        "default_filters": {
+          "type": "object",
+          "properties": {
+            "person_titles": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": ["Director", "VP", "Manager", "Head of", "Chief"]
+            },
+            "company_size_min": {"type": "integer", "default": 50},
+            "company_size_max": {"type": "integer", "default": 10000},
+            "excluded_industries": {
+              "type": "array", 
+              "items": {"type": "string"},
+              "default": ["Non-Profit", "Government", "Education"]
+            },
+            "geographic_restrictions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": ["US", "CA", "UK", "AU"]
+            }
+          }
+        },
+        "intent_keywords": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Keywords for buyer intent detection"
+        }
+      }
+    },
+    "bi_directional_sync": {
+      "type": "object",
+      "properties": {
+        "enable_dnc_sync": {
+          "type": "boolean",
+          "default": true,
+          "description": "Sync Do Not Contact flags back to Apollo"
+        },
+        "enable_engagement_feedback": {
+          "type": "boolean", 
+          "default": true,
+          "description": "Send engagement data back to Apollo"
+        },
+        "enable_data_corrections": {
+          "type": "boolean",
+          "default": true,
+          "description": "Send corrected contact data back to Apollo"
+        },
+        "feedback_endpoints": {
+          "type": "object",
+          "properties": {
+            "dnc_endpoint": {"type": "string"},
+            "engagement_endpoint": {"type": "string"},
+            "corrections_endpoint": {"type": "string"}
+          }
+        }
+      }
+    },
+    "error_handling": {
+      "type": "object",
+      "properties": {
+        "log_level": {
+          "type": "string",
+          "enum": ["DEBUG", "INFO", "WARNING", "ERROR"],
+          "default": "INFO"
+        },
+        "error_notification_webhook": {"type": "string"},
+        "max_consecutive_failures": {"type": "integer", "default": 5}
+      }
+    }
+  },
+  },
+  "required": ["authentication", "halopsa_field_mapping"]
+}
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/mixed_people/search"
+                },
+                "headers": {
+                  "type": "object",
+                  "properties": {
+                    "Content-Type": {
+                      "type": "string",
+                      "default": "application/json"
+                    },
+                    "Cache-Control": {
+                      "type": "string",
+                      "default": "no-cache"
+                    }
+                  }
+                }
+              }
+            },
+            "search_organizations": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": ["POST"],
+                  "default": "POST"
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/mixed_companies/search"
+                },
+                "headers": {
+                  "type": "object",
+                  "properties": {
+                    "Content-Type": {
+                      "type": "string",
+                      "default": "application/json"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["base_url", "authentication", "endpoints"]
+    },
+    "query_templates": {
+      "type": "object",
+      "properties": {
+        "search_by_domain": {
+          "type": "object",
+          "properties": {
+            "q_organization_domains": {
+              "type": "string",
+              "description": "Company domain to search for"
+            },
+            "page": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            },
+            "per_page": {
+              "type": "integer",
+              "default": 25,
+              "minimum": 1,
+              "maximum": 200
+            },
+            "person_titles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Job titles to filter by"
+            },
+            "person_seniorities": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["senior", "director", "vp", "c_level", "manager"]
+              }
+            }
+          },
+          "required": ["q_organization_domains"]
+        },
+        "search_by_company": {
+          "type": "object",
+          "properties": {
+            "organization_names": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "organization_num_employees_ranges": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["1,10", "11,50", "51,200", "201,1000", "1001,5000", "5001,10000", "10001,"]
+              }
+            },
+            "organization_locations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "page": {
+              "type": "integer",
+              "default": 1
+            },
+            "per_page": {
+              "type": "integer",
+              "default": 25
+            }
+          }
+        },
+        "search_by_technology": {
+          "type": "object",
+          "properties": {
+            "organization_technologies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Technology stack to filter by (e.g., Salesforce, HubSpot)"
+            },
+            "person_departments": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["engineering", "sales", "marketing", "operations", "finance", "hr"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "person_to_halopsa_lead": {
+          "type": "object",
+          "properties": {
+            "person_name": {
+              "type": "string",
+              "apollo_field": "first_name + ' ' + last_name"
+            },
+            "job_title": {
+              "type": "string",
+              "apollo_field": "title"
+            },
+            "email": {
+              "type": "string",
+              "apollo_field": "email"
+            },
+            "phone_numbers": {
+              "type": "array",
+              "apollo_field": "phone_numbers[0].sanitized_number"
+            },
+            "company_name": {
+              "type": "string",
+              "apollo_field": "organization.name"
+            },
+            "website": {
+              "type": "string",
+              "apollo_field": "organization.website_url"
+            },
+            "industry": {
+              "type": "string",
+              "apollo_field": "organization.industry"
+            },
+            "headcount": {
+              "type": "integer",
+              "apollo_field": "organization.estimated_num_employees"
+            },
+            "lead_source": {
+              "type": "string",
+              "default_value": "apollo_io"
+            },
+            "services_offered": {
+              "type": "string",
+              "apollo_field": "organization.business_description"
+            },
+            "growth_signals": {
+              "type": "string",
+              "apollo_field": "organization.annual_revenue",
+              "transformation": "revenue_to_growth_signal"
+            },
+            "initial_notes": {
+              "type": "string",
+              "template": "Lead imported from Apollo.io on {{current_date}}\\nCompany: {{organization.name}}\\nIndustry: {{organization.industry}}\\nEmployees: {{organization.estimated_num_employees}}"
+            },
+            "status": {
+              "type": "string",
+              "default_value": "new_lead"
+            }
+          }
+        },
+        "organization_to_halopsa_org": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "apollo_field": "name"
+            },
+            "website": {
+              "type": "string",
+              "apollo_field": "website_url",
+              "transformation": "normalize_url"
+            },
+            "phonenumber": {
+              "type": "string",
+              "apollo_field": "phone"
+            },
+            "industry": {
+              "type": "string",
+              "apollo_field": "industry"
+            },
+            "employee_count": {
+              "type": "integer",
+              "apollo_field": "estimated_num_employees"
+            },
+            "address": {
+              "type": "string",
+              "apollo_field": "street_address"
+            },
+            "city": {
+              "type": "string",
+              "apollo_field": "city"
+            },
+            "county": {
+              "type": "string",
+              "apollo_field": "state"
+            },
+            "postcode": {
+              "type": "string",
+              "apollo_field": "postal_code"
+            },
+            "country": {
+              "type": "string",
+              "apollo_field": "country"
+            }
+          }
+        }
+      }
+    },
+    "workflow_configuration": {
+      "type": "object",
+      "properties": {
+        "entity_progression": {
+          "type": "object",
+          "properties": {
+            "apollo_to_lead": {
+              "type": "object",
+              "properties": {
+                "trigger": {
+                  "type": "string",
+                  "default": "apollo_person_import"
+                },
+                "target_entity": {
+                  "type": "string",
+                  "default": "lead"
+                },
+                "status": {
+                  "type": "string",
+                  "default": "new_lead"
+                },
+                "custom_fields": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "id": 101,
+                      "name": "CF_101_lead_source",
+                      "value": "apollo_io"
+                    },
+                    {
+                      "id": 102,
+                      "name": "CF_102_services_offered",
+                      "apollo_source": "organization.business_description"
+                    },
+                    {
+                      "id": 103,
+                      "name": "CF_103_growth_signals", 
+                      "apollo_source": "organization.funding_events"
+                    }
+                  ]
+                }
+              }
+            },
+            "lead_to_prospect_rules": {
+              "type": "object",
+              "properties": {
+                "auto_convert_conditions": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "condition": "status == 'engaged'",
+                      "action": "convert_to_prospect"
+                    }
+                  ]
+                },
+                "required_qualification_fields": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "prospect_to_opportunity_rules": {
+              "type": "object",
+              "properties": {
+                "auto_convert_conditions": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "condition": "status == 'qualified' && fit_score >= 70",
+                      "action": "promote_to_opportunity"
+                    }
+                  ]
+                },
+                "required_fields": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "status_mapping": {
+          "type": "object",
+          "properties": {
+            "apollo_engagement_to_lead_status": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-zA-Z_]+$": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["api_config", "query_templates", "field_mappings"]
+}
