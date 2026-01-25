@@ -1,0 +1,45 @@
+title: HaloPSA CRM Custom Integration
+description: Comprehensive documentation for integrating B2B data sourcing tools with HaloPSA CRM
+url: https://sjackson0109.github.io
+baseurl: /halopsa-crm-b2b-integration
+
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  enable_coderay: false
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+
+include:
+  - _pages
+
+collections:
+  docs:
+    output: true
+    permalink: /:name/
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: "*.md"
+    values:
+      layout: page
