@@ -1,0 +1,103 @@
+---
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐛 Bug Report
+
+        Thanks for taking the time to report a bug! Please fill out the information below to help us investigate and fix the issue.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+      placeholder: "What happened? What did you expect to happen?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: integration
+    attributes:
+      label: Integration Type
+      description: Which B2B data source or integration method is affected?
+      options:
+        - Apollo.io
+        - ZoomInfo
+        - Hunter.io
+        - Lusha
+        - Seamless.ai
+        - Lead411
+        - RocketReach
+        - UpLead
+        - BookYourData/LeadsBlue
+        - HaloPSA API
+        - Webhooks
+        - Middleware
+        - Runbooks
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: Where did this issue occur?
+      options:
+        - Production
+        - Staging/Test
+        - Development/Local
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs/Error Messages
+      description: If applicable, add error logs, API responses, or console output.
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here (screenshots, API calls, configuration, etc.).
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please check all that apply
+      options:
+        - label: I have checked the [documentation](https://sjackson0109.github.io/halopsa-crm-b2b-integration/) for this issue
+        - label: I have searched existing issues for duplicates
+        - label: I have included all relevant information
+        - label: I am using the latest version

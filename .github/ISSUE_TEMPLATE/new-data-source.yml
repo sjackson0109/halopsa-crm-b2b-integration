@@ -1,0 +1,159 @@
+---
+name: New Data Source Configuration
+description: Propose a new B2B data source integration
+title: "[DATASOURCE] "
+labels: ["enhancement", "data-source", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🆕 New Data Source Configuration
+
+        Want to add support for a new B2B data source? We'd love to help! This template will help us understand the data source and plan the integration.
+
+  - type: textarea
+    id: datasource
+    attributes:
+      label: Data Source Name & Description
+      description: Tell us about the B2B data source you want to integrate.
+      placeholder: |
+        **Name:** [Full name of the service]
+
+        **Website:** [URL]
+
+        **Description:** [What does this service do? What data does it provide?]
+
+        **Pricing:** [Free, Freemium, Paid - include rough pricing if known]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Data Source Category
+      description: What type of B2B data does this source provide?
+      options:
+        - Contact Enrichment
+        - Lead Generation
+        - Company Intelligence
+        - Email Verification
+        - Social Media Data
+        - Job Title/Role Data
+        - Technology Stack Detection
+        - Intent Data/Signals
+        - News/Press Release Data
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: capabilities
+    attributes:
+      label: API Capabilities
+      description: What does this data source's API support?
+      options:
+        - label: REST API
+        - label: Webhooks
+        - label: Bulk Data Export
+        - label: Real-time Updates
+        - label: Search/Filtering
+        - label: Rate Limiting Information Available
+        - label: OAuth Authentication
+        - label: API Key Authentication
+        - label: Comprehensive Documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: data_fields
+    attributes:
+      label: Key Data Fields
+      description: What are the main data fields this source provides?
+      placeholder: |
+        List the key data fields available:
+
+        - Personal: name, email, phone, job_title, etc.
+        - Company: company_name, website, industry, size, etc.
+        - Social: linkedin_url, twitter_handle, etc.
+        - Other: technologies_used, funding_info, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: mapping
+    attributes:
+      label: HaloPSA Field Mapping
+      description: How would this data map to HaloPSA entities?
+      placeholder: |
+        Suggest how data would map to HaloPSA:
+
+        **Lead Fields:**
+        - [Data Source Field] → [HaloPSA Lead Field]
+
+        **Prospect Fields:**
+        - [Data Source Field] → [HaloPSA Prospect Field]
+
+        **Custom Fields Needed:**
+        - Any custom fields that might be required?
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use Case & Value
+      description: Why would this integration be valuable?
+      placeholder: "What problems does this solve? Who would benefit?"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Integration Complexity
+      description: How complex do you think this integration would be?
+      options:
+        - Low - Standard REST API, similar to existing integrations
+        - Medium - Some custom handling required
+        - High - Complex authentication or data structures
+        - Very High - Significant custom development needed
+    validations:
+      required: true
+
+  - type: textarea
+    id: existing_config
+    attributes:
+      label: Existing Configuration
+      description: Do you have any existing configuration or code for this data source?
+      placeholder: "Share any API documentation links, existing code, or configuration examples..."
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution Interest
+      description: Are you interested in contributing to this integration?
+      options:
+        - label: I can provide API documentation and examples
+        - label: I can help with configuration schema creation
+        - label: I can help with field mapping
+        - label: I can help test the integration
+        - label: I can contribute code for the integration
+        - label: I just want to request this feature
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Any other relevant information or requirements?
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please check all that apply
+      options:
+        - label: I have checked that this data source isn't already supported
+        - label: This data source has a public API
+        - label: The data source provides B2B/business data
+        - label: I have included all relevant information

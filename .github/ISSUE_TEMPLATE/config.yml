@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://sjackson0109.github.io/halopsa-crm-b2b-integration/
+    about: Check our comprehensive documentation first
+  - name: 💬 Community Discussions
+    url: https://github.com/sjackson0109/halopsa-crm-b2b-integration/discussions
+    about: Ask questions and join community discussions
+  - name: 🐛 Report Security Issues
+    url: https://github.com/sjackson0109/halopsa-crm-b2b-integration/security/advisories/new
+    about: Report security vulnerabilities privately

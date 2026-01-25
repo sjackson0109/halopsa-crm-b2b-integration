@@ -1,0 +1,123 @@
+---
+name: Support Request
+description: Get help with configuration, setup, or general questions
+title: "[SUPPORT] "
+labels: ["question", "support"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ❓ Support Request
+
+        Need help with setup, configuration, or have questions? We're here to help!
+
+        **Before submitting:**
+        - Check the [documentation](https://sjackson0109.github.io/halopsa-crm-b2b-integration/)
+        - Search existing issues for similar questions
+        - Include as much detail as possible
+
+  - type: textarea
+    id: question
+    attributes:
+      label: What do you need help with?
+      description: Describe your question or the issue you're facing.
+      placeholder: "What are you trying to accomplish? What's not working?"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Support Category
+      description: What type of help do you need?
+      options:
+        - Setup/Installation
+        - Configuration
+        - API Integration
+        - Authentication
+        - Data Mapping
+        - Webhooks
+        - Middleware
+        - Runbooks
+        - Troubleshooting
+        - Documentation
+        - General Question
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: integration
+    attributes:
+      label: Integration Type
+      description: Which B2B data source or component are you working with?
+      options:
+        - Apollo.io
+        - ZoomInfo
+        - Hunter.io
+        - Lusha
+        - Seamless.ai
+        - Lead411
+        - RocketReach
+        - UpLead
+        - BookYourData/LeadsBlue
+        - HaloPSA API
+        - Webhooks
+        - Middleware
+        - Runbooks
+        - Documentation
+        - General/Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Tell us about your setup.
+      placeholder: |
+        - Operating System: (e.g., Windows 10, Ubuntu 20.04)
+        - Node.js/Python version: (if applicable)
+        - HaloPSA version: (if known)
+        - Integration method: (API, webhooks, middleware, etc.)
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps Taken
+      description: What have you tried so far?
+      placeholder: "Describe the steps you've taken and what happened..."
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration/Code
+      description: Share relevant configuration, code snippets, or API calls (remove sensitive data).
+      render: json
+
+  - type: textarea
+    id: errors
+    attributes:
+      label: Error Messages/Logs
+      description: Any error messages, logs, or API responses you're seeing.
+      render: shell
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs Actual Behavior
+      description: What did you expect to happen vs what actually happened?
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please check all that apply
+      options:
+        - label: I have read the [documentation](https://sjackson0109.github.io/halopsa-crm-b2b-integration/)
+        - label: I have searched existing issues for similar questions
+        - label: I have included all relevant information
+        - label: I have removed sensitive information from my submission
