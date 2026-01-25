@@ -1,0 +1,38 @@
+name: Enforce PR for Main Branch
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for direct commits to main
+        run: |
+          # Get the commit author and check if it's a merge commit
+          COMMIT_AUTHOR="$(git log -1 --pretty=format:'%an')"
+          COMMIT_MESSAGE="$(git log -1 --pretty=format:'%s')"
+          IS_MERGE="$(git log -1 --pretty=format:'%p' | wc -w)"
+
+          echo "Commit by: $COMMIT_AUTHOR"
+          echo "Commit message: $COMMIT_MESSAGE"
+          echo "Is merge commit: $IS_MERGE"
+
+          # Allow merge commits (from PRs) and automated commits
+          if [ "$IS_MERGE" -gt 1 ] || [[ "$COMMIT_AUTHOR" == *"GitHub"* ]] || [[ "$COMMIT_MESSAGE" == *"Merge"* ]]; then
+            echo "✅ This appears to be a valid merge commit or automated commit"
+            exit 0
+          else
+            echo "❌ Direct commit to main branch detected!"
+            echo ""
+            echo "🔄 Please use Pull Requests for all changes to main branch:"
+            echo "   1. Create a feature branch: git checkout -b feature/your-feature"
+            echo "   2. Make your changes and commit them"
+            echo "   3. Push your branch: git push origin feature/your-feature"
+            echo "   4. Create a Pull Request on GitHub"
+            echo ""
+            echo "📖 See CONTRIBUTING.md for detailed guidelines"
+            exit 1
+          fi
+        shell: bash
