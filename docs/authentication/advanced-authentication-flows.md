@@ -37,13 +37,25 @@ flowchart TD
         P1["Apollo.io → API Key"]
         P2["ZoomInfo → API Key"]
         P3["UpLead → API Key"]
-        P4["Outreach.io → OAuth2"]
-        P5["LinkedIn → OAuth2"]
-        P6["Clearbit → API Key"]
-        P7["Clay.com → API Key"]
-        P8["Lusha → API Key"]
-        P9["Seamless.ai → API Key"]
-        P10["ConnectWise → API Key + OAuth2"]
+        P4["Hunter → API Key"]
+        P5["Lusha → API Key"]
+        P6["Seamless.ai → API Key"]
+        P7["Lead411 → API Key"]
+        P8["RocketReach → API Key"]
+        P9["BookYourData → API Key"]
+        P10["Crayon → API Key"]
+        P11["Klue → API Key"]
+        P12["MadKudu → API Key"]
+        P13["LeadIQ → API Key"]
+        P14["HG Data → API Key"]
+        P15["DiscoverOrg → API Key"]
+        P16["Bombora → API Key"]
+        P17["EverString → API Key"]
+        P18["Outreach.io → OAuth2"]
+        P19["LinkedIn → OAuth2"]
+        P20["Clearbit → API Key"]
+        P21["Clay.com → API Key"]
+        P22["ConnectWise → API Key + OAuth2"]
     end
     
     SECURITY --> PROVIDERS
@@ -715,6 +727,626 @@ class ConnectWiseAuth {
 }
 ```
 
+### 9. UpLead API Key Authentication
+
+#### Configuration
+```json
+{
+  "uplead_auth": {
+    "method": "api_key",
+    "api_key": "${UPLEAD_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.uplead.com/v2"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class UpLeadAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.uplead.com/v2';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async searchContacts(params) {
+    const response = await fetch(`${this.baseURL}/search`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(params)
+    });
+
+    if (response.status === 401) {
+      throw new Error('UpLead API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 10. Hunter API Key Authentication
+
+#### Configuration
+```json
+{
+  "hunter_auth": {
+    "method": "api_key",
+    "api_key": "${HUNTER_API_KEY}",
+    "base_url": "https://api.hunter.io/v2"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class HunterAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.hunter.io/v2';
+  }
+
+  async verifyEmail(email) {
+    const response = await fetch(`${this.baseURL}/email-verifier?email=${encodeURIComponent(email)}&api_key=${this.apiKey}`);
+
+    if (response.status === 401) {
+      throw new Error('Hunter API key invalid');
+    }
+
+    return response.json();
+  }
+
+  async findEmails(domain) {
+    const response = await fetch(`${this.baseURL}/domain-search?domain=${encodeURIComponent(domain)}&api_key=${this.apiKey}`);
+
+    if (response.status === 401) {
+      throw new Error('Hunter API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 11. Seamless.ai API Key Authentication
+
+#### Configuration
+```json
+{
+  "seamless_auth": {
+    "method": "api_key",
+    "api_key": "${SEAMLESS_API_KEY}",
+    "header_name": "Authorization",
+    "base_url": "https://api.seamless.ai"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class SeamlessAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.seamless.ai';
+  }
+
+  getHeaders() {
+    return {
+      'Authorization': `Bearer ${this.apiKey}`,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async searchContacts(query) {
+    const response = await fetch(`${this.baseURL}/search/contacts`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ query })
+    });
+
+    if (response.status === 401) {
+      throw new Error('Seamless.ai API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 12. Lead411 API Key Authentication
+
+#### Configuration
+```json
+{
+  "lead411_auth": {
+    "method": "api_key",
+    "api_key": "${LEAD411_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.lead411.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class Lead411Auth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.lead411.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async searchLeads(params) {
+    const response = await fetch(`${this.baseURL}/search`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(params)
+    });
+
+    if (response.status === 401) {
+      throw new Error('Lead411 API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 13. RocketReach API Key Authentication
+
+#### Configuration
+```json
+{
+  "rocketreach_auth": {
+    "method": "api_key",
+    "api_key": "${ROCKETREACH_API_KEY}",
+    "header_name": "Api-Key",
+    "base_url": "https://api.rocketreach.co/v2"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class RocketReachAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.rocketreach.co/v2';
+  }
+
+  getHeaders() {
+    return {
+      'Api-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async lookupProfile(params) {
+    const response = await fetch(`${this.baseURL}/api/lookupProfile`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(params)
+    });
+
+    if (response.status === 401) {
+      throw new Error('RocketReach API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 14. BookYourData/LeadsBlue API Key Authentication
+
+#### Configuration
+```json
+{
+  "bookyourdata_auth": {
+    "method": "api_key",
+    "api_key": "${BOOKYOURDATA_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.bookyourdata.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class BookYourDataAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.bookyourdata.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async searchLeads(params) {
+    const response = await fetch(`${this.baseURL}/search`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(params)
+    });
+
+    if (response.status === 401) {
+      throw new Error('BookYourData API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 15. Crayon API Key Authentication
+
+#### Configuration
+```json
+{
+  "crayon_auth": {
+    "method": "api_key",
+    "api_key": "${CRAYON_API_KEY}",
+    "header_name": "Authorization",
+    "base_url": "https://api.crayon.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class CrayonAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.crayon.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'Authorization': `Bearer ${this.apiKey}`,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async getIntentSignals(companyId) {
+    const response = await fetch(`${this.baseURL}/companies/${companyId}/intent`, {
+      headers: this.getHeaders()
+    });
+
+    if (response.status === 401) {
+      throw new Error('Crayon API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 16. Klue API Key Authentication
+
+#### Configuration
+```json
+{
+  "klue_auth": {
+    "method": "api_key",
+    "api_key": "${KLUE_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.klue.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class KlueAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.klue.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async getConversations(companyDomain) {
+    const response = await fetch(`${this.baseURL}/conversations?domain=${encodeURIComponent(companyDomain)}`, {
+      headers: this.getHeaders()
+    });
+
+    if (response.status === 401) {
+      throw new Error('Klue API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 17. MadKudu API Key Authentication
+
+#### Configuration
+```json
+{
+  "madkudu_auth": {
+    "method": "api_key",
+    "api_key": "${MADKUDU_API_KEY}",
+    "header_name": "Authorization",
+    "base_url": "https://api.madkudu.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class MadKuduAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.madkudu.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'Authorization': `Bearer ${this.apiKey}`,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async scoreLead(params) {
+    const response = await fetch(`${this.baseURL}/person`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(params)
+    });
+
+    if (response.status === 401) {
+      throw new Error('MadKudu API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 18. LeadIQ API Key Authentication
+
+#### Configuration
+```json
+{
+  "leadiq_auth": {
+    "method": "api_key",
+    "api_key": "${LEADIQ_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.leadiq.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class LeadIQAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.leadiq.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async enrichContact(params) {
+    const response = await fetch(`${this.baseURL}/enrich`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(params)
+    });
+
+    if (response.status === 401) {
+      throw new Error('LeadIQ API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 19. HG Data API Key Authentication
+
+#### Configuration
+```json
+{
+  "hgdata_auth": {
+    "method": "api_key",
+    "api_key": "${HCDATA_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.hgdata.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class HGDataAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.hgdata.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async searchContacts(params) {
+    const response = await fetch(`${this.baseURL}/search`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(params)
+    });
+
+    if (response.status === 401) {
+      throw new Error('HG Data API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 20. DiscoverOrg API Key Authentication
+
+#### Configuration
+```json
+{
+  "discoverorg_auth": {
+    "method": "api_key",
+    "api_key": "${DISCOVERORG_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.discoverorg.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class DiscoverOrgAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.discoverorg.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async getTechnographics(companyId) {
+    const response = await fetch(`${this.baseURL}/companies/${companyId}/technographics`, {
+      headers: this.getHeaders()
+    });
+
+    if (response.status === 401) {
+      throw new Error('DiscoverOrg API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 21. Bombora API Key Authentication
+
+#### Configuration
+```json
+{
+  "bombora_auth": {
+    "method": "api_key",
+    "api_key": "${BOMBORA_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.bombora.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class BomboraAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.bombora.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async getIntentData(companyDomain) {
+    const response = await fetch(`${this.baseURL}/companies/${encodeURIComponent(companyDomain)}/intent`, {
+      headers: this.getHeaders()
+    });
+
+    if (response.status === 401) {
+      throw new Error('Bombora API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
+### 22. EverString API Key Authentication
+
+#### Configuration
+```json
+{
+  "everstring_auth": {
+    "method": "api_key",
+    "api_key": "${EVERSTRING_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.everstring.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class EverStringAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.everstring.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async predictIntent(params) {
+    const response = await fetch(`${this.baseURL}/predict`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(params)
+    });
+
+    if (response.status === 401) {
+      throw new Error('EverString API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
 ## Security Best Practices
 
 ### 1. Environment Variable Management
@@ -723,6 +1355,20 @@ class ConnectWiseAuth {
 APOLLO_API_KEY=your_apollo_key_here
 ZOOMINFO_USERNAME=your_zoominfo_username
 ZOOMINFO_PASSWORD=your_zoominfo_password
+UPLEAD_API_KEY=your_uplead_key_here
+HUNTER_API_KEY=your_hunter_key_here
+SEAMLESS_API_KEY=your_seamless_api_key
+LEAD411_API_KEY=your_lead411_key_here
+ROCKETREACH_API_KEY=your_rocketreach_key_here
+BOOKYOURDATA_API_KEY=your_bookyourdata_key_here
+CRAYON_API_KEY=your_crayon_key_here
+KLUE_API_KEY=your_klue_key_here
+MADKUDU_API_KEY=your_madkudu_key_here
+LEADIQ_API_KEY=your_leadiq_key_here
+HCDATA_API_KEY=your_hgdata_key_here
+DISCOVERORG_API_KEY=your_discoverorg_key_here
+BOMBORA_API_KEY=your_bombora_key_here
+EVERSTRING_API_KEY=your_everstring_key_here
 OUTREACH_CLIENT_ID=your_outreach_client_id
 OUTREACH_CLIENT_SECRET=your_outreach_client_secret
 LINKEDIN_CLIENT_ID=your_linkedin_client_id
@@ -730,7 +1376,6 @@ LINKEDIN_CLIENT_SECRET=your_linkedin_client_secret
 CLEARBIT_API_KEY=sk_your_clearbit_key
 CLAY_API_KEY=your_clay_bearer_token
 LUSHA_API_KEY=your_lusha_api_key
-SEAMLESS_API_KEY=your_seamless_api_key
 CONNECTWISE_COMPANY_ID=your_company_id
 CONNECTWISE_PUBLIC_KEY=your_public_key
 CONNECTWISE_PRIVATE_KEY=your_private_key
