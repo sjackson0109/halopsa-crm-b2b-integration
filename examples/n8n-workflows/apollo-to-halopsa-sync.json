@@ -1,5 +1,5 @@
 {
-  "name": "Apollo to HaloPSA Sync",
+  "name": "Apollo.io to HaloPSA Sync",
   "nodes": [
     {
       "parameters": {
@@ -12,7 +12,7 @@
           ]
         }
       },
-      "name": "Schedule Every 15 Minutes",
+      "name": "Schedule Trigger",
       "type": "n8n-nodes-base.cron",
       "typeVersion": 1,
       "position": [
@@ -24,267 +24,88 @@
       "parameters": {
         "method": "POST",
         "url": "https://api.apollo.io/v1/mixed_people/search",
-        "authentication": "headerAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Cache-Control",
-              "value": "no-cache"
-            }
-          ]
+        "headers": {
+          "Cache-Control": "no-cache",
+          "Content-Type": "application/json",
+          "X-Api-Key": "={{$env.APOLLO_API_KEY}}"
         },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "q_organization_domains",
-              "value": "={{ $node[\"Get Target Domains\"].json[\"domains\"] }}"
-            },
-            {
-              "name": "page",
-              "value": "1"
-            },
-            {
-              "name": "per_page",
-              "value": "25"
-            },
-            {
-              "name": "person_titles",
-              "value": [
-                "CEO",
-                "CTO", 
-                "VP",
-                "Director",
-                "Manager"
-              ]
-            },
-            {
-              "name": "person_seniorities",
-              "value": [
-                "senior",
-                "director", 
-                "vp",
-                "c_level"
-              ]
-            }
-          ]
-        },
-        "options": {}
-      },
-      "name": "Search Apollo People",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 2,
-      "position": [
-        660,
-        300
-      ],
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "apollo_api_key",
-          "name": "Apollo API Key"
+        "body": {
+          "q_organization_domains": "target-domain.com",
+          "page": 1,
+          "per_page": 25
         }
-      }
-    },
-    {
-      "parameters": {
-        "functionCode": "// Transform Apollo data to HaloPSA format\nconst apolloData = items[0].json;\nconst transformedContacts = [];\n\nif (apolloData.people) {\n  for (const person of apolloData.people) {\n    // Check data quality before processing\n    const emailValid = person.email && person.email.includes('@');\n    const hasName = person.first_name || person.last_name;\n    \n    if (emailValid && hasName) {\n      const contact = {\n        // Basic contact information\n        firstname: person.first_name || '',\n        surname: person.last_name || '',\n        name: `${person.first_name || ''} ${person.last_name || ''}`.trim(),\n        emailaddress: person.email,\n        jobtitle: person.title || '',\n        \n        // Phone number processing\n        phonenumber: person.phone_numbers && person.phone_numbers.length > 0 \n          ? person.phone_numbers[0].sanitized_number \n          : '',\n        \n        // Social media\n        linkedin_url: person.linkedin_url || '',\n        \n        // Organization information\n        organisation_name: person.organization ? person.organization.name : '',\n        \n        // Notes with source information\n        notes: `Imported from Apollo.io on ${new Date().toISOString()}\\n` +\n               `Organization: ${person.organization?.name || 'Unknown'}\\n` +\n               `Industry: ${person.organization?.industry || 'Unknown'}`,\n        \n        // Custom fields for Apollo data\n        customfields: [\n          {\n            id: 100, // Apollo ID custom field\n            value: person.id\n          },\n          {\n            id: 102, // Data source custom field\n            value: 'Apollo.io'\n          },\n          {\n            id: 103, // Enrichment date\n            value: new Date().toISOString()\n          },\n          {\n            id: 104, // Data quality score\n            value: calculateQualityScore(person).toString()\n          }\n        ],\n        \n        // Apollo-specific metadata\n        apollo_id: person.id,\n        apollo_confidence: person.confidence || 0,\n        organization_id: person.organization ? person.organization.id : null\n      };\n      \n      transformedContacts.push(contact);\n    }\n  }\n}\n\n// Function to calculate data quality score\nfunction calculateQualityScore(person) {\n  let score = 0;\n  \n  // Email (30 points)\n  if (person.email && person.email.includes('@')) score += 30;\n  \n  // Phone (20 points)\n  if (person.phone_numbers && person.phone_numbers.length > 0) score += 20;\n  \n  // Complete name (25 points)\n  if (person.first_name && person.last_name) score += 25;\n  \n  // Job title (15 points)\n  if (person.title) score += 15;\n  \n  // LinkedIn (10 points)\n  if (person.linkedin_url) score += 10;\n  \n  return Math.min(score, 100);\n}\n\n// Log transformation results\nconsole.log(`Transformed ${transformedContacts.length} contacts from Apollo`);\n\nreturn transformedContacts.map(contact => ({ json: contact }));"
       },
-      "name": "Transform Apollo to HaloPSA",
-      "type": "n8n-nodes-base.function",
+      "name": "Apollo.io",
+      "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 1,
       "position": [
-        880,
+        460,
         300
       ]
     },
     {
       "parameters": {
-        "functionCode": "// Check for duplicates and prepare for HaloPSA import\nconst contacts = items.map(item => item.json);\nconst processedContacts = [];\n\nfor (const contact of contacts) {\n  // Skip if essential data is missing\n  if (!contact.emailaddress || (!contact.firstname && !contact.surname)) {\n    console.log(`Skipping contact due to missing essential data: ${contact.emailaddress}`);\n    continue;\n  }\n  \n  // Add deduplication key for HaloPSA\n  contact.dedup_key = contact.emailaddress.toLowerCase();\n  \n  // Ensure organization is handled\n  if (contact.organisation_name && !contact.organisation_id) {\n    contact.create_organization = true;\n  }\n  \n  processedContacts.push(contact);\n}\n\nconsole.log(`Processing ${processedContacts.length} contacts for HaloPSA import`);\n\nreturn processedContacts.map(contact => ({ json: contact }));"
+        "functionCode": "const transformedContacts = items.map(item => {\n  const person = item.json.person;\n  return {\n    firstname: person.first_name,\n    surname: person.last_name,\n    emailaddress: person.email,\n    jobtitle: person.title,\n    phonenumber: person.phone_numbers?.[0]?.sanitized_number,\n    organisation_name: person.organization?.name\n  };\n});\n\nreturn transformedContacts;"
       },
-      "name": "Deduplicate & Validate",
+      "name": "Transform Data",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        1100,
+        680,
         300
       ]
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $node[\"HaloPSA Config\"].json[\"base_url\"] }}/api/Users",
-        "authentication": "oAuth2",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ $json }}",
-        "options": {
-          "batching": {
-            "batch": {
-              "batchSize": 1
-            }
-          }
+        "url": "https://{{$env.HALOPSA_TENANT}}.halopsa.com/api/Contact",
+        "headers": {
+          "Authorization": "Bearer {{$env.HALOPSA_ACCESS_TOKEN}}",
+          "Content-Type": "application/json"
         }
       },
-      "name": "Create HaloPSA Contact",
+      "name": "HaloPSA",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 2,
-      "position": [
-        1320,
-        300
-      ],
-      "credentials": {
-        "oAuth2Api": {
-          "id": "halopsa_oauth",
-          "name": "HaloPSA OAuth2"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "base_url",
-              "value": "https://yourtenant.halopsa.com"
-            }
-          ],
-          "array": [
-            {
-              "name": "domains",
-              "value": [
-                "target-company1.com",
-                "target-company2.com",
-                "prospect-domain.com"
-              ]
-            }
-          ]
-        },
-        "options": {}
-      },
-      "name": "Get Target Domains",
-      "type": "n8n-nodes-base.set",
       "typeVersion": 1,
       "position": [
-        450,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "values": {
-          "string": [
-            {
-              "name": "base_url",
-              "value": "https://yourtenant.halopsa.com"
-            }
-          ]
-        }
-      },
-      "name": "HaloPSA Config",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 1,
-      "position": [
-        1320,
-        180
-      ]
-    },
-    {
-      "parameters": {
-        "functionCode": "// Error handling and logging\nconst results = items.map(item => item.json);\nconst successful = results.filter(r => r.id);\nconst failed = results.filter(r => !r.id);\n\nconsole.log(`Successfully created ${successful.length} contacts in HaloPSA`);\nconsole.log(`Failed to create ${failed.length} contacts`);\n\n// Log failed contacts for review\nfailed.forEach(contact => {\n  console.error('Failed contact:', {\n    email: contact.emailaddress,\n    name: `${contact.firstname} ${contact.surname}`,\n    error: contact.error || 'Unknown error'\n  });\n});\n\nreturn [{\n  json: {\n    summary: {\n      total_processed: results.length,\n      successful: successful.length,\n      failed: failed.length,\n      timestamp: new Date().toISOString()\n    },\n    successful_contacts: successful.map(c => ({\n      id: c.id,\n      name: c.name,\n      email: c.emailaddress\n    })),\n    failed_contacts: failed.map(c => ({\n      email: c.emailaddress,\n      name: `${c.firstname} ${c.surname}`,\n      error: c.error\n    }))\n  }\n}];"
-      },
-      "name": "Process Results",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [
-        1540,
+        900,
         300
       ]
     }
   ],
   "connections": {
-    "Schedule Every 15 Minutes": {
+    "Schedule Trigger": {
       "main": [
         [
           {
-            "node": "Get Target Domains",
+            "node": "Apollo.io",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Search Apollo People": {
+    "Apollo.io": {
       "main": [
         [
           {
-            "node": "Transform Apollo to HaloPSA",
+            "node": "Transform Data",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Transform Apollo to HaloPSA": {
+    "Transform Data": {
       "main": [
         [
           {
-            "node": "Deduplicate & Validate",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Deduplicate & Validate": {
-      "main": [
-        [
-          {
-            "node": "Create HaloPSA Contact",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Target Domains": {
-      "main": [
-        [
-          {
-            "node": "Search Apollo People",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create HaloPSA Contact": {
-      "main": [
-        [
-          {
-            "node": "Process Results",
+            "node": "HaloPSA",
             "type": "main",
             "index": 0
           }
         ]
       ]
     }
-  },
-  "active": true,
-  "settings": {
-    "timezone": "America/New_York",
-    "saveManualExecutions": true
-  },
-  "meta": {
-    "instanceId": "apollo-halopsa-sync"
   }
 }
