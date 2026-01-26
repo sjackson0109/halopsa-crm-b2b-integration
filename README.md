@@ -39,6 +39,14 @@ This integration implements a sophisticated three-stage customer acquisition lif
 - **Lead411** - B2B sales intelligence platform
 - **RocketReach** - Contact information database
 - **BookYourData/LeadsBlue** - B2B lead generation service
+- **Crayon** - European B2B data platform with intent signals
+- **Klue** - Conversational intelligence for B2B sales
+- **MadKudu** - B2B lead scoring and qualification
+- **LeadIQ** - Sales intelligence with LinkedIn integration
+- **HG Data** - European B2B contact database with GDPR compliance
+- **DiscoverOrg** - B2B intent data and technographics
+- **Bombora** - B2B intent data from online behavior
+- **EverString** - Predictive B2B lead scoring using AI
 
 ## Integration Architecture
 
@@ -199,8 +207,8 @@ Reference [halopsa-api-config.json](schemas/halopsa-api-config.json) for:
 #### Required Custom Fields Setup
 The integration requires the following custom fields to be configured in HaloPSA:
 
-**Lead Entity Custom Fields (CF_101-113):**
-- **CF_101**: Lead Source (Dropdown) - Source platform identification
+**Lead Entity Custom Fields (CFLeadSource-113):**
+- **CFLeadSource**: Lead Source (Dropdown) - Source platform identification
 - **CF_102**: Services Offered (Text) - Primary business offerings
 - **CF_103**: Growth Signals (Text) - Expansion/growth indicators
 - **CF_104**: Project Pipelines (Text) - Pipeline opportunities
