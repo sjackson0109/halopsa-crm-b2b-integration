@@ -4,9 +4,9 @@
 
 Production-ready integration architecture for connecting HaloPSA with B2B data sourcing tools using a **custom Lead → Prospect → Opportunity workflow**. Designed for developers, technical architects, and MSPs building maintainable integrations with automated entity progression.
 
-📖 **[📚 Complete Documentation →](https://sjackson0109.github.io/halopsa-crm-b2b-integration/)**
+**[Complete Documentation →](https://sjackson0109.github.io/halopsa-crm-b2b-integration/)**
 
-## 🔥 Custom CRM Workflow
+## Custom CRM Workflow
 
 This integration implements a sophisticated three-stage customer acquisition lifecycle:
 
@@ -21,7 +21,7 @@ This integration implements a sophisticated three-stage customer acquisition lif
 ### Opportunity Lifecycle (Progressing → Negotiation)
 - **New Opportunity** → **Progressing** → **Negotiation** → **Won/Lost**
 
-📋 **[Complete Workflow Documentation →](docs/custom-crm-configuration.md)**
+📋 📋 **[Complete Workflow Documentation →](docs/custom-crm-configuration.md)**
 
 ### Entity Attributes & Custom Fields
 
