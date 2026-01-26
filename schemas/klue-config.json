@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Klue API Configuration - Conversational Intelligence Integration",
+  "description": "Configuration schema for Klue integration with conversational intelligence and buyer journey tracking",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "api_token": {
+          "type": "string",
+          "description": "Klue API token with full access"
+        },
+        "organization_id": {
+          "type": "string",
+          "description": "Klue organization identifier"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 120
+            },
+            "requests_per_hour": {
+              "type": "integer",
+              "default": 2000
+            }
+          }
+        }
+      },
+      "required": ["api_token", "organization_id"]
+    },
+    "webhook_config": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your endpoint to receive Klue webhooks"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "conversation_started",
+              "intent_detected",
+              "buyer_journey_progressed",
+              "contact_enriched"
+            ]
+          },
+          "default": ["conversation_started", "intent_detected"]
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string", "default": "contact.firstName" },
+            "last_name": { "type": "string", "default": "contact.lastName" },
+            "email": { "type": "string", "default": "contact.email" },
+            "company_name": { "type": "string", "default": "company.name" },
+            "job_title": { "type": "string", "default": "contact.jobTitle" },
+            "conversation_topics": { "type": "array", "default": "conversation.topics" },
+            "buyer_stage": { "type": "string", "default": "buyerJourney.stage" }
+          }
+        },
+        "prospect_fields": {
+          "type": "object",
+          "properties": {
+            "engagement_score": { "type": "number", "default": "engagement.score" },
+            "intent_signals": { "type": "array", "default": "intent.signals" },
+            "pain_points": { "type": "array", "default": "conversation.painPoints" }
+          }
+        }
+      }
+    },
+    "conversation_filters": {
+      "type": "object",
+      "properties": {
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Keywords to monitor in conversations"
+        },
+        "industries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target industry sectors"
+        },
+        "company_sizes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["startup", "small", "medium", "large", "enterprise"],
+          "description": "Target company sizes"
+        },
+        "minimum_engagement_score": { "type": "number", "default": 0.5 }
+      }
+    },
+    "sync_settings": {
+      "type": "object",
+      "properties": {
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "hourly", "daily"],
+          "default": "real-time"
+        },
+        "data_retention_days": { "type": "integer", "default": 90 },
+        "error_handling": {
+          "type": "object",
+          "properties": {
+            "retry_attempts": { "type": "integer", "default": 3 },
+            "circuit_breaker_threshold": { "type": "integer", "default": 5 }
+          }
+        }
+      }
+    }
+  },
+  "required": ["authentication", "field_mappings"]
+}

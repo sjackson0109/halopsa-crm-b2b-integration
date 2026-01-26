@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HG Data API Configuration - European B2B Contact Database",
+  "description": "Configuration schema for HG Data integration with GDPR-compliant European contact database",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "type": "string",
+          "description": "HG Data API key"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "HG Data account identifier"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 60
+            },
+            "requests_per_day": {
+              "type": "integer",
+              "default": 5000
+            }
+          }
+        }
+      },
+      "required": ["api_key", "account_id"]
+    },
+    "webhook_config": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your endpoint to receive HG Data webhooks"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "contact_created",
+              "contact_updated",
+              "data_enriched",
+              "gdpr_request"
+            ]
+          },
+          "default": ["contact_created", "contact_updated"]
+        },
+        "signature_secret": {
+          "type": "string",
+          "description": "Webhook signature verification secret"
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string", "default": "contact.firstName" },
+            "last_name": { "type": "string", "default": "contact.lastName" },
+            "email": { "type": "string", "default": "contact.email" },
+            "phone": { "type": "string", "default": "contact.phone" },
+            "company_name": { "type": "string", "default": "company.name" },
+            "job_title": { "type": "string", "default": "contact.jobTitle" },
+            "industry": { "type": "string", "default": "company.industry" },
+            "company_size": { "type": "string", "default": "company.employeeCount" }
+          }
+        },
+        "prospect_fields": {
+          "type": "object",
+          "properties": {
+            "direct_phone": { "type": "string", "default": "contact.directPhone" },
+            "mobile_phone": { "type": "string", "default": "contact.mobilePhone" },
+            "linkedin_url": { "type": "string", "default": "contact.linkedinUrl" },
+            "company_website": { "type": "string", "default": "company.website" }
+          }
+        }
+      }
+    },
+    "gdpr_config": {
+      "type": "object",
+      "properties": {
+        "data_processing_agreement": {
+          "type": "boolean",
+          "default": true,
+          "description": "Confirm GDPR data processing agreement"
+        },
+        "retention_period_days": {
+          "type": "integer",
+          "default": 2555,
+          "description": "Data retention period in days (GDPR compliant)"
+        },
+        "consent_management": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable consent management features"
+        },
+        "right_to_be_forgotten": {
+          "type": "boolean",
+          "default": true,
+          "description": "Support GDPR right to be forgotten requests"
+        }
+      }
+    },
+    "data_filters": {
+      "type": "object",
+      "properties": {
+        "countries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["GB", "DE", "FR", "NL", "BE", "AT", "CH"],
+          "description": "European countries to target"
+        },
+        "industries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target industry sectors"
+        },
+        "company_sizes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["1-10", "11-50", "51-200", "201-1000", "1000+"],
+          "description": "Target company size ranges"
+        },
+        "job_levels": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["entry", "professional", "manager", "director", "executive"],
+          "description": "Target job levels"
+        }
+      }
+    },
+    "sync_settings": {
+      "type": "object",
+      "properties": {
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "batch"],
+          "default": "batch"
+        },
+        "batch_size": { "type": "integer", "default": 1000 },
+        "error_handling": {
+          "type": "object",
+          "properties": {
+            "retry_attempts": { "type": "integer", "default": 3 },
+            "gdpr_compliance_check": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    }
+  },
+  "required": ["authentication", "field_mappings", "gdpr_config"]
+}

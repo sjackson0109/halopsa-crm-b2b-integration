@@ -838,6 +838,344 @@ Different platforms use varying confidence metrics:
 - **Batch Processing**: Clay.com, UpLead for large-scale enrichment
 - **Hybrid Approach**: Combine both for optimal efficiency
 
+## 10. Crayon
+
+### Company Data Model
+```json
+{
+  "id": "string - Unique Crayon company ID",
+  "name": "string - Company name",
+  "domain": "string - Company website domain",
+  "industry": "string - Industry classification",
+  "employeeCount": "integer - Number of employees",
+  "revenueRange": "string - Annual revenue range",
+  "location": {
+    "country": "string - Country code",
+    "city": "string - City",
+    "state": "string - State/Province"
+  },
+  "technologies": ["string"] - Technology stack,
+  "funding": {
+    "stage": "string - Funding stage",
+    "amount": "string - Funding amount"
+  }
+}
+```
+
+### Person Data Model
+```json
+{
+  "id": "string - Unique Crayon person ID",
+  "firstName": "string - First name",
+  "lastName": "string - Last name",
+  "email": "string - Email address",
+  "phone": "string - Phone number",
+  "jobTitle": "string - Current job title",
+  "seniority": "string - Seniority level",
+  "department": "string - Department"
+}
+```
+
+### Intent Signals Data Model
+```json
+{
+  "companyId": "string - Associated company ID",
+  "signals": [
+    {
+      "type": "string - Signal type (website_visit, content_download, etc.)",
+      "timestamp": "string - ISO 8601 timestamp",
+      "source": "string - Signal source",
+      "strength": "number - Signal strength (0-1)",
+      "metadata": "object - Additional signal data"
+    }
+  ],
+  "lastActivityDate": "string - ISO 8601 timestamp",
+  "engagementScore": "number - Overall engagement score"
+}
+```
+
+## 11. Klue
+
+### Conversation Data Model
+```json
+{
+  "id": "string - Unique conversation ID",
+  "participants": [
+    {
+      "name": "string - Participant name",
+      "email": "string - Participant email",
+      "company": "string - Company name",
+      "title": "string - Job title"
+    }
+  ],
+  "topics": ["string"] - Conversation topics,
+  "sentiment": "string - Overall sentiment (positive, negative, neutral)",
+  "engagement_score": "number - Engagement level (0-100)",
+  "duration": "integer - Conversation duration in seconds",
+  "channel": "string - Communication channel (email, chat, call)",
+  "buyerJourney": {
+    "stage": "string - Current stage (awareness, consideration, decision)",
+    "progress": "number - Progress percentage",
+    "nextSteps": ["string"] - Recommended next steps
+  }
+}
+```
+
+### Intent Data Model
+```json
+{
+  "conversationId": "string - Associated conversation ID",
+  "signals": [
+    {
+      "type": "string - Intent type",
+      "confidence": "number - Confidence score (0-1)",
+      "keywords": ["string"] - Trigger keywords,
+      "timestamp": "string - Detection timestamp"
+    }
+  ],
+  "painPoints": ["string"] - Identified pain points,
+  "timeline": "string - Urgency indicators",
+  "budget": "string - Budget mentions"
+}
+```
+
+## 12. MadKudu
+
+### Lead Score Data Model
+```json
+{
+  "person": {
+    "email": "string - Email address",
+    "first_name": "string - First name",
+    "last_name": "string - Last name",
+    "title": "string - Job title",
+    "seniority": "string - Seniority level"
+  },
+  "company": {
+    "name": "string - Company name",
+    "domain": "string - Website domain",
+    "industry": "string - Industry",
+    "employee_count": "integer - Employee count"
+  },
+  "fit_score": "number - Company fit score (0-100)",
+  "intent_score": "number - Intent score (0-100)",
+  "qualification": {
+    "status": "string - Qualification status",
+    "reason": "string - Qualification reasoning",
+    "confidence": "number - Confidence level"
+  },
+  "recommendation": {
+    "action": "string - Recommended action",
+    "priority": "string - Priority level",
+    "timeline": "string - Suggested timeline"
+  }
+}
+```
+
+## 13. LeadIQ
+
+### Contact Data Model
+```json
+{
+  "id": "string - Unique LeadIQ contact ID",
+  "firstName": "string - First name",
+  "lastName": "string - Last name",
+  "email": "string - Email address",
+  "phone": "string - Phone number",
+  "jobTitle": "string - Current job title",
+  "seniorityLevel": "string - Seniority level",
+  "yearsExperience": "integer - Years of experience",
+  "linkedinUrl": "string - LinkedIn profile URL",
+  "company": {
+    "name": "string - Company name",
+    "domain": "string - Website domain",
+    "industry": "string - Industry",
+    "employeeCount": "integer - Employee count",
+    "revenue": "string - Revenue range"
+  },
+  "skills": ["string"] - Professional skills,
+  "education": [
+    {
+      "school": "string - School name",
+      "degree": "string - Degree",
+      "field": "string - Field of study"
+    }
+  ],
+  "lastUpdated": "string - ISO 8601 last update timestamp"
+}
+```
+
+## 14. HG Data
+
+### Contact Data Model
+```json
+{
+  "id": "string - Unique HG Data contact ID",
+  "firstName": "string - First name",
+  "lastName": "string - Last name",
+  "email": "string - Email address",
+  "phone": "string - Phone number",
+  "directPhone": "string - Direct phone number",
+  "mobilePhone": "string - Mobile phone number",
+  "jobTitle": "string - Job title",
+  "seniority": "string - Seniority level",
+  "department": "string - Department",
+  "company": {
+    "name": "string - Company name",
+    "website": "string - Company website",
+    "industry": "string - Industry",
+    "employeeCount": "string - Employee count range",
+    "turnover": "string - Revenue range"
+  },
+  "location": {
+    "street": "string - Street address",
+    "city": "string - City",
+    "postalCode": "string - Postal code",
+    "country": "string - Country"
+  },
+  "socialProfiles": {
+    "linkedin": "string - LinkedIn URL",
+    "twitter": "string - Twitter handle",
+    "facebook": "string - Facebook URL"
+  }
+}
+```
+
+## 15. DiscoverOrg
+
+### Company Data Model
+```json
+{
+  "id": "string - Unique DiscoverOrg company ID",
+  "name": "string - Company name",
+  "domain": "string - Website domain",
+  "industry": "string - Industry classification",
+  "employeeCount": "integer - Employee count",
+  "revenue": "string - Revenue range",
+  "location": {
+    "address": "string - Street address",
+    "city": "string - City",
+    "state": "string - State",
+    "country": "string - Country",
+    "postalCode": "string - Postal code"
+  },
+  "technographics": {
+    "crm": ["string"] - CRM systems used,
+    "marketing": ["string"] - Marketing tools,
+    "sales": ["string"] - Sales platforms,
+    "other": ["string"] - Other technologies
+  },
+  "funding": {
+    "stage": "string - Funding stage",
+    "amount": "string - Total funding",
+    "lastRound": "string - Last funding round"
+  }
+}
+```
+
+### Intent Data Model
+```json
+{
+  "companyId": "string - Associated company ID",
+  "signals": [
+    {
+      "type": "string - Signal type",
+      "timestamp": "string - ISO 8601 timestamp",
+      "source": "string - Signal source",
+      "strength": "number - Signal strength (0-1)",
+      "content": "string - Content that triggered signal"
+    }
+  ],
+  "accountScore": "number - Account-based score",
+  "engagementLevel": "string - Engagement classification",
+  "lastIntentDate": "string - Last intent activity date"
+}
+```
+
+## 16. Bombora
+
+### Company Surge Data Model
+```json
+{
+  "companyId": "string - Unique Bombora company ID",
+  "companyName": "string - Company name",
+  "domain": "string - Website domain",
+  "industry": "string - Industry",
+  "employeeCount": "string - Employee count range",
+  "surge": {
+    "intensity": "number - Surge intensity (0-100)",
+    "startDate": "string - Surge start date",
+    "peakDate": "string - Surge peak date",
+    "topics": ["string"] - Topics driving surge,
+    "contentTypes": ["string"] - Content types consumed
+  },
+  "baseline": {
+    "averageActivity": "number - Baseline activity level",
+    "typicalTopics": ["string"] - Typical topics of interest
+  }
+}
+```
+
+### Topic Engagement Data Model
+```json
+{
+  "topic": "string - Topic name",
+  "companyId": "string - Associated company ID",
+  "engagement": {
+    "score": "number - Engagement score (0-100)",
+    "trend": "string - Trend direction (increasing, decreasing, stable)",
+    "velocity": "number - Rate of change",
+    "duration": "integer - Days of sustained interest"
+  },
+  "content": {
+    "types": ["string"] - Content types engaged with,
+    "sources": ["string"] - Content sources,
+    "frequency": "string - Engagement frequency"
+  },
+  "lastActivity": "string - ISO 8601 last activity timestamp"
+}
+```
+
+## 17. EverString
+
+### Predictive Score Data Model
+```json
+{
+  "contact": {
+    "email": "string - Email address",
+    "firstName": "string - First name",
+    "lastName": "string - Last name",
+    "title": "string - Job title",
+    "company": "string - Company name"
+  },
+  "predictiveScore": "number - Overall predictive score (0-100)",
+  "confidence": "number - Model confidence (0-1)",
+  "qualification": {
+    "status": "string - Qualification status",
+    "reason": "string - Qualification reasoning",
+    "threshold": "number - Score threshold used"
+  },
+  "scoreFactors": [
+    {
+      "factor": "string - Scoring factor name",
+      "weight": "number - Factor weight",
+      "value": "number - Factor value",
+      "contribution": "number - Score contribution"
+    }
+  ],
+  "recommendation": {
+    "action": "string - Recommended action",
+    "priority": "string - Action priority",
+    "timeline": "string - Suggested timeline"
+  },
+  "modelMetadata": {
+    "version": "string - Model version",
+    "lastTrained": "string - ISO 8601 training date",
+    "dataPoints": "integer - Training data points used"
+  }
+}
+```
+
 ## Next Steps
 
 1. Review [Field Mapping Strategies](./field-mapping.md) for transformation patterns

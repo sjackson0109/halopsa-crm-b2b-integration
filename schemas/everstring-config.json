@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EverString API Configuration - Predictive B2B Lead Scoring",
+  "description": "Configuration schema for EverString integration with AI-powered predictive lead scoring",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "type": "string",
+          "description": "EverString API key"
+        },
+        "client_secret": {
+          "type": "string",
+          "description": "EverString client secret"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 100
+            },
+            "requests_per_day": {
+              "type": "integer",
+              "default": 10000
+            }
+          }
+        }
+      },
+      "required": ["api_key", "client_secret"]
+    },
+    "webhook_config": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your endpoint to receive EverString webhooks"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "score_updated",
+              "lead_qualified",
+              "model_retrained",
+              "data_sync_complete"
+            ]
+          },
+          "default": ["score_updated", "lead_qualified"]
+        },
+        "signature_secret": {
+          "type": "string",
+          "description": "Webhook signature verification secret"
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string", "default": "contact.firstName" },
+            "last_name": { "type": "string", "default": "contact.lastName" },
+            "email": { "type": "string", "default": "contact.email" },
+            "company_name": { "type": "string", "default": "company.name" },
+            "job_title": { "type": "string", "default": "contact.jobTitle" },
+            "industry": { "type": "string", "default": "company.industry" }
+          }
+        },
+        "prospect_fields": {
+          "type": "object",
+          "properties": {
+            "predictive_score": { "type": "number", "default": "predictiveScore" },
+            "confidence_level": { "type": "number", "default": "confidence" },
+            "qualification_status": { "type": "string", "default": "qualification.status" },
+            "recommended_action": { "type": "string", "default": "recommendation.action" },
+            "score_factors": { "type": "array", "default": "score.factors" }
+          }
+        }
+      }
+    },
+    "scoring_config": {
+      "type": "object",
+      "properties": {
+        "model_type": {
+          "type": "string",
+          "enum": ["default", "industry_specific", "custom"],
+          "default": "default",
+          "description": "Type of predictive scoring model to use"
+        },
+        "score_threshold": {
+          "type": "number",
+          "default": 70,
+          "description": "Minimum score to qualify as prospect (0-100)"
+        },
+        "confidence_threshold": {
+          "type": "number",
+          "default": 0.8,
+          "description": "Minimum confidence level for score validity (0-1)"
+        },
+        "update_frequency": {
+          "type": "string",
+          "enum": ["real-time", "daily", "weekly"],
+          "default": "daily",
+          "description": "How often to update predictive scores"
+        }
+      }
+    },
+    "data_filters": {
+      "type": "object",
+      "properties": {
+        "industries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target industry sectors for model training"
+        },
+        "company_sizes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["1-10", "11-50", "51-200", "201-1000", "1000+"],
+          "description": "Target company size ranges"
+        },
+        "geographic_regions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target geographic regions"
+        },
+        "data_sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["crm_data", "website_analytics", "social_media", "third_party_enrichment"]
+          },
+          "description": "Data sources to include in predictive modeling"
+        }
+      }
+    },
+    "sync_settings": {
+      "type": "object",
+      "properties": {
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "batch"],
+          "default": "batch"
+        },
+        "batch_size": { "type": "integer", "default": 1000 },
+        "error_handling": {
+          "type": "object",
+          "properties": {
+            "retry_attempts": { "type": "integer", "default": 3 },
+            "model_validation": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    }
+  },
+  "required": ["authentication", "field_mappings", "scoring_config"]
+}

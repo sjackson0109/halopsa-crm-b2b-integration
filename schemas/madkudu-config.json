@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MadKudu API Configuration - B2B Lead Scoring Integration",
+  "description": "Configuration schema for MadKudu integration with predictive lead scoring and qualification",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "type": "string",
+          "description": "MadKudu API key"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 100
+            },
+            "requests_per_month": {
+              "type": "integer",
+              "default": 50000
+            }
+          }
+        }
+      },
+      "required": ["api_key"]
+    },
+    "webhook_config": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your endpoint to receive MadKudu webhooks"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "lead_scored",
+              "prospect_qualified",
+              "score_updated"
+            ]
+          },
+          "default": ["lead_scored", "prospect_qualified"]
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string", "default": "person.first_name" },
+            "last_name": { "type": "string", "default": "person.last_name" },
+            "email": { "type": "string", "default": "person.email" },
+            "company_name": { "type": "string", "default": "company.name" },
+            "job_title": { "type": "string", "default": "person.title" },
+            "seniority": { "type": "string", "default": "person.seniority" }
+          }
+        },
+        "prospect_fields": {
+          "type": "object",
+          "properties": {
+            "fit_score": { "type": "number", "default": "fit_score" },
+            "intent_score": { "type": "number", "default": "intent_score" },
+            "qualification_status": { "type": "string", "default": "qualification.status" },
+            "recommended_action": { "type": "string", "default": "recommendation.action" }
+          }
+        }
+      }
+    },
+    "scoring_config": {
+      "type": "object",
+      "properties": {
+        "fit_score_threshold": {
+          "type": "number",
+          "default": 70,
+          "description": "Minimum fit score to qualify as prospect"
+        },
+        "intent_score_threshold": {
+          "type": "number",
+          "default": 60,
+          "description": "Minimum intent score for engagement"
+        },
+        "scoring_model": {
+          "type": "string",
+          "enum": ["default", "custom"],
+          "default": "default"
+        },
+        "custom_criteria": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": { "type": "string" },
+              "operator": { "type": "string", "enum": ["equals", "contains", "greater_than", "less_than"] },
+              "value": { "type": "string" },
+              "weight": { "type": "number", "default": 1 }
+            }
+          }
+        }
+      }
+    },
+    "data_filters": {
+      "type": "object",
+      "properties": {
+        "industries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target industry sectors"
+        },
+        "company_sizes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["1-10", "11-50", "51-200", "201-1000", "1001-5000", "5000+"],
+          "description": "Target company size ranges"
+        },
+        "geographic_regions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target geographic regions"
+        }
+      }
+    },
+    "sync_settings": {
+      "type": "object",
+      "properties": {
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "batch"],
+          "default": "real-time"
+        },
+        "batch_window_hours": { "type": "integer", "default": 24 },
+        "error_handling": {
+          "type": "object",
+          "properties": {
+            "retry_attempts": { "type": "integer", "default": 3 },
+            "backoff_multiplier": { "type": "number", "default": 2.0 }
+          }
+        }
+      }
+    }
+  },
+  "required": ["authentication", "field_mappings", "scoring_config"]
+}

@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LeadIQ API Configuration - Sales Intelligence Integration",
+  "description": "Configuration schema for LeadIQ integration with LinkedIn data and real-time contact updates",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "type": "string",
+          "description": "LeadIQ API key"
+        },
+        "client_id": {
+          "type": "string",
+          "description": "OAuth client ID"
+        },
+        "client_secret": {
+          "type": "string",
+          "description": "OAuth client secret"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 100
+            },
+            "requests_per_day": {
+              "type": "integer",
+              "default": 10000
+            }
+          }
+        }
+      },
+      "required": ["api_key"]
+    },
+    "webhook_config": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your endpoint to receive LeadIQ webhooks"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "contact_updated",
+              "profile_enriched",
+              "email_verified",
+              "linkedin_data_refreshed"
+            ]
+          },
+          "default": ["contact_updated", "profile_enriched"]
+        },
+        "verification_token": {
+          "type": "string",
+          "description": "Webhook verification token"
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string", "default": "contact.firstName" },
+            "last_name": { "type": "string", "default": "contact.lastName" },
+            "email": { "type": "string", "default": "contact.email" },
+            "phone": { "type": "string", "default": "contact.phone" },
+            "company_name": { "type": "string", "default": "company.name" },
+            "job_title": { "type": "string", "default": "contact.jobTitle" },
+            "linkedin_url": { "type": "string", "default": "contact.linkedinUrl" },
+            "company_linkedin_url": { "type": "string", "default": "company.linkedinUrl" }
+          }
+        },
+        "prospect_fields": {
+          "type": "object",
+          "properties": {
+            "seniority_level": { "type": "string", "default": "contact.seniorityLevel" },
+            "years_experience": { "type": "integer", "default": "contact.yearsExperience" },
+            "skills": { "type": "array", "default": "contact.skills" },
+            "last_updated": { "type": "string", "format": "date-time", "default": "contact.lastUpdated" }
+          }
+        }
+      }
+    },
+    "linkedin_config": {
+      "type": "object",
+      "properties": {
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "daily", "weekly"],
+          "default": "real-time"
+        },
+        "profile_depth": {
+          "type": "string",
+          "enum": ["basic", "detailed", "comprehensive"],
+          "default": "detailed",
+          "description": "Level of LinkedIn profile data to retrieve"
+        },
+        "include_connections": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include mutual connections data"
+        }
+      }
+    },
+    "data_filters": {
+      "type": "object",
+      "properties": {
+        "geographic_focus": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target countries/regions"
+        },
+        "industries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target industry sectors"
+        },
+        "seniority_levels": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["entry", "mid", "senior", "executive"],
+          "description": "Target seniority levels"
+        },
+        "company_sizes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["1-10", "11-50", "51-200", "201-1000", "1000+"],
+          "description": "Target company size ranges"
+        }
+      }
+    },
+    "sync_settings": {
+      "type": "object",
+      "properties": {
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "hourly", "daily"],
+          "default": "real-time"
+        },
+        "batch_size": { "type": "integer", "default": 50 },
+        "error_handling": {
+          "type": "object",
+          "properties": {
+            "retry_attempts": { "type": "integer", "default": 3 },
+            "rate_limit_backoff": { "type": "integer", "default": 300 }
+          }
+        }
+      }
+    }
+  },
+  "required": ["authentication", "field_mappings"]
+}

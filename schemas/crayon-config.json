@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Crayon API Configuration - European B2B Data Integration",
+  "description": "Configuration schema for Crayon integration with intent signals and account-based marketing data",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "type": "string",
+          "description": "Crayon API key with full access permissions"
+        },
+        "client_id": {
+          "type": "string",
+          "description": "OAuth client ID for Crayon API"
+        },
+        "client_secret": {
+          "type": "string",
+          "description": "OAuth client secret for Crayon API"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 60
+            },
+            "requests_per_hour": {
+              "type": "integer",
+              "default": 1000
+            },
+            "concurrent_requests": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        }
+      },
+      "required": ["api_key"]
+    },
+    "webhook_config": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your endpoint to receive Crayon webhooks"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "intent_signal_detected",
+              "account_enriched",
+              "contact_updated",
+              "company_profile_changed"
+            ]
+          },
+          "default": ["intent_signal_detected", "account_enriched"]
+        },
+        "secret": {
+          "type": "string",
+          "description": "Webhook signature verification secret"
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string", "default": "contact.firstName" },
+            "last_name": { "type": "string", "default": "contact.lastName" },
+            "email": { "type": "string", "default": "contact.email" },
+            "phone": { "type": "string", "default": "contact.phone" },
+            "company_name": { "type": "string", "default": "company.name" },
+            "job_title": { "type": "string", "default": "contact.jobTitle" },
+            "industry": { "type": "string", "default": "company.industry" },
+            "company_size": { "type": "string", "default": "company.employeeCount" },
+            "intent_signals": { "type": "array", "default": "intent.signals" }
+          }
+        },
+        "prospect_fields": {
+          "type": "object",
+          "properties": {
+            "budget_range": { "type": "string", "default": "company.budgetRange" },
+            "decision_maker": { "type": "boolean", "default": "contact.isDecisionMaker" },
+            "fit_score": { "type": "number", "default": "fit.score" }
+          }
+        }
+      }
+    },
+    "data_filters": {
+      "type": "object",
+      "properties": {
+        "geographic_focus": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["UK", "Europe"],
+          "description": "Target countries/regions"
+        },
+        "company_size_min": { "type": "integer", "default": 10 },
+        "company_size_max": { "type": "integer", "default": 10000 },
+        "industries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target industry sectors"
+        }
+      }
+    },
+    "sync_settings": {
+      "type": "object",
+      "properties": {
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "hourly", "daily"],
+          "default": "real-time"
+        },
+        "batch_size": { "type": "integer", "default": 100 },
+        "error_handling": {
+          "type": "object",
+          "properties": {
+            "retry_attempts": { "type": "integer", "default": 3 },
+            "retry_delay": { "type": "integer", "default": 60 }
+          }
+        }
+      }
+    }
+  },
+  "required": ["authentication", "field_mappings"]
+}

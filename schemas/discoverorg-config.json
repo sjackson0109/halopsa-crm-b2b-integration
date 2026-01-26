@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DiscoverOrg API Configuration - B2B Intent Data Integration",
+  "description": "Configuration schema for DiscoverOrg integration with intent signals and technographics",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "DiscoverOrg username"
+        },
+        "password": {
+          "type": "string",
+          "description": "DiscoverOrg password"
+        },
+        "api_key": {
+          "type": "string",
+          "description": "DiscoverOrg API key (alternative auth method)"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 100
+            },
+            "requests_per_day": {
+              "type": "integer",
+              "default": 10000
+            }
+          }
+        }
+      }
+    },
+    "webhook_config": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your endpoint to receive DiscoverOrg webhooks"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "intent_signal",
+              "contact_change",
+              "company_update",
+              "technographics_update"
+            ]
+          },
+          "default": ["intent_signal", "contact_change"]
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string", "default": "contact.firstName" },
+            "last_name": { "type": "string", "default": "contact.lastName" },
+            "email": { "type": "string", "default": "contact.email" },
+            "phone": { "type": "string", "default": "contact.phone" },
+            "company_name": { "type": "string", "default": "company.name" },
+            "job_title": { "type": "string", "default": "contact.jobTitle" },
+            "seniority": { "type": "string", "default": "contact.seniority" }
+          }
+        },
+        "prospect_fields": {
+          "type": "object",
+          "properties": {
+            "intent_signals": { "type": "array", "default": "intent.signals" },
+            "technographics": { "type": "object", "default": "company.technographics" },
+            "account_score": { "type": "number", "default": "account.score" },
+            "engagement_level": { "type": "string", "default": "engagement.level" }
+          }
+        }
+      }
+    },
+    "intent_config": {
+      "type": "object",
+      "properties": {
+        "signal_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["website_visits", "content_downloads", "email_opens", "job_postings", "funding_events"]
+          },
+          "default": ["website_visits", "content_downloads", "job_postings"]
+        },
+        "minimum_signal_strength": {
+          "type": "number",
+          "default": 0.3,
+          "description": "Minimum intent signal strength (0-1)"
+        },
+        "lookback_days": {
+          "type": "integer",
+          "default": 90,
+          "description": "Days to look back for intent signals"
+        }
+      }
+    },
+    "technographics_config": {
+      "type": "object",
+      "properties": {
+        "include_technologies": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include technology stack information"
+        },
+        "include_social_presence": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include social media presence data"
+        },
+        "include_funding": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include funding and investment data"
+        }
+      }
+    },
+    "data_filters": {
+      "type": "object",
+      "properties": {
+        "industries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target industry sectors"
+        },
+        "company_sizes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["1-10", "11-50", "51-200", "201-1000", "1000+"],
+          "description": "Target company size ranges"
+        },
+        "geographic_regions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target geographic regions"
+        },
+        "revenue_ranges": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["$0-1M", "$1-10M", "$10-50M", "$50-100M", "$100M+"],
+          "description": "Target company revenue ranges"
+        }
+      }
+    },
+    "sync_settings": {
+      "type": "object",
+      "properties": {
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "hourly", "daily"],
+          "default": "hourly"
+        },
+        "batch_size": { "type": "integer", "default": 500 },
+        "error_handling": {
+          "type": "object",
+          "properties": {
+            "retry_attempts": { "type": "integer", "default": 3 },
+            "data_validation": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    }
+  },
+  "required": ["authentication", "field_mappings"]
+}

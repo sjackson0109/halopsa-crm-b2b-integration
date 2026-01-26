@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Bombora API Configuration - B2B Intent Data Integration",
+  "description": "Configuration schema for Bombora integration with online behavior and content consumption intent data",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "type": "string",
+          "description": "Bombora API key"
+        },
+        "client_id": {
+          "type": "string",
+          "description": "Bombora client identifier"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_minute": {
+              "type": "integer",
+              "default": 60
+            },
+            "requests_per_hour": {
+              "type": "integer",
+              "default": 1000
+            }
+          }
+        }
+      },
+      "required": ["api_key", "client_id"]
+    },
+    "webhook_config": {
+      "type": "object",
+      "properties": {
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Your endpoint to receive Bombora webhooks"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "intent_detected",
+              "surge_alert",
+              "topic_engagement",
+              "company_profile_update"
+            ]
+          },
+          "default": ["intent_detected", "surge_alert"]
+        },
+        "verification_key": {
+          "type": "string",
+          "description": "Webhook verification key"
+        }
+      }
+    },
+    "field_mappings": {
+      "type": "object",
+      "properties": {
+        "lead_fields": {
+          "type": "object",
+          "properties": {
+            "company_name": { "type": "string", "default": "company.name" },
+            "company_domain": { "type": "string", "default": "company.domain" },
+            "industry": { "type": "string", "default": "company.industry" },
+            "company_size": { "type": "string", "default": "company.employeeCount" },
+            "revenue_range": { "type": "string", "default": "company.revenueRange" }
+          }
+        },
+        "prospect_fields": {
+          "type": "object",
+          "properties": {
+            "intent_topics": { "type": "array", "default": "intent.topics" },
+            "engagement_score": { "type": "number", "default": "engagement.score" },
+            "surge_intensity": { "type": "string", "default": "surge.intensity" },
+            "last_intent_date": { "type": "string", "format": "date", "default": "intent.lastActivityDate" }
+          }
+        }
+      }
+    },
+    "intent_config": {
+      "type": "object",
+      "properties": {
+        "topics": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Specific topics to monitor for intent signals"
+        },
+        "minimum_engagement_score": {
+          "type": "number",
+          "default": 50,
+          "description": "Minimum engagement score threshold (0-100)"
+        },
+        "surge_alert_threshold": {
+          "type": "number",
+          "default": 75,
+          "description": "Surge intensity threshold for alerts (0-100)"
+        },
+        "lookback_period_days": {
+          "type": "integer",
+          "default": 30,
+          "description": "Days to look back for intent data"
+        }
+      }
+    },
+    "data_filters": {
+      "type": "object",
+      "properties": {
+        "industries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target industry sectors"
+        },
+        "company_sizes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "enum": ["1-100", "101-500", "501-1000", "1001-5000", "5000+"],
+          "description": "Target company size ranges"
+        },
+        "geographic_regions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target geographic regions"
+        },
+        "content_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["whitepapers", "webinars", "case_studies", "blogs", "videos", "pricing_pages"]
+          },
+          "description": "Types of content to monitor for intent"
+        }
+      }
+    },
+    "sync_settings": {
+      "type": "object",
+      "properties": {
+        "sync_frequency": {
+          "type": "string",
+          "enum": ["real-time", "hourly", "daily"],
+          "default": "real-time"
+        },
+        "batch_size": { "type": "integer", "default": 100 },
+        "error_handling": {
+          "type": "object",
+          "properties": {
+            "retry_attempts": { "type": "integer", "default": 3 },
+            "data_quality_checks": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    }
+  },
+  "required": ["authentication", "field_mappings", "intent_config"]
+}

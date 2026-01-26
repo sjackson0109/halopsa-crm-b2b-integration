@@ -1,0 +1,243 @@
+{
+  "name": "Crayon to HaloPSA Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "crayon-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Crayon Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "event_type",
+              "value": "={{ $json.body.event_type }}"
+            },
+            {
+              "name": "company_name",
+              "value": "={{ $json.body.data.company.name }}"
+            },
+            {
+              "name": "contact_email",
+              "value": "={{ $json.body.data.contact.email }}"
+            },
+            {
+              "name": "intent_signals",
+              "value": "={{ $json.body.data.intent.signals }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-variables",
+      "name": "Set Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "url": "={{ $now.haloBaseUrl }}/company",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $now.haloApiKey }}"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "search",
+              "value": "={{ $json.company_name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "find-company",
+      "name": "Find Company in HaloPSA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.length }}",
+              "operation": "equal",
+              "value2": "0"
+            }
+          ]
+        }
+      },
+      "id": "company-exists",
+      "name": "Company Exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "post",
+        "url": "={{ $now.haloBaseUrl }}/lead",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $now.haloApiKey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json.contact.firstName }} {{ $json.contact.lastName }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $json.contact.email }}"
+            },
+            {
+              "name": "company",
+              "value": "={{ $json.company.name }}"
+            },
+            {
+              "name": "job_title",
+              "value": "={{ $json.contact.jobTitle }}"
+            },
+            {
+              "name": "industry",
+              "value": "={{ $json.company.industry }}"
+            },
+            {
+              "name": "intent_signals",
+              "value": "={{ $json.intent.signals }}"
+            },
+            {
+              "name": "source",
+              "value": "Crayon Intent Signal"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-lead",
+      "name": "Create Lead in HaloPSA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1120, 180]
+    },
+    {
+      "parameters": {
+        "operation": "put",
+        "url": "={{ $now.haloBaseUrl }}/company/{{ $json[0].id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $now.haloApiKey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "intent_signals",
+              "value": "={{ $json.intent_signals }}"
+            },
+            {
+              "name": "last_intent_update",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "update-company",
+      "name": "Update Company in HaloPSA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1120, 420]
+    }
+  ],
+  "connections": {
+    "webhook-node": {
+      "main": [
+        [
+          {
+            "node": "set-variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set-variables": {
+      "main": [
+        [
+          {
+            "node": "find-company",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "find-company": {
+      "main": [
+        [
+          {
+            "node": "company-exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company-exists": {
+      "main": [
+        [
+          {
+            "node": "create-lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company-exists": {
+      "main": [
+        [
+          {
+            "node": "update-company",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "staticData": null
+}
