@@ -66,9 +66,6 @@ The easiest way to sponsor this project is through [GitHub Sponsors](https://git
 - [PayPal](https://paypal.me/sjackson0109)
 - [Ko-fi](https://ko-fi.com/sjackson0109)
 
-#### Corporate Sponsorship
-For corporate sponsorship inquiries, please contact: sponsors@halopsa-integration.dev
-
 ## Sponsor Benefits
 
 ### For Individuals
@@ -101,7 +98,6 @@ This project is maintained by sjackson0109. For sponsorship tax purposes:
 ## Contact
 
 For sponsorship inquiries or questions:
-- **Email**: sponsors@halopsa-integration.dev
 - **GitHub**: [@sjackson0109](https://github.com/sjackson0109)
 - **Project**: [HaloPSA CRM Custom Integration](https://github.com/sjackson0109/halopsa-crm-b2b-integration)
 
