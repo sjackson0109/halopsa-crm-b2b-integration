@@ -3,107 +3,241 @@
   "nodes": [
     {
       "parameters": {
-        "rule": {
-          "interval": [
+        "httpMethod": "GET",
+        "path": "crayon-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Crayon Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
             {
-              "field": "cronExpression",
-              "expression": "0 */15 * * * *"
+              "name": "event_type",
+              "value": "={{ $json.body.event_type }}"
+            },
+            {
+              "name": "company_name",
+              "value": "={{ $json.body.data.company.name }}"
+            },
+            {
+              "name": "contact_email",
+              "value": "={{ $json.body.data.contact.email }}"
+            },
+            {
+              "name": "intent_signals",
+              "value": "={{ $json.body.data.intent.signals }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-variables",
+      "name": "Set Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "url": "={{ $now.haloBaseUrl }}/company",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $now.haloApiKey }}"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "search",
+              "value": "={{ $json.company_name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "find-company",
+      "name": "Find Company in HaloPSA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.length }}",
+              "operation": "equal",
+              "value2": "0"
             }
           ]
         }
       },
-      "name": "Schedule Trigger",
-      "type": "n8n-nodes-base.cron",
+      "id": "company-exists",
+      "name": "Company Exists?",
+      "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [
-        240,
-        300
-      ]
+      "position": [900, 300]
     },
     {
       "parameters": {
-        "method": "GET",
-        "url": "https://api.crayon.com/v1/contacts",
-        "headers": {
-          "Authorization": "Bearer {{$env.CRAYON_API_KEY}}",
-          "Content-Type": "application/json"
+        "operation": "post",
+        "url": "={{ $now.haloBaseUrl }}/lead",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $now.haloApiKey }}"
+            }
+          ]
         },
-        "queryParameters": {
-          "limit": 25,
-          "offset": 0
-        }
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json.contact.firstName }} {{ $json.contact.lastName }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $json.contact.email }}"
+            },
+            {
+              "name": "company",
+              "value": "={{ $json.company.name }}"
+            },
+            {
+              "name": "job_title",
+              "value": "={{ $json.contact.jobTitle }}"
+            },
+            {
+              "name": "industry",
+              "value": "={{ $json.company.industry }}"
+            },
+            {
+              "name": "intent_signals",
+              "value": "={{ $json.intent.signals }}"
+            },
+            {
+              "name": "source",
+              "value": "Crayon Intent Signal"
+            }
+          ]
+        },
+        "options": {}
       },
-      "name": "Crayon",
+      "id": "create-lead",
+      "name": "Create Lead in HaloPSA",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
-      "position": [
-        460,
-        300
-      ]
+      "typeVersion": 3,
+      "position": [1120, 180]
     },
     {
       "parameters": {
-        "functionCode": "const transformedContacts = items.map(item => {\n  const contact = item.json;\n  return {\n    firstname: contact.firstName,\n    surname: contact.lastName,\n    emailaddress: contact.email,\n    jobtitle: contact.jobTitle,\n    phonenumber: contact.phoneNumber,\n    organisation_name: contact.companyName\n  };\n});\n\nreturn transformedContacts;"
+        "operation": "put",
+        "url": "={{ $now.haloBaseUrl }}/company/{{ $json[0].id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $now.haloApiKey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "intent_signals",
+              "value": "={{ $json.intent_signals }}"
+            },
+            {
+              "name": "last_intent_update",
+              "value": "={{ $now }}"
+            }
+          ]
+        },
+        "options": {}
       },
-      "name": "Transform Data",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [
-        680,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://{{$env.HALOPSA_TENANT}}.halopsa.com/api/Contact",
-        "headers": {
-          "Authorization": "Bearer {{$env.HALOPSA_ACCESS_TOKEN}}",
-          "Content-Type": "application/json"
-        }
-      },
-      "name": "HaloPSA",
+      "id": "update-company",
+      "name": "Update Company in HaloPSA",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
-      "position": [
-        900,
-        300
-      ]
+      "typeVersion": 3,
+      "position": [1120, 420]
     }
   ],
   "connections": {
-    "Schedule Trigger": {
+    "webhook-node": {
       "main": [
         [
           {
-            "node": "Crayon",
+            "node": "set-variables",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Crayon": {
+    "set-variables": {
       "main": [
         [
           {
-            "node": "Transform Data",
+            "node": "find-company",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Transform Data": {
+    "find-company": {
       "main": [
         [
           {
-            "node": "HaloPSA",
+            "node": "company-exists",
             "type": "main",
             "index": 0
+          }
+        ]
+      ]
+    },
+    "company-exists": {
+      "main": [
+        [
+          {
+            "node": "create-lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company-exists": {
+      "main": [
+        [
+          {
+            "node": "update-company",
+            "type": "main",
+            "index": 1
           }
         ]
       ]
     }
-  }
+  },
+  "settings": {},
+  "staticData": null
 }
