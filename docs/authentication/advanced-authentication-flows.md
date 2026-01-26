@@ -51,8 +51,9 @@ flowchart TD
         P15["DiscoverOrg → API Key"]
         P16["Bombora → API Key"]
         P17["EverString → API Key"]
-        P18["Outreach.io → OAuth2"]
-        P19["LinkedIn → OAuth2"]
+        P18["Datanyze → API Key"]
+        P19["Outreach.io → OAuth2"]
+        P20["LinkedIn → OAuth2"]
         P20["Clearbit → API Key"]
         P21["Clay.com → API Key"]
         P22["ConnectWise → API Key + OAuth2"]
@@ -1347,6 +1348,61 @@ class EverStringAuth {
 }
 ```
 
+### 23. Datanyze API Key Authentication
+
+#### Configuration
+```json
+{
+  "datanyze_auth": {
+    "method": "api_key",
+    "api_key": "${DATANYZE_API_KEY}",
+    "header_name": "X-API-Key",
+    "base_url": "https://api.datanyze.com/v1"
+  }
+}
+```
+
+#### Implementation
+```javascript
+class DatanyzeAuth {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://api.datanyze.com/v1';
+  }
+
+  getHeaders() {
+    return {
+      'X-API-Key': this.apiKey,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  async getTechnologies(domain) {
+    const response = await fetch(`${this.baseURL}/technologies?domain=${encodeURIComponent(domain)}`, {
+      headers: this.getHeaders()
+    });
+
+    if (response.status === 401) {
+      throw new Error('Datanyze API key invalid');
+    }
+
+    return response.json();
+  }
+
+  async getContacts(domain) {
+    const response = await fetch(`${this.baseURL}/contacts?domain=${encodeURIComponent(domain)}`, {
+      headers: this.getHeaders()
+    });
+
+    if (response.status === 401) {
+      throw new Error('Datanyze API key invalid');
+    }
+
+    return response.json();
+  }
+}
+```
+
 ## Security Best Practices
 
 ### 1. Environment Variable Management
@@ -1369,6 +1425,7 @@ HCDATA_API_KEY=your_hgdata_key_here
 DISCOVERORG_API_KEY=your_discoverorg_key_here
 BOMBORA_API_KEY=your_bombora_key_here
 EVERSTRING_API_KEY=your_everstring_key_here
+DATANYZE_API_KEY=your_datanyze_key_here
 OUTREACH_CLIENT_ID=your_outreach_client_id
 OUTREACH_CLIENT_SECRET=your_outreach_client_secret
 LINKEDIN_CLIENT_ID=your_linkedin_client_id
@@ -1431,7 +1488,8 @@ class RateLimiter {
       clay: { requests: 1000, window: 3600000 }, // 1000/hour
       lusha: { requests: 120, window: 60000 }, // 120/minute
       seamless: { requests: 60, window: 60000 }, // 60/minute
-      connectwise: { requests: 1000, window: 3600000 } // 1000/hour
+      connectwise: { requests: 1000, window: 3600000 }, // 1000/hour
+      datanyze: { requests: 1000, window: 3600000 } // 1000/hour
     };
     
     this.windows = {};

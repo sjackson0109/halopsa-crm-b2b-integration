@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Datanyze API Configuration - B2B Sales Intelligence Integration",
+  "description": "Configuration schema for Datanyze integration providing B2B technographics and contact data",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "type": "string",
+          "description": "Datanyze API key"
+        },
+        "rate_limit": {
+          "type": "object",
+          "properties": {
+            "requests_per_hour": {
+              "type": "integer",
+              "default": 1000
+            }
+          }
+        }
+      },
+      "required": ["api_key"]
+    },
+    "endpoints": {
+      "type": "object",
+      "properties": {
+        "technologies": {
+          "type": "string",
+          "default": "/technologies"
+        },
+        "contacts": {
+          "type": "string",
+          "default": "/contacts"
+        }
+      }
+    },
+    "data_mapping": {
+      "type": "object",
+      "properties": {
+        "company_fields": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "Company domain for lookups"
+            },
+            "technologies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Technology stack detected"
+            }
+          }
+        },
+        "contact_fields": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "sync_settings": {
+      "type": "object",
+      "properties": {
+        "auto_sync": {
+          "type": "boolean",
+          "default": true
+        },
+        "sync_interval_hours": {
+          "type": "integer",
+          "default": 24
+        },
+        "batch_size": {
+          "type": "integer",
+          "default": 50
+        }
+      }
+    }
+  },
+  "required": ["authentication"]
+}

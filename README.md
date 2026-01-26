@@ -47,6 +47,7 @@ This integration implements a sophisticated three-stage customer acquisition lif
 - **DiscoverOrg** - B2B intent data and technographics
 - **Bombora** - B2B intent data from online behavior
 - **EverString** - Predictive B2B lead scoring using AI
+- **Datanyze** - B2B sales intelligence and technographics
 
 ## Integration Architecture
 
