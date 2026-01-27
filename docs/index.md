@@ -37,15 +37,24 @@ Welcome to the comprehensive documentation for the HaloPSA CRM Custom Integratio
 
 This integration supports the following B2B data sourcing tools:
 
-- **Apollo.io** - Lead generation and enrichment
-- **ZoomInfo** - Business intelligence and contacts
-- **Hunter.io** - Email verification and finding
-- **Lusha** - Contact data enrichment
-- **Seamless.ai** - LinkedIn automation
-- **Lead411** - Business contact database
-- **RocketReach** - Professional contact finder
-- **UpLead** - Business data platform
-- **BookYourData/LeadsBlue** - Data enrichment services
+- **Apollo.io** - Lead database and engagement platform
+- **ZoomInfo** - B2B contact and company database (benchmark)
+- **UpLead** - B2B contact discovery platform
+- **Hunter** - Email finder and verification
+- **Lusha** - Contact and company database
+- **Seamless.ai** - Real-time search engine for B2B contacts
+- **Lead411** - B2B sales intelligence platform
+- **RocketReach** - Contact information database
+- **BookYourData/LeadsBlue** - B2B lead generation service
+- **Crayon** - European B2B data platform with intent signals
+- **Klue** - Conversational intelligence for B2B sales
+- **MadKudu** - B2B lead scoring and qualification
+- **LeadIQ** - Sales intelligence with LinkedIn integration
+- **HG Data** - European B2B contact database with GDPR compliance
+- **DiscoverOrg** - B2B intent data and technographics
+- **Bombora** - B2B intent data from online behavior
+- **EverString** - Predictive B2B lead scoring using AI
+- **Datanyze** - B2B sales intelligence and technographics
 
 ## 🏗️ Integration Methods
 
