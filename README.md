@@ -252,9 +252,9 @@ The integration requires the following custom fields to be configured in HaloPSA
 | CFLeadLastIntentActivity | Last Intent Activity | Date |  | Date of most recent intent signal | Intent & Behavior |
 | CFLeadIntentTopics | Intent Topics | Text |  | Specific topics/products showing interest (e.g., "cloud migration, cybersecurity, data analytics") | Intent & Behavior |
 
-**Prospect Entity Custom Fields (18 fields) - Organized by Tab:**
+**Prospect Entity Custom Fields (22 fields) - Organized by Tab:**
 
-### Qualification Tab (6 fields)
+### Qualification Tab (8 fields)
 | FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
 |-----------|-------------|------|---------------|------------|-----------|
 | CFProspectPainPoints | Pain Points | Text |  | Confirmed business challenges | Qualification |
@@ -263,16 +263,20 @@ The integration requires the following custom fields to be configured in HaloPSA
 | CFProspectFitScore | Fit Score | Integer |  | Overall qualification score (0-100) | Qualification |
 | CFProspectBudget | Budget Range | Dropdown | <$10K | Available budget estimation (<$10K, $10K-$50K, $50K-$100K, $100K-$500K, $500K+) | Qualification |
 | CFProspectTimeframe | Timeframe | Dropdown | 3-6 months | Expected implementation timeline (Immediate, 1-3 months, 3-6 months, 6-12 months, 12+ months) | Qualification |
+| CFProspectIndustry | Industry/Sector | Dropdown | Technology | Primary industry classification (Technology, Healthcare, Finance, Manufacturing, Retail, Education, Government, Other) | Qualification |
+| CFProspectRegion | Geographic Region | Dropdown | North America | Geographic territory (North America, Europe, Asia Pacific, Latin America, Middle East, Africa) | Qualification |
 
-### Prospect Management Tab (6 fields)
+### Prospect Management Tab (8 fields)
 | FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
 |-----------|-------------|------|---------------|------------|-----------|
 | CFProspectStatus | Prospect Status | Dropdown | New | Current prospect status (New, Contacted, Qualified, Nurturing, Disqualified) | Prospect Management |
 | CFProspectNextFollowUp | Next Follow-up Date | Date |  | When to contact prospect next | Prospect Management |
+| CFProspectLastContact | Last Contact Date | Date |  | Date of most recent interaction | Prospect Management |
 | CFProspectCompetition | Competition | Text |  | Who else they're talking to | Prospect Management |
 | CFProspectTechnicalReqs | Technical Requirements | Memo |  | Specific technical needs and constraints | Prospect Management |
 | CFProspectDealValue | Estimated Deal Value | Text |  | Estimated deal size/value | Prospect Management |
 | CFProspectWinProbability | Win Probability | Integer |  | Win probability percentage (0-100) | Prospect Management |
+| CFProspectExpectedClose | Expected Close Date | Date |  | Anticipated deal closure date | Prospect Management |
 
 ### Stakeholders & Communication Tab (6 fields)
 | FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
