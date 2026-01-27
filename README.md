@@ -252,17 +252,37 @@ The integration requires the following custom fields to be configured in HaloPSA
 | CFLeadLastIntentActivity | Last Intent Activity | Date |  | Date of most recent intent signal | Intent & Behavior |
 | CFLeadIntentTopics | Intent Topics | Text |  | Specific topics/products showing interest (e.g., "cloud migration, cybersecurity, data analytics") | Intent & Behavior |
 
-**Prospect Entity Custom Fields (7 fields):**
+**Prospect Entity Custom Fields (18 fields) - Organized by Tab:**
 
+### Qualification Tab (6 fields)
 | FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
 |-----------|-------------|------|---------------|------------|-----------|
 | CFProspectPainPoints | Pain Points | Text |  | Confirmed business challenges | Qualification |
 | CFProspectServices | Qualified Services | Text |  | Matching service offerings | Qualification |
 | CFProspectDecisionMakers | Decision Maker | String |  | Key stakeholder information | Qualification |
-| CFProspectFitScore | Fit Score | Integer |  | Overall qualification score | Qualification |
-| CFProspectTimeframe | Timeframe | String |  | Implementation schedule | Planning |
-| CFProspectBudget | Budget Range | String |  | Available budget estimation | Planning |
-| CFProspectComments | Comments | Memo |  | A storage location for additional comments (EG: note-to-self: explore the timeline) | Planning |
+| CFProspectFitScore | Fit Score | Integer |  | Overall qualification score (0-100) | Qualification |
+| CFProspectBudget | Budget Range | Dropdown | <$10K | Available budget estimation (<$10K, $10K-$50K, $50K-$100K, $100K-$500K, $500K+) | Qualification |
+| CFProspectTimeframe | Timeframe | Dropdown | 3-6 months | Expected implementation timeline (Immediate, 1-3 months, 3-6 months, 6-12 months, 12+ months) | Qualification |
+
+### Prospect Management Tab (6 fields)
+| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
+|-----------|-------------|------|---------------|------------|-----------|
+| CFProspectStatus | Prospect Status | Dropdown | New | Current prospect status (New, Contacted, Qualified, Nurturing, Disqualified) | Prospect Management |
+| CFProspectNextFollowUp | Next Follow-up Date | Date |  | When to contact prospect next | Prospect Management |
+| CFProspectCompetition | Competition | Text |  | Who else they're talking to | Prospect Management |
+| CFProspectTechnicalReqs | Technical Requirements | Memo |  | Specific technical needs and constraints | Prospect Management |
+| CFProspectDealValue | Estimated Deal Value | Text |  | Estimated deal size/value | Prospect Management |
+| CFProspectWinProbability | Win Probability | Integer |  | Win probability percentage (0-100) | Prospect Management |
+
+### Stakeholders & Communication Tab (6 fields)
+| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
+|-----------|-------------|------|---------------|------------|-----------|
+| CFProspectAdditionalStakeholders | Additional Stakeholders | Text |  | Other key people involved in decision | Stakeholders & Communication |
+| CFProspectInternalChampion | Internal Champion | String |  | Prospect's internal advocate | Stakeholders & Communication |
+| CFProspectCommunicationHistory | Communication History | Memo |  | Summary of all interactions and touchpoints | Stakeholders & Communication |
+| CFProspectObjections | Objections/Concerns | Memo |  | Key concerns and objections to address | Stakeholders & Communication |
+| CFProspectBuyingProcess | Buying Process Stage | Dropdown | Awareness | Where they are in their buying journey (Awareness, Consideration, Decision, Purchase) | Stakeholders & Communication |
+| CFProspectComments | Comments | Memo |  | Additional notes and observations | Stakeholders & Communication |
 
 **Opportunity Entity Custom Fields (20 fields):**
 
