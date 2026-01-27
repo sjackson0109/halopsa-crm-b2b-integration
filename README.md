@@ -1,14 +1,14 @@
 # HaloPSA CRM Custom Integration - B2B Data Sourcing Tools
 
-## 📊 Project Status
+## 📊 Development Status
 
-| Status | Indicator | Description |
-|--------|-----------|-------------|
-| **Production Ready** | 🟢 **Ready** | Production-ready integration architecture with automated workflows |
-| **Documentation** | 🟢 **Complete** | Comprehensive docs with examples, schemas, and API references |
-| **CI/CD** | 🟢 **Active** | GitHub Actions deployment with automated documentation publishing |
-| **Security** | 🟢 **Secured** | OAuth2, API key management, and security best practices implemented |
-| **Maintenance** | 🟢 **Active** | Regularly maintained with recent updates and community support |
+| Aspect | Status | Details |
+|--------|--------|---------|
+| **Maturity** | Beta | Core integrations tested, expanding provider coverage |
+| **Documentation** | Comprehensive | Complete API guides, examples, and configuration schemas |
+| **Testing** | Defining | Testing framework and coverage being established |
+| **CI/CD** | Basic | Documentation deployment pipeline active, branch protection enforced |
+| **Community** | Solo | Individual maintainer, open to contributions |
 
 ## Overview
 
@@ -21,17 +21,26 @@ Production-ready integration architecture for connecting HaloPSA with B2B data s
 This integration implements a sophisticated three-stage customer acquisition lifecycle:
 
 ### Lead Lifecycle (Research → Introductions → Conversion)
-- **New Lead** → **Researching** → **Contacted** → **Engaged** → [Convert to Prospect]
+```mermaid
+flowchart LR
+    A[New Lead] --> B[Researching] --> C[Contacted] --> D[Engaged] --> E[Convert to Prospect]
+```
 - Alternative exits: No Interest, Do Not Contact, Invalid Data
 
-### Prospect Lifecycle (Prospecting → Qualification)  
-- **New Prospect** → **Prospecting** → **Qualified** → [Promote to Opportunity]
+### Prospect Lifecycle (Prospecting → Qualification)
+```mermaid
+flowchart LR
+    A[New Prospect] --> B[Prospecting] --> C[Qualified] --> D[Promote to Opportunity]
+```
 - Alternative exit: Disqualified
 
 ### Opportunity Lifecycle (Progressing → Negotiation)
-- **New Opportunity** → **Progressing** → **Negotiation** → **Won/Lost**
+```mermaid
+flowchart LR
+    A[New Opportunity] --> B[Progressing] --> C[Negotiation] --> D[Won/Lost]
+```
 
-📋 📋 **[Complete Workflow Documentation →](docs/custom-crm-configuration.md)**
+**[Complete Workflow Documentation →](docs/custom-crm-configuration.md)**
 
 ### Entity Attributes & Custom Fields
 
@@ -55,14 +64,14 @@ This integration implements a sophisticated three-stage customer acquisition lif
 - **LeadIQ** - Sales intelligence with LinkedIn integration
 - **HG Data** - European B2B contact database with GDPR compliance
 - **DiscoverOrg** - B2B intent data and technographics
-- **Bombora** - B2B intent data from online behavior
+- **Bombora** - B2B intent data from online behaviour
 - **EverString** - Predictive B2B lead scoring using AI
 - **Datanyze** - B2B sales intelligence and technographics
 
 ## Integration Architecture
 
 ### Core Integration Methods
-1. **Direct REST API Integration** - API-to-API data synchronization
+1. **Direct REST API Integration** - API-to-API data synchronisation
 2. **Webhook-based Ingestion** - Real-time data push from B2B tools
 3. **Halo Integrator Service** - Native polling service for custom endpoints
 4. **Middleware Orchestration** - Custom transformation and routing logic
@@ -76,9 +85,11 @@ This integration implements a sophisticated three-stage customer acquisition lif
 - **Third-party iPaaS** (n8n, Make, Integrately, Zapier, Power Automate)
 
 ### Data Flow Pattern
-```
-B2B Data Tool → Lead Creation → Prospect Conversion → Opportunity Promotion
-(Apollo, etc.)   (New/Research)   (Qualification)      (Sales Process)
+```mermaid
+flowchart LR
+    A["B2B Data Tool\n(Apollo, etc.)"] --> B["Lead Creation\n(New/Research)"]
+    B --> C["Prospect Conversion\n(Qualification)"]
+    C --> D["Opportunity Promotion\n(Sales Process)"]
 ```
 
 ## 🚀 Production Implementation
@@ -95,7 +106,7 @@ const result = await integrator.poll();
 // ✓ Apollo data → Lead creation
 // ✓ Lead status "engaged" → Prospect conversion  
 // ✓ Prospect "qualified" + fit score ≥70 → Opportunity promotion
-// ✓ Call record synchronization
+// ✓ Call record synchronisation
 
 console.log(result.metrics);
 // {
@@ -218,34 +229,65 @@ Reference [halopsa-api-config.json](schemas/halopsa-api-config.json) for:
 #### Required Custom Fields Setup
 The integration requires the following custom fields to be configured in HaloPSA:
 
-**Lead Entity Custom Fields (CFLeadSource-113):**
-- **CFLeadSource**: Lead Source (Dropdown) - Source platform identification
-- **CF_102**: Services Offered (Text) - Primary business offerings
-- **CF_103**: Growth Signals (Text) - Expansion/growth indicators
-- **CF_104**: Project Pipelines (Text) - Pipeline opportunities
-- **CF_105**: Do Not Contact (Boolean) - Contact restriction flag
-- **CF_106**: Technology Stack (Text) - Current technologies and software in use
-- **CF_107**: Revenue Range (Dropdown) - Annual revenue bracket ($1M-5M, $5M-25M, etc.)
-- **CF_108**: Employee Count Range (Dropdown) - Company size category (10-50, 51-200, 201-1000, etc.)
-- **CF_109**: Management Level (Dropdown) - Contact's seniority (C-Suite, VP, Director, Manager, etc.)
-- **CF_110**: Department Function (Dropdown) - Contact's department (IT, Finance, Operations, etc.)
-- **CF_111**: Intent Signals (Text) - Buying intent indicators and behavioral signals
-- **CF_112**: Company Founded Year (Integer) - Year company was established
-- **CF_113**: Location/HQ Address (Text) - Company headquarters location
+**Lead Entity Custom Fields (18 fields):**
 
-**Prospect Entity Custom Fields (CF_201-206):**
-- **CF_201**: Pain Points (Text) - Confirmed business challenges
-- **CF_202**: Qualified Services (Text) - Matching service offerings
-- **CF_203**: Decision Maker (String) - Key stakeholder information
-- **CF_204**: Budget Range (String) - Available budget estimation
-- **CF_205**: Timeframe (String) - Implementation schedule
-- **CF_206**: Fit Score (Integer) - Overall qualification score
+| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
+|-----------|-------------|------|---------------|------------|-----------|
+| CFLeadSource | Lead Source | Dropdown | Apollo.io | Source platform identification | Lead Basics |
+| CFLeadServicesOffered | Services Offered | Text |  | Primary business offerings | Lead Basics |
+| CFLeadGrowthSignals | Growth Signals | Text |  | Expansion/growth indicators | Lead Basics |
+| CFLeadProjectPipelines | Project Pipelines | Text |  | Pipeline opportunities | Lead Basics |
+| CFDND | Do Not Contact | Boolean | false | Contact restriction flag | Lead Basics |
+| CFLeadTechStack | Technology Stack | Text |  | Current technologies and software in use | Lead Basics |
+| CFLeadRevenueRange | Revenue Range | Dropdown | $1-5M | Annual revenue bracket (<$1M, $1-5M, $5-10M, $10-25M, $25-50M, $50-100M, $100M+) | Company Profile |
+| CFLeadEmployeeCount | Employee Count Range | Dropdown | 51-200 | Company size category (1-10, 11-50, 51-200, 201-500, 501-1000, 1001-5000, 5000+) | Company Profile |
+| CFLeadFoundingYear | Company Founded Year | Integer |  | Year company was established | Company Profile |
+| CFLeadHQLocation | Location/HQ Address | Text |  | Company headquarters location | Company Profile |
+| CFLeadManagementLevel | Management Level | Dropdown | Manager | Contact's seniority (CEO, CFO, CTO, COO, President, Vice President, Director, Senior Manager, Manager, Senior, Individual Contributor, Other) | Contact Profile |
+| CFLeadDepartmentFunction | Department Function | Dropdown | IT | Contact's department (IT, Finance, Operations, Sales, Marketing, HR, Legal, Engineering, Product, Customer Success, Procurement, Supply Chain, Manufacturing, R&D, Compliance, Business Development, Communications, Facilities, Security, Other) | Contact Profile |
+| CFLeadIntentSignals | Intent Signals | Memo |  | Structured intent data: website visits, content downloads, search terms, job postings, competitor mentions, social engagement, email interactions | Intent & Behavior |
+| CFLeadIntentStrength | Intent Strength | Dropdown | Low | Buying intent level (Low, Medium, High, Urgent) | Intent & Behavior |
+| CFLeadIntentStage | Intent Stage | Dropdown | Awareness | Buyer's journey stage (Awareness, Consideration, Decision, Purchase) | Intent & Behavior |
+| CFLeadIntentSource | Intent Source | Dropdown | Organic | How intent was detected (Organic Search, Paid Ads, Social Media, Referrals, Direct, Content Marketing, Events) | Intent & Behavior |
+| CFLeadLastIntentActivity | Last Intent Activity | Date |  | Date of most recent intent signal | Intent & Behavior |
+| CFLeadIntentTopics | Intent Topics | Text |  | Specific topics/products showing interest (e.g., "cloud migration, cybersecurity, data analytics") | Intent & Behavior |
 
-**Opportunity Entity Custom Fields (CF_301-304):**
-- **CF_301**: Products/Services (Text) - Solution components being offered
-- **CF_302**: Quotes/Proposals (Text) - Proposal and pricing information
-- **CF_303**: Competitors (Text) - Competitive landscape details
-- **CF_304**: Win/Loss Reason (Text) - Deal outcome analysis
+**Prospect Entity Custom Fields (7 fields):**
+
+| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
+|-----------|-------------|------|---------------|------------|-----------|
+| CFProspectPainPoints | Pain Points | Text |  | Confirmed business challenges | Qualification |
+| CFProspectServices | Qualified Services | Text |  | Matching service offerings | Qualification |
+| CFProspectDecisionMakers | Decision Maker | String |  | Key stakeholder information | Qualification |
+| CFProspectFitScore | Fit Score | Integer |  | Overall qualification score | Qualification |
+| CFProspectTimeframe | Timeframe | String |  | Implementation schedule | Planning |
+| CFProspectBudget | Budget Range | String |  | Available budget estimation | Planning |
+| CFProspectComments | Comments | Memo |  | A storage location for additional comments (EG: note-to-self: explore the timeline) | Planning |
+
+**Opportunity Entity Custom Fields (20 fields):**
+
+| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
+|-----------|-------------|------|---------------|------------|-----------|
+| CFOpportunitySolutions | Solutions/Products/Services | Text |  | Solution components being offered | Deal Basics |
+| CFOpportunityQuotes | Quotes/Proposals | Text |  | Proposal and pricing information | Deal Basics |
+| CFOpportunityCompetitors | Competitors | Text |  | Competitive landscape details | Deal Basics |
+| CFOpportunityOutcome | Win/Loss Reason | Text |  | Deal outcome analysis | Deal Basics |
+| CFOpportunityDealStage | Deal Stage | Dropdown | Discovery | Internal deal progression (Discovery, Technical Review, POC, Proposal, Contract, Closed) | Deal Basics |
+| CFOpportunityForecast | Forecast Category | Dropdown | Pipeline | Forecast confidence (Pipeline, Best Case, Commit, Closed) | Deal Basics |
+| CFOpportunityScope | Scope and Requirements | Memo |  | Project scope, deliverables, and requirements | Technical Requirements |
+| CFOpportunityTechnicalReqs | Technical Requirements | Memo |  | Technical specifications and infrastructure needs | Technical Requirements |
+| CFOpportunityArchitecture | Technical Architecture | Memo |  | Technical solution architecture and design | Technical Requirements |
+| CFOpportunityIntegration | Integration Requirements | Memo |  | System integration and API requirements | Technical Requirements |
+| CFOpportunitySupport | Support Requirements | Memo |  | Post-implementation support and maintenance needs | Technical Requirements |
+| CFOpportunityTraining | Training Requirements | Memo |  | User training and change management needs | Technical Requirements |
+| CFOpportunityDecisionMakers | Decision Makers | Text |  | Key stakeholders and approvers involved | Contract & Legal |
+| CFOpportunityBudgetStatus | Budget Approval Status | Dropdown | Pending | Budget approval progress (Pending, Approved, Rejected, Under Review) | Contract & Legal |
+| CFOpportunityContractTerms | Contract Terms | Memo |  | Contract terms, SLAs, and legal requirements | Contract & Legal |
+| CFOpportunityRisks | Risk Factors | Memo |  | Identified risks and mitigation strategies | Contract & Legal |
+| CFOpportunityTimeline | Implementation Timeline | Date |  | Proposed implementation schedule | Contract & Legal |
+| CFOpportunityNextSteps | Next Steps/Action Items | Memo |  | Immediate next steps and action items | Implementation & Success |
+| CFOpportunityGoLive | Go-Live Date | Date |  | Planned go-live or implementation date | Implementation & Success |
+| CFOpportunitySuccessMetrics | Success Metrics | Memo |  | Success criteria and KPIs for the implementation | Implementation & Success |
 
 ## Getting Started
 
