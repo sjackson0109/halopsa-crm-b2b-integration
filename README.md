@@ -1,5 +1,6 @@
 # HaloPSA CRM Custom Integration - B2B Data Sourcing Tools
 
+
 ## 📊 Development Status
 
 | Aspect | Status | Details |
@@ -10,15 +11,18 @@
 | **CI/CD** | Basic | Documentation deployment pipeline active, branch protection enforced |
 | **Community** | Solo | Individual maintainer, open to contributions |
 
+
 ## Overview
 
 Production-ready integration architecture for connecting HaloPSA with B2B data sourcing tools using a **custom Lead → Prospect → Opportunity workflow**. Designed for developers, technical architects, and MSPs building maintainable integrations with automated entity progression.
 
 **[Complete Documentation →](https://sjackson0109.github.io/halopsa-crm-b2b-integration/)**
 
+
 ## Custom CRM Workflow
 
 This integration implements a sophisticated three-stage customer acquisition lifecycle:
+
 
 ### Lead Lifecycle (Research → Introductions → Conversion)
 ```mermaid
@@ -27,12 +31,14 @@ flowchart LR
 ```
 - Alternative exits: No Interest, Do Not Contact, Invalid Data
 
+
 ### Prospect Lifecycle (Prospecting → Qualification)
 ```mermaid
 flowchart LR
     A[New Prospect] --> B[Prospecting] --> C[Qualified] --> D[Promote to Opportunity]
 ```
 - Alternative exit: Disqualified
+
 
 ### Opportunity Lifecycle (Progressing → Negotiation)
 ```mermaid
@@ -42,11 +48,13 @@ flowchart LR
 
 **[Complete Workflow Documentation →](docs/custom-crm-configuration.md)**
 
+
 ### Entity Attributes & Custom Fields
 
 **Lead Entity:** Contact data + Research intelligence (Services Offered, Growth Signals, Project Pipelines)  
 **Prospect Entity:** Inherited Lead data + Qualification data (Pain Points, Budget Range, Decision Maker, Fit Score)  
 **Opportunity Entity:** Inherited data + Sales data (Opportunity Value, Probability %, Expected Close Date, Competitors)
+
 
 ### Supported B2B Data Providers
 - **Apollo.io** - Lead database and engagement platform
@@ -68,7 +76,9 @@ flowchart LR
 - **EverString** - Predictive B2B lead scoring using AI
 - **Datanyze** - B2B sales intelligence and technographics
 
+
 ## Integration Architecture
+
 
 ### Core Integration Methods
 1. **Direct REST API Integration** - API-to-API data synchronisation
@@ -77,12 +87,14 @@ flowchart LR
 4. **Middleware Orchestration** - Custom transformation and routing logic
 5. **iPaaS Solutions** - Third-party integration platforms
 
+
 ### HaloPSA Integration Capabilities
 - **REST API** (OAuth / Client ID + Secret)
 - **Webhooks** (Inbound and Outbound)
 - **Halo Integrator** (Native polling service for custom API endpoints)
 - **Runbooks** (Automation workflows)
 - **Third-party iPaaS** (n8n, Make, Integrately, Zapier, Power Automate)
+
 
 ### Data Flow Pattern
 ```mermaid
@@ -92,7 +104,9 @@ flowchart LR
     C --> D["Opportunity Promotion\n(Sales Process)"]
 ```
 
+
 ## 🚀 Production Implementation
+
 
 ### 1. Custom Workflow Integrator
 Ready-to-deploy service with automated entity progression:
@@ -116,6 +130,7 @@ console.log(result.metrics);
 // }
 ```
 
+
 ### 2. JSON Configuration Library
 Complete API configurations for immediate deployment:
 
@@ -130,12 +145,14 @@ schemas/
 └── environment-config.json        # API keys & tenant configuration
 ```
 
+
 ### 3. Integration Methods
 - **Custom Middleware** - Complete workflow automation service
 - **Halo Integrator** - Native HaloPSA polling service  
 - **Webhooks** - Real-time data ingestion
 - **n8n Workflows** - Visual automation platform
 - **Direct API** - REST API integrations
+
 
 ## Repository Structure
 
@@ -157,18 +174,26 @@ schemas/
 ├── examples/ 🚀
 │   ├── custom-middleware/
 │   │   └── apollo-halo-integrator.js  # Production-ready Node.js service
+│   ├── custom-fuctions/
+│   │   ├── phone-number-normaliser.js # Phone number E.164/E.123 formatter
+│   │   ├── e164_e123_country_code_table.xml # Country code data
+│   │   └── README.md                  # Phone normalization guide
 │   ├── n8n-workflows/
 │   │   └── apollo-to-halopsa-sync.json # Complete n8n workflow
 │   └── .env.example               # Environment configuration template
 ```
 
+
 ## Key Features Covered
 
+
 ### Data Models & Field Mappings
-- HaloPSA entity schemas (Prospects, Organizations, Contacts)
+- HaloPSA entity schemas (Prospects, Organisations, Contacts)
 - B2B tool data structure mapping
 - Field transformation patterns
 - Data validation rules
+- **Phone Number Normalization**: E.164/E.123 formatting utility
+
 
 ### Authentication Flows
 - OAuth 2.0 implementations
@@ -176,11 +201,13 @@ schemas/
 - Token refresh mechanisms
 - Security best practices
 
+
 ### Webhook Integration
 - Payload specifications
 - Event handling patterns
 - Retry mechanisms
 - Security validation
+
 
 ### Error Handling & Deduplication
 - Duplicate detection algorithms
@@ -188,10 +215,12 @@ schemas/
 - Rate limiting strategies
 - Monitoring and alerting
 
+
 ### Middleware Recommendations
 - **HaloPSA Native**: Halo Integrator, Custom Integrations, Webhooks, Runbooks
 - **Third-party iPaaS**: n8n, Make, Zapier, Power Automate
 - **Custom Services**: Node.js, Python, .NET implementations
+
 
 ## Target Audience
 
@@ -200,12 +229,15 @@ schemas/
 - **MSPs**: Implementing client data management workflows
 - **Integration Specialists**: Creating maintainable automation solutions
 
+
 ## Quick Start
+
 
 ### 1. Choose Your Integration Method
 - **Halo Integrator** (Recommended): Use [halo-integrator-config.json](schemas/halo-integrator-config.json) for native polling setup
 - **Custom API**: Implement using [apollo-halo-integrator.js](examples/custom-middleware/apollo-halo-integrator.js) example
 - **n8n Workflow**: Import [apollo-to-halopsa-sync.json](examples/n8n-workflows/apollo-to-halopsa-sync.json) 
+
 
 ### 2. Configure Your Environment  
 Copy [.env.example](examples/.env.example) and configure:
@@ -214,17 +246,20 @@ cp examples/.env.example .env
 # Edit .env with your API keys and settings
 ```
 
+
 ### 3. Set Up B2B Data Source
 Use the JSON configs for API setup:
 - [Apollo.io](schemas/apollo-io-config.json) - Search queries and field mappings
 - [ZoomInfo](schemas/zoominfo-config.json) - Authentication and data models
 - [Hunter.io](schemas/hunter-io-config.json) - Email discovery and verification
 
+
 ### 4. Configure HaloPSA
 Reference [halopsa-api-config.json](schemas/halopsa-api-config.json) for:
 - Entity schemas and required fields
 - API endpoints and authentication
 - Custom field setup
+
 
 #### Required Custom Fields Setup
 The integration requires the following custom fields to be configured in HaloPSA:
@@ -254,6 +289,7 @@ The integration requires the following custom fields to be configured in HaloPSA
 
 **Prospect Entity Custom Fields (20 fields) - Organised by Field Groups (sections):**
 
+
 ### Qualification Section (8 fields)
 | FieldName | Field Label | Type | Default Value | Field Hint | Field Group |
 |-----------|-------------|------|---------------|------------|-------------|
@@ -266,6 +302,7 @@ The integration requires the following custom fields to be configured in HaloPSA
 | CFProspectIndustry | Industry/Sector | Dropdown | Technology | Primary industry classification (Technology, Healthcare, Finance, Manufacturing, Retail, Education, Government, Professional Services, Construction, Real Estate, Transportation, Energy, Utilities, Telecommunications, Media & Entertainment, Agriculture, Food & Beverage, Hospitality, Automotive, Aerospace, Defence, Pharmaceuticals, Biotechnology, Chemicals, Mining, Insurance, Legal Services, Non-Profit, Other) | Qualification |
 | CFProspectRegion | Geographic Region | Dropdown | UK | Geographic territory (North America, USA, Canada, Mexico, Central America, Caribbean, South America, Brazil, Argentina, Chile, Colombia, Peru, Venezuela, Europe, UK, Germany, France, Italy, Spain, Netherlands, Belgium, Switzerland, Austria, Nordic Countries, Eastern Europe, Russia, Asia Pacific, China, Japan, South Korea, India, Australia, New Zealand, Southeast Asia, Indonesia, Thailand, Philippines, Vietnam, Singapore, Middle East, UAE, Saudi Arabia, Qatar, Kuwait, Oman, Bahrain, Israel, Turkey, Iran, Iraq, Africa, South Africa, Nigeria, Kenya, Egypt, Morocco, Ghana, Ethiopia, Tanzania, Sub-Saharan Africa, North Africa, East Africa, West Africa, Central Africa, Southern Africa) | Qualification |
 
+
 ### Prospect Management Section (6 fields)
 | FieldName | Field Label | Type | Default Value | Field Hint | Field Group |
 |-----------|-------------|------|---------------|------------|-------------|
@@ -275,6 +312,8 @@ The integration requires the following custom fields to be configured in HaloPSA
 | CFProspectExpectedClose | Expected Close Date | Date |  | Anticipated deal closure date | Prospect Management |
 | CFProspectNextAction | Next Action Item | Text |  | Specific action required to advance the deal | Prospect Management |
 | CFProspectPriority | Sales Priority | Dropdown | Medium | Priority level for follow-up activities (Low, Medium, High, Critical) | Prospect Management |
+
+
 
 ### Stakeholders & Communication Section (6 fields)
 | FieldName | Field Label | Type | Default Value | Field Hint | Field Group |
@@ -286,29 +325,31 @@ The integration requires the following custom fields to be configured in HaloPSA
 | CFProspectBuyingProcess | Buying Process Stage | Dropdown | Awareness | Where they are in their buying journey (Awareness, Consideration, Decision, Purchase) | Stakeholders & Communication |
 | CFProspectComments | Comments | Memo |  | Additional notes and observations | Stakeholders & Communication |
 
+
 **Opportunity Entity Custom Fields (21 fields):**
 
 | FieldName | Field Label | Type | Default Value | Field Hint | Field Group |
 |-----------|-------------|------|---------------|------------|-------------|
-| CFOpportunitySolutions | Solutions/Products/Services | Text |  | Solution components being offered | Deal Basics |
-| CFOpportunityQuotes | Quotes/Proposals | Text |  | Proposal and pricing information | Deal Basics |
-| CFOpportunityCompetitors | Competitors | Text |  | Competitive landscape details | Deal Basics |
-| CFOpportunityOutcome | Win/Loss Reason | Text |  | Deal outcome analysis | Deal Basics |
-| CFOpportunityDealStage | Deal Stage | Dropdown | Discovery | Internal deal progression (Discovery, Technical Review, POC, Proposal, Contract, Closed) | Deal Basics |
-| CFOpportunityForecast | Forecast Category | Dropdown | Pipeline | Forecast confidence (Pipeline, Best Case, Commit, Closed) | Deal Basics |
-| CFOpportunityBudgetConfidence | Budget Confidence | Dropdown | Medium | Confidence level in customer's budget approval (Low, Medium, High, Confirmed) | Deal Basics |
+| CFOpportunitySolutions | Solutions/Products/Services | Text |  | Solution components being offered | Deal |
+| CFOpportunityQuotes | Quotes/Proposals | Text |  | Proposal and/or Quotation sent to contact | Deal |
+| CFOpportunityCompetitors | Competitors | Text |  | Competitive landscape details | Deal |
+| CFOpportunityOutcome | Win/Loss Reason | Text |  | Deal outcome analysis | Deal |
+| CFOpportunityDealStage | Deal Stage | Dropdown | Discovery | Internal deal progression (Discovery, Technical Review, POC, Proposal, Contract, Closed) | Deal |
+| CFOpportunityForecast | Forecast Category | Dropdown | Pipeline | Forecast confidence (Pipeline, Best Case, Commit, Closed) | Deal |
+| CFOpportunityBudgetConfidence | Budget Confidence | Dropdown | Medium | Confidence level in customer's budget approval (Low, Medium, High, Confirmed) | Deal |
 | CFOpportunityScope | Scope and Requirements | Memo |  | Project scope, deliverables, and requirements | Technical Requirements |
-| CFOpportunityTechnicalReqs | Technical Requirements | Memo |  | Technical specifications and infrastructure needs | Technical Requirements |
+| CFOpportunityTechnicalRequirements | Technical Requirements | Memo |  | Technical specifications and infrastructure needs | Technical Requirements |
 | CFOpportunityArchitecture | Technical Architecture | Memo |  | Technical solution architecture and design | Technical Requirements |
 | CFOpportunityIntegration | Integration Requirements | Memo |  | System integration and API requirements | Technical Requirements |
 | CFOpportunitySupport | Support Requirements | Memo |  | Post-implementation support and maintenance needs | Technical Requirements |
 | CFOpportunityTraining | Training Requirements | Memo |  | User training and change management needs | Technical Requirements |
 | CFOpportunityDecisionMakers | Decision Makers | Text |  | Key stakeholders and approvers involved | Contract & Legal |
-| CFOpportunityBudgetStatus | Budget Approval Status | Dropdown | Pending | Budget approval progress (Pending, Approved, Rejected, Under Review) | Contract & Legal |
+| CFOpportunityBudgetApprovalStatus | Budget Approval Status | Dropdown | Pending | Budget approval progress (Pending, Approved, Rejected, Under Review) | Contract & Legal |
 | CFOpportunityContractTerms | Contract Terms | Memo |  | Contract terms, SLAs, and legal requirements | Contract & Legal |
 | CFOpportunityRisks | Risk Factors | Memo |  | Identified risks and mitigation strategies | Contract & Legal |
-| CFOpportunityTimeline | Implementation Timeline | Date |  | Proposed implementation schedule | Contract & Legal |
-| CFOpportunitySuccessMetrics | Success Metrics | Memo |  | Success criteria and KPIs for the implementation | Implementation & Success |
+| CFOpportunityTimeline | Implementation Timeline | Date |  | Proposed implementation START schedule | Contract & Legal |
+| CFOpportunitySuccessMetrics | Success Metrics | Memo |  | Success criteria and KPIs for the implementation | Contract & Legal |
+
 
 ## Getting Started
 
@@ -318,9 +359,11 @@ The integration requires the following custom fields to be configured in HaloPSA
 4. Implement [Error Handling](docs/error-handling/) patterns
 5. Deploy and monitor your integration
 
+
 ## Contributing
 
 This project serves as a reference implementation and best practices guide. Contributions that improve documentation clarity, add new B2B tool support, or enhance integration patterns are welcome.
+
 
 ## License
 
