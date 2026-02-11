@@ -1,6 +1,6 @@
 # Phone Number Normaliser
 
-A utility for normalizing phone numbers to standardized formats for CRM integration.
+A utility for normalising phone numbers to standardised formats for CRM integration.
 
 ## Features
 
@@ -17,8 +17,8 @@ const PhoneNumberNormaliser = require('./phone-number-normaliser');
 
 const normaliser = new PhoneNumberNormaliser();
 
-// Normalize a single phone number
-const result = normaliser.normalize('(555) 123-4567', 'USA');
+// Normalise a single phone number
+const result = normaliser.normalise('(555) 123-4567', 'USA');
 console.log(result);
 // {
 //   original: '(555) 123-4567',
@@ -28,13 +28,13 @@ console.log(result);
 //   region: 'USA'
 // }
 
-// Batch normalize multiple numbers
-const results = normaliser.normalizeBatch(['+44 20 7946 0123', '07123456789'], 'UK');
+// Batch normalise multiple numbers
+const results = normaliser.normaliseBatch(['+44 20 7946 0123', '07123456789'], 'UK');
 ```
 
 ## Supported Regions
 
-The utility recognizes regions and maps them to country codes:
+The utility recognises regions and maps them to country codes:
 
 - **UK**: United Kingdom → 44
 - **USA**: United States → 1
@@ -61,7 +61,7 @@ The utility recognizes regions and maps them to country codes:
 This utility is designed to work with the HaloPSA CRM custom fields:
 
 1. **Input**: Phone numbers from B2B data sources
-2. **Processing**: Normalize to E.164 for storage, E.123 for display
+2. **Processing**: Normalise to E.164 for storage, E.123 for display
 3. **Storage**: Store E.164 in CF_PrimaryPhone_E164
 4. **Display**: Show E.123 in CF_PrimaryPhone_Display for manual dialing
 
@@ -74,15 +74,15 @@ This utility is designed to work with the HaloPSA CRM custom fields:
 
 ```javascript
 // US number from Apollo.io
-normaliser.normalize('555.123.4567', 'USA');
+normaliser.normalise('555.123.4567', 'USA');
 // → { e164: '+15551234567', e123: '+1 555-123-4567' }
 
 // UK number from ZoomInfo
-normaliser.normalize('020 7946 0123', 'UK');
+normaliser.normalise('020 7946 0123', 'UK');
 // → { e164: '+4402079460123', e123: '+44 020 794 60123' }
 
 // International number
-normaliser.normalize('+33 1 42 68 53 00', 'France');
+normaliser.normalise('+33 1 42 68 53 00', 'France');
 // → { e164: '+33142685300', e123: '+33 1 42 68 53 00' }
 ```</content>
 <parameter name="filePath">c:\Users\Administrator\Documents\HaloPSA CRM Custom Integration\examples\custom-fuctions\README.md
