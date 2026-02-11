@@ -1,9 +1,9 @@
 /**
- * Phone Number Normalization Utility
+ * Phone Number Normalisation Utility
  *
  * Converts phone numbers to standardized formats for CRM integration:
  * - E.164: International standard (+1234567890)
- * - E.123: National format for human readability ((123) 456-7890)
+ * - E.123: National format for human readability (+1 (123) 456-7890)
  *
  * Features:
  * - Strips non-numeric characters
