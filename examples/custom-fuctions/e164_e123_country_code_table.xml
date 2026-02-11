@@ -1,0 +1,2675 @@
+<?xml version="1.0" encoding="utf-8"?>
+<E164E123CountryCodeTable>
+  <Metadata>
+    <generated_utc>2026-02-04T01:21:00Z</generated_utc>
+    <source>combined: ITU E.164C (2011) worksheet + libphonenumber examples/metadata</source>
+    <row_count>204</row_count>
+  </Metadata>
+  <Columns>
+    <Column name="calling_code"/>
+    <Column name="country"/>
+    <Column name="itu_territories"/>
+    <Column name="itu_nsn_raw"/>
+    <Column name="itu_international_prefix"/>
+    <Column name="itu_nsn_lengths"/>
+    <Column name="e164_nsn_lengths"/>
+    <Column name="prefix_regex"/>
+    <Column name="e164_length_regex"/>
+    <Column name="example_e123"/>
+    <Column name="number_format"/>
+  </Columns>
+  <Entries>
+    <Entry calling_code="1">
+      <calling_code>1</calling_code>
+      <country>Shared</country>
+      <itu_territories>American Samoa; Anguilla; Antigua and Barbuda; Bahamas; Barbados; Bermuda; British Virgin Islands; Canada; Cayman Islands; Dominica; Dominican Rep.; Grenada; Guam; Jamaica; Montserrat; Northern Marianas; Puerto Rico; Saint Lucia; Saint Vincent and the; Sint Maarten (Dutch part); Turks and Caicos Islands; United States; United States Virgin Islands; and Tristan da Cunha Saint Kitts and Nevis; international service, shared code Trinidad and Tobago</itu_territories>
+      <itu_nsn_raw>(242)+7 digits; (246)+7 digits; (264)+7 digits; (268)+7 digits; (284)+7 digits; (340)+7 digits; (345)+7 digits; (441)+7 digits; (473)+7 digits; (649)+7 digits; (664)+7 digits; (670)+7 digits; (671)+7 digits; (684)+7 digits; (721) + 7 digits; (758)+7 digits; (767)+7 digits; (784)+7 digits; (787/939)+7 digits; (809/829)+7 digits; (868)+7 digits; (869)+7 digits; (876)+7 digits; 10 digits</itu_nsn_raw>
+      <itu_international_prefix>0; 011</itu_international_prefix>
+      <itu_nsn_lengths>7,10</itu_nsn_lengths>
+      <e164_nsn_lengths>7,10</e164_nsn_lengths>
+      <prefix_regex>^\+1</prefix_regex>
+      <e164_length_regex>^\+1(?:\d{7}|\d{10})$</e164_length_regex>
+      <example_e123>+1 268-460-1234</example_e123>
+      <number_format>'+X XXX-XXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="7">
+      <calling_code>7</calling_code>
+      <country>Shared</country>
+      <itu_territories>Kazakhstan; Russian Federation</itu_territories>
+      <itu_nsn_raw>10 digits</itu_nsn_raw>
+      <itu_international_prefix>810</itu_international_prefix>
+      <itu_nsn_lengths>5-7,10,14</itu_nsn_lengths>
+      <e164_nsn_lengths>10,14</e164_nsn_lengths>
+      <prefix_regex>^\+7</prefix_regex>
+      <e164_length_regex>^\+7(?:\d{10}|\d{14})$</e164_length_regex>
+      <example_e123>+7 71234 5 67 89</example_e123>
+      <number_format>'+X XXXXX X XX XX</number_format>
+    </Entry>
+    <Entry calling_code="20">
+      <calling_code>20</calling_code>
+      <country>Egypt</country>
+      <itu_territories>Egypt</itu_territories>
+      <itu_nsn_raw>7 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-10</itu_nsn_lengths>
+      <e164_nsn_lengths>8-10</e164_nsn_lengths>
+      <prefix_regex>^\+20</prefix_regex>
+      <e164_length_regex>^\+20(?:\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+20 2 34567890</example_e123>
+      <number_format>'+XX X XXXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="27">
+      <calling_code>27</calling_code>
+      <country>South Africa</country>
+      <itu_territories>South Africa</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-10</itu_nsn_lengths>
+      <e164_nsn_lengths>5-10</e164_nsn_lengths>
+      <prefix_regex>^\+27</prefix_regex>
+      <e164_length_regex>^\+27(?:\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+27 10 123 4567</example_e123>
+      <number_format>'+XX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="30">
+      <calling_code>30</calling_code>
+      <country>Greece</country>
+      <itu_territories>System (GMSS), shared code Greece</itu_territories>
+      <itu_nsn_raw>10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>10-12</itu_nsn_lengths>
+      <e164_nsn_lengths>10-12</e164_nsn_lengths>
+      <prefix_regex>^\+30</prefix_regex>
+      <e164_length_regex>^\+30(?:\d{10}|\d{11}|\d{12})$</e164_length_regex>
+      <example_e123>+30 21 2345 6789</example_e123>
+      <number_format>'+XX XX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="31">
+      <calling_code>31</calling_code>
+      <country>Netherlands</country>
+      <itu_territories>Netherlands</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-11</itu_nsn_lengths>
+      <e164_nsn_lengths>5-11</e164_nsn_lengths>
+      <prefix_regex>^\+31</prefix_regex>
+      <e164_length_regex>^\+31(?:\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+31 10 123 4567</example_e123>
+      <number_format>'+XX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="32">
+      <calling_code>32</calling_code>
+      <country>Belgium</country>
+      <itu_territories>Belgium</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+32</prefix_regex>
+      <e164_length_regex>^\+32(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+32 12 34 56 78</example_e123>
+      <number_format>'+XX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="33">
+      <calling_code>33</calling_code>
+      <country>France</country>
+      <itu_territories>France</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+33</prefix_regex>
+      <e164_length_regex>^\+33(?:\d{9})$</e164_length_regex>
+      <example_e123>+33 1 23 45 67 89</example_e123>
+      <number_format>'+XX X XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="34">
+      <calling_code>34</calling_code>
+      <country>Spain</country>
+      <itu_territories>Spain</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+34</prefix_regex>
+      <e164_length_regex>^\+34(?:\d{9})$</e164_length_regex>
+      <example_e123>+34 810 12 34 56</example_e123>
+      <number_format>'+XX XXX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="36">
+      <calling_code>36</calling_code>
+      <country>Hungary</country>
+      <itu_territories>Hungary</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+36</prefix_regex>
+      <e164_length_regex>^\+36(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+36 1 234 5678</example_e123>
+      <number_format>'+XX X XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="39">
+      <calling_code>39</calling_code>
+      <country>Shared</country>
+      <itu_territories>Italy; Vatican</itu_territories>
+      <itu_nsn_raw>up to 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-12</itu_nsn_lengths>
+      <e164_nsn_lengths>6-12</e164_nsn_lengths>
+      <prefix_regex>^\+39</prefix_regex>
+      <e164_length_regex>^\+39(?:\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12})$</e164_length_regex>
+      <example_e123>+39 02 1234 5678</example_e123>
+      <number_format>'+XX XX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="40">
+      <calling_code>40</calling_code>
+      <country>Romania</country>
+      <itu_territories>Romania</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,9</itu_nsn_lengths>
+      <e164_nsn_lengths>6,9</e164_nsn_lengths>
+      <prefix_regex>^\+40</prefix_regex>
+      <e164_length_regex>^\+40(?:\d{6}|\d{9})$</e164_length_regex>
+      <example_e123>+40 21 123 4567</example_e123>
+      <number_format>'+XX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="41">
+      <calling_code>41</calling_code>
+      <country>Switzerland</country>
+      <itu_territories>Switzerland</itu_territories>
+      <itu_nsn_raw>4 to 12 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9,12</itu_nsn_lengths>
+      <e164_nsn_lengths>9,12</e164_nsn_lengths>
+      <prefix_regex>^\+41</prefix_regex>
+      <e164_length_regex>^\+41(?:\d{9}|\d{12})$</e164_length_regex>
+      <example_e123>+41 21 234 56 78</example_e123>
+      <number_format>'+XX XX XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="43">
+      <calling_code>43</calling_code>
+      <country>Austria</country>
+      <itu_territories>Territories Austria</itu_territories>
+      <itu_nsn_raw>4 to 13 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>3-13</itu_nsn_lengths>
+      <e164_nsn_lengths>4-13</e164_nsn_lengths>
+      <prefix_regex>^\+43</prefix_regex>
+      <e164_length_regex>^\+43(?:\d{4}|\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12}|\d{13})$</e164_length_regex>
+      <example_e123>+43 1 234567890</example_e123>
+      <number_format>'+XX X XXXXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="44">
+      <calling_code>44</calling_code>
+      <country>Shared</country>
+      <itu_territories>United Kingdom</itu_territories>
+      <itu_nsn_raw>7 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4-10</itu_nsn_lengths>
+      <e164_nsn_lengths>7,9-10</e164_nsn_lengths>
+      <prefix_regex>^\+44</prefix_regex>
+      <e164_length_regex>^\+44(?:\d{7}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+44 121 234 5678</example_e123>
+      <number_format>'+XX XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="45">
+      <calling_code>45</calling_code>
+      <country>Denmark</country>
+      <itu_territories>Denmark</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+45</prefix_regex>
+      <e164_length_regex>^\+45(?:\d{8})$</e164_length_regex>
+      <example_e123>+45 32 12 34 56</example_e123>
+      <number_format>'+XX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="46">
+      <calling_code>46</calling_code>
+      <country>Sweden</country>
+      <itu_territories>Sweden</itu_territories>
+      <itu_nsn_raw>7 to 13 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-10,12</itu_nsn_lengths>
+      <e164_nsn_lengths>6-10,12</e164_nsn_lengths>
+      <prefix_regex>^\+46</prefix_regex>
+      <e164_length_regex>^\+46(?:\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{12})$</e164_length_regex>
+      <example_e123>+46 8 12 34 56</example_e123>
+      <number_format>'+XX X XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="47">
+      <calling_code>47</calling_code>
+      <country>Shared</country>
+      <itu_territories>Norway</itu_territories>
+      <itu_nsn_raw>5, 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5,8</itu_nsn_lengths>
+      <e164_nsn_lengths>5,8</e164_nsn_lengths>
+      <prefix_regex>^\+47</prefix_regex>
+      <e164_length_regex>^\+47(?:\d{5}|\d{8})$</e164_length_regex>
+      <example_e123>+47 21 23 45 67</example_e123>
+      <number_format>'+XX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="48">
+      <calling_code>48</calling_code>
+      <country>Poland</country>
+      <itu_territories>Poland</itu_territories>
+      <itu_nsn_raw>6 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-10</itu_nsn_lengths>
+      <e164_nsn_lengths>6-10</e164_nsn_lengths>
+      <prefix_regex>^\+48</prefix_regex>
+      <e164_length_regex>^\+48(?:\d{6}|\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+48 12 345 67 89</example_e123>
+      <number_format>'+XX XX XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="49">
+      <calling_code>49</calling_code>
+      <country>Germany</country>
+      <itu_territories>Germany</itu_territories>
+      <itu_nsn_raw>6 to 13 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>2-15</itu_nsn_lengths>
+      <e164_nsn_lengths>4-15</e164_nsn_lengths>
+      <prefix_regex>^\+49</prefix_regex>
+      <e164_length_regex>^\+49(?:\d{4}|\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12}|\d{13}|\d{14}|\d{15})$</e164_length_regex>
+      <example_e123>+49 30 123456</example_e123>
+      <number_format>'+XX XX XXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="51">
+      <calling_code>51</calling_code>
+      <country>Peru</country>
+      <itu_territories>Peru</itu_territories>
+      <itu_nsn_raw>8 to 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+51</prefix_regex>
+      <e164_length_regex>^\+51(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+51 1 1234567</example_e123>
+      <number_format>'+XX X XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="52">
+      <calling_code>52</calling_code>
+      <country>Mexico</country>
+      <itu_territories>Mexico</itu_territories>
+      <itu_nsn_raw>10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8,10</itu_nsn_lengths>
+      <e164_nsn_lengths>10</e164_nsn_lengths>
+      <prefix_regex>^\+52</prefix_regex>
+      <e164_length_regex>^\+52(?:\d{10})$</e164_length_regex>
+      <example_e123>+52 200 123 4567</example_e123>
+      <number_format>'+XX XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="53">
+      <calling_code>53</calling_code>
+      <country>Cuba</country>
+      <itu_territories>Cuba</itu_territories>
+      <itu_nsn_raw>6 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>119</itu_international_prefix>
+      <itu_nsn_lengths>4-8,10</itu_nsn_lengths>
+      <e164_nsn_lengths>6-8,10</e164_nsn_lengths>
+      <prefix_regex>^\+53</prefix_regex>
+      <e164_length_regex>^\+53(?:\d{6}|\d{7}|\d{8}|\d{10})$</e164_length_regex>
+      <example_e123>+53 7 1234567</example_e123>
+      <number_format>'+XX X XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="54">
+      <calling_code>54</calling_code>
+      <country>Argentina</country>
+      <itu_territories>Argentina</itu_territories>
+      <itu_nsn_raw>10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-8,10-11</itu_nsn_lengths>
+      <e164_nsn_lengths>10-11</e164_nsn_lengths>
+      <prefix_regex>^\+54</prefix_regex>
+      <e164_length_regex>^\+54(?:\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+54 11 2345-6789</example_e123>
+      <number_format>'+XX XX XXXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="55">
+      <calling_code>55</calling_code>
+      <country>Brazil</country>
+      <itu_territories>Brazil</itu_territories>
+      <itu_nsn_raw>10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-11</itu_nsn_lengths>
+      <e164_nsn_lengths>8-11</e164_nsn_lengths>
+      <prefix_regex>^\+55</prefix_regex>
+      <e164_length_regex>^\+55(?:\d{8}|\d{9}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+55 11 2345-6789</example_e123>
+      <number_format>'+XX XX XXXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="56">
+      <calling_code>56</calling_code>
+      <country>Chile</country>
+      <itu_territories>Chile</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>1YZ0</itu_international_prefix>
+      <itu_nsn_lengths>9-11</itu_nsn_lengths>
+      <e164_nsn_lengths>9-11</e164_nsn_lengths>
+      <prefix_regex>^\+56</prefix_regex>
+      <e164_length_regex>^\+56(?:\d{9}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+56 600 123 456</example_e123>
+      <number_format>'+XX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="57">
+      <calling_code>57</calling_code>
+      <country>Colombia</country>
+      <itu_territories>Colombia</itu_territories>
+      <itu_nsn_raw>8, 10 digits</itu_nsn_raw>
+      <itu_international_prefix>009/007/005</itu_international_prefix>
+      <itu_nsn_lengths>4,7-8,10-11</itu_nsn_lengths>
+      <e164_nsn_lengths>8,10-11</e164_nsn_lengths>
+      <prefix_regex>^\+57</prefix_regex>
+      <e164_length_regex>^\+57(?:\d{8}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+57 601 2345678</example_e123>
+      <number_format>'+XX XXX XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="58">
+      <calling_code>58</calling_code>
+      <country>Venezuela, Bolivarian Republic of</country>
+      <itu_territories>Venezuela (Bolivarian</itu_territories>
+      <itu_nsn_raw>10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,10</itu_nsn_lengths>
+      <e164_nsn_lengths>10</e164_nsn_lengths>
+      <prefix_regex>^\+58</prefix_regex>
+      <e164_length_regex>^\+58(?:\d{10})$</e164_length_regex>
+      <example_e123>+58 212-1234567</example_e123>
+      <number_format>'+XX XXX-XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="60">
+      <calling_code>60</calling_code>
+      <country>Malaysia</country>
+      <itu_territories>Malaysia</itu_territories>
+      <itu_nsn_raw>7 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-10</itu_nsn_lengths>
+      <e164_nsn_lengths>8-10</e164_nsn_lengths>
+      <prefix_regex>^\+60</prefix_regex>
+      <e164_length_regex>^\+60(?:\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+60 3-2385 6789</example_e123>
+      <number_format>'+XX X-XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="61">
+      <calling_code>61</calling_code>
+      <country>Shared</country>
+      <itu_territories>Australia</itu_territories>
+      <itu_nsn_raw>5 to 15 digits</itu_nsn_raw>
+      <itu_international_prefix>0011</itu_international_prefix>
+      <itu_nsn_lengths>5-10,12</itu_nsn_lengths>
+      <e164_nsn_lengths>5-10,12</e164_nsn_lengths>
+      <prefix_regex>^\+61</prefix_regex>
+      <e164_length_regex>^\+61(?:\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{12})$</e164_length_regex>
+      <example_e123>+61 2 1234 5678</example_e123>
+      <number_format>'+XX X XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="62">
+      <calling_code>62</calling_code>
+      <country>Indonesia</country>
+      <itu_territories>Indonesia</itu_territories>
+      <itu_nsn_raw>5 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>001,008</itu_international_prefix>
+      <itu_nsn_lengths>5-17</itu_nsn_lengths>
+      <e164_nsn_lengths>7-17</e164_nsn_lengths>
+      <prefix_regex>^\+62</prefix_regex>
+      <e164_length_regex>^\+62(?:\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12}|\d{13}|\d{14}|\d{15}|\d{16}|\d{17})$</e164_length_regex>
+      <example_e123>+62 21 8350123</example_e123>
+      <number_format>'+XX XX XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="63">
+      <calling_code>63</calling_code>
+      <country>Philippines</country>
+      <itu_territories>Philippines</itu_territories>
+      <itu_nsn_raw>8 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4-13</itu_nsn_lengths>
+      <e164_nsn_lengths>6,8-13</e164_nsn_lengths>
+      <prefix_regex>^\+63</prefix_regex>
+      <e164_length_regex>^\+63(?:\d{6}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12}|\d{13})$</e164_length_regex>
+      <example_e123>+63 2 3234 5678</example_e123>
+      <number_format>'+XX X XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="64">
+      <calling_code>64</calling_code>
+      <country>New Zealand</country>
+      <itu_territories>New Zealand</itu_territories>
+      <itu_nsn_raw>3 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-10</itu_nsn_lengths>
+      <e164_nsn_lengths>5-10</e164_nsn_lengths>
+      <prefix_regex>^\+64</prefix_regex>
+      <e164_length_regex>^\+64(?:\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+64 3 234 5678</example_e123>
+      <number_format>'+XX X XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="65">
+      <calling_code>65</calling_code>
+      <country>Singapore</country>
+      <itu_territories>Singapore</itu_territories>
+      <itu_nsn_raw>8 to 12 digits</itu_nsn_raw>
+      <itu_international_prefix>001,008</itu_international_prefix>
+      <itu_nsn_lengths>8,10-11</itu_nsn_lengths>
+      <e164_nsn_lengths>8,10-11</e164_nsn_lengths>
+      <prefix_regex>^\+65</prefix_regex>
+      <e164_length_regex>^\+65(?:\d{8}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+65 6123 4567</example_e123>
+      <number_format>'+XX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="66">
+      <calling_code>66</calling_code>
+      <country>Thailand</country>
+      <itu_territories>Disaster Relief (TDR) Thailand</itu_territories>
+      <itu_nsn_raw>8, 9 digits</itu_nsn_raw>
+      <itu_international_prefix>001</itu_international_prefix>
+      <itu_nsn_lengths>8-10,13</itu_nsn_lengths>
+      <e164_nsn_lengths>8-10,13</e164_nsn_lengths>
+      <prefix_regex>^\+66</prefix_regex>
+      <e164_length_regex>^\+66(?:\d{8}|\d{9}|\d{10}|\d{13})$</e164_length_regex>
+      <example_e123>+66 2 123 4567</example_e123>
+      <number_format>'+XX X XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="81">
+      <calling_code>81</calling_code>
+      <country>Japan</country>
+      <itu_territories>Japan</itu_territories>
+      <itu_nsn_raw>5 to 13 digits</itu_nsn_raw>
+      <itu_international_prefix>010</itu_international_prefix>
+      <itu_nsn_lengths>8-17</itu_nsn_lengths>
+      <e164_nsn_lengths>8-17</e164_nsn_lengths>
+      <prefix_regex>^\+81</prefix_regex>
+      <e164_length_regex>^\+81(?:\d{8}|\d{9}|\d{10}|\d{11}|\d{12}|\d{13}|\d{14}|\d{15}|\d{16}|\d{17})$</e164_length_regex>
+      <example_e123>+81 3-1234-5678</example_e123>
+      <number_format>'+XX X-XXXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="82">
+      <calling_code>82</calling_code>
+      <country>Korea, Republic of</country>
+      <itu_territories>Korea (Rep. of)</itu_territories>
+      <itu_nsn_raw>8 to 11 digits</itu_nsn_raw>
+      <itu_international_prefix>001,002</itu_international_prefix>
+      <itu_nsn_lengths>3-14</itu_nsn_lengths>
+      <e164_nsn_lengths>5-6,8-14</e164_nsn_lengths>
+      <prefix_regex>^\+82</prefix_regex>
+      <e164_length_regex>^\+82(?:\d{5}|\d{6}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12}|\d{13}|\d{14})$</e164_length_regex>
+      <example_e123>+82 2-212-3456</example_e123>
+      <number_format>'+XX X-XXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="84">
+      <calling_code>84</calling_code>
+      <country>Viet Nam</country>
+      <itu_territories>Republic of) Viet Nam</itu_territories>
+      <itu_nsn_raw>7 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-10</itu_nsn_lengths>
+      <e164_nsn_lengths>7-10</e164_nsn_lengths>
+      <prefix_regex>^\+84</prefix_regex>
+      <e164_length_regex>^\+84(?:\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+84 210 1234 567</example_e123>
+      <number_format>'+XX XXX XXXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="86">
+      <calling_code>86</calling_code>
+      <country>China</country>
+      <itu_territories>China</itu_territories>
+      <itu_nsn_raw>5 to 12 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-12</itu_nsn_lengths>
+      <e164_nsn_lengths>7-12</e164_nsn_lengths>
+      <prefix_regex>^\+86</prefix_regex>
+      <e164_length_regex>^\+86(?:\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12})$</e164_length_regex>
+      <example_e123>+86 10 1234 5678</example_e123>
+      <number_format>'+XX XX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="90">
+      <calling_code>90</calling_code>
+      <country>Turkey</country>
+      <itu_territories>Turkey</itu_territories>
+      <itu_nsn_raw>10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,10,12-13</itu_nsn_lengths>
+      <e164_nsn_lengths>7,10,12-13</e164_nsn_lengths>
+      <prefix_regex>^\+90</prefix_regex>
+      <e164_length_regex>^\+90(?:\d{7}|\d{10}|\d{12}|\d{13})$</e164_length_regex>
+      <example_e123>+90 212 345 67 89</example_e123>
+      <number_format>'+XX XXX XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="91">
+      <calling_code>91</calling_code>
+      <country>India</country>
+      <itu_territories>India</itu_territories>
+      <itu_nsn_raw>7 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-13</itu_nsn_lengths>
+      <e164_nsn_lengths>8-13</e164_nsn_lengths>
+      <prefix_regex>^\+91</prefix_regex>
+      <e164_length_regex>^\+91(?:\d{8}|\d{9}|\d{10}|\d{11}|\d{12}|\d{13})$</e164_length_regex>
+      <example_e123>+91 74104 10123</example_e123>
+      <number_format>'+XX XXXXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="92">
+      <calling_code>92</calling_code>
+      <country>Pakistan</country>
+      <itu_territories>Pakistan</itu_territories>
+      <itu_nsn_raw>8 to 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-12</itu_nsn_lengths>
+      <e164_nsn_lengths>8-12</e164_nsn_lengths>
+      <prefix_regex>^\+92</prefix_regex>
+      <e164_length_regex>^\+92(?:\d{8}|\d{9}|\d{10}|\d{11}|\d{12})$</e164_length_regex>
+      <example_e123>+92 21 23456789</example_e123>
+      <number_format>'+XX XX XXXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="93">
+      <calling_code>93</calling_code>
+      <country>Afghanistan</country>
+      <itu_territories>Afghanistan</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+93</prefix_regex>
+      <e164_length_regex>^\+93(?:\d{9})$</e164_length_regex>
+      <example_e123>+93 23 456 7890</example_e123>
+      <number_format>'+XX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="94">
+      <calling_code>94</calling_code>
+      <country>Sri Lanka</country>
+      <itu_territories>Sri Lanka</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+94</prefix_regex>
+      <e164_length_regex>^\+94(?:\d{9})$</e164_length_regex>
+      <example_e123>+94 112 345 678</example_e123>
+      <number_format>'+XX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="95">
+      <calling_code>95</calling_code>
+      <country>Myanmar</country>
+      <itu_territories>Myanmar</itu_territories>
+      <itu_nsn_raw>7 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-10</itu_nsn_lengths>
+      <e164_nsn_lengths>6-10</e164_nsn_lengths>
+      <prefix_regex>^\+95</prefix_regex>
+      <e164_length_regex>^\+95(?:\d{6}|\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+95 1 234 567</example_e123>
+      <number_format>'+XX X XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="98">
+      <calling_code>98</calling_code>
+      <country>Iran, Islamic Republic of</country>
+      <itu_territories>Service (ISCS) Iran (Islamic Republic of)</itu_territories>
+      <itu_nsn_raw>6 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4-8,10</itu_nsn_lengths>
+      <e164_nsn_lengths>4-7,10</e164_nsn_lengths>
+      <prefix_regex>^\+98</prefix_regex>
+      <e164_length_regex>^\+98(?:\d{4}|\d{5}|\d{6}|\d{7}|\d{10})$</e164_length_regex>
+      <example_e123>+98 21 2345 6789</example_e123>
+      <number_format>'+XX XX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="211">
+      <calling_code>211</calling_code>
+      <country>South Sudan</country>
+      <itu_territories>South Sudan</itu_territories>
+      <itu_nsn_raw/>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+211</prefix_regex>
+      <e164_length_regex>^\+211(?:\d{9})$</e164_length_regex>
+      <example_e123>+211 181 234 567</example_e123>
+      <number_format>'+XXX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="212">
+      <calling_code>212</calling_code>
+      <country>Shared</country>
+      <itu_territories>Morocco</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+212</prefix_regex>
+      <e164_length_regex>^\+212(?:\d{9})$</e164_length_regex>
+      <example_e123>+212 5 28 81 23 45</example_e123>
+      <number_format>'+XXX X XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="213">
+      <calling_code>213</calling_code>
+      <country>Algeria</country>
+      <itu_territories>Algeria</itu_territories>
+      <itu_nsn_raw>8, 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+213</prefix_regex>
+      <e164_length_regex>^\+213(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+213 12 34 56 78</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="216">
+      <calling_code>216</calling_code>
+      <country>Tunisia</country>
+      <itu_territories>Tunisia</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+216</prefix_regex>
+      <e164_length_regex>^\+216(?:\d{8})$</e164_length_regex>
+      <example_e123>+216 30 010 123</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="218">
+      <calling_code>218</calling_code>
+      <country>Libya</country>
+      <itu_territories>Libya</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+218</prefix_regex>
+      <e164_length_regex>^\+218(?:\d{9})$</e164_length_regex>
+      <example_e123>+218 21-2345678</example_e123>
+      <number_format>'+XXX XX-XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="220">
+      <calling_code>220</calling_code>
+      <country>Gambia</country>
+      <itu_territories>Gambia</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+220</prefix_regex>
+      <e164_length_regex>^\+220(?:\d{7})$</e164_length_regex>
+      <example_e123>+220 566 1234</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="221">
+      <calling_code>221</calling_code>
+      <country>Senegal</country>
+      <itu_territories>Senegal</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+221</prefix_regex>
+      <e164_length_regex>^\+221(?:\d{9})$</e164_length_regex>
+      <example_e123>+221 30 101 23 45</example_e123>
+      <number_format>'+XXX XX XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="222">
+      <calling_code>222</calling_code>
+      <country>Mauritania</country>
+      <itu_territories>Mauritania</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+222</prefix_regex>
+      <e164_length_regex>^\+222(?:\d{8})$</e164_length_regex>
+      <example_e123>+222 35 12 34 56</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="223">
+      <calling_code>223</calling_code>
+      <country>Mali</country>
+      <itu_territories>Mali</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+223</prefix_regex>
+      <e164_length_regex>^\+223(?:\d{8})$</e164_length_regex>
+      <example_e123>+223 20 21 23 45</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="224">
+      <calling_code>224</calling_code>
+      <country>Guinea</country>
+      <itu_territories>Guinea</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+224</prefix_regex>
+      <e164_length_regex>^\+224(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+224 30 24 12 34</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="225">
+      <calling_code>225</calling_code>
+      <country>Côte d'Ivoire</country>
+      <itu_territories>Côte d'Ivoire</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>10</itu_nsn_lengths>
+      <e164_nsn_lengths>10</e164_nsn_lengths>
+      <prefix_regex>^\+225</prefix_regex>
+      <e164_length_regex>^\+225(?:\d{10})$</e164_length_regex>
+      <example_e123>+225 21 23 4 56789</example_e123>
+      <number_format>'+XXX XX XX X XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="226">
+      <calling_code>226</calling_code>
+      <country>Burkina Faso</country>
+      <itu_territories>Burkina Faso</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+226</prefix_regex>
+      <e164_length_regex>^\+226(?:\d{8})$</e164_length_regex>
+      <example_e123>+226 20 49 12 34</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="227">
+      <calling_code>227</calling_code>
+      <country>Niger</country>
+      <itu_territories>Niger</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+227</prefix_regex>
+      <e164_length_regex>^\+227(?:\d{8})$</e164_length_regex>
+      <example_e123>+227 20 20 12 34</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="228">
+      <calling_code>228</calling_code>
+      <country>Togo</country>
+      <itu_territories>Togo</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+228</prefix_regex>
+      <e164_length_regex>^\+228(?:\d{8})$</e164_length_regex>
+      <example_e123>+228 22 21 23 45</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="229">
+      <calling_code>229</calling_code>
+      <country>Benin</country>
+      <itu_territories>Benin</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8,10</itu_nsn_lengths>
+      <e164_nsn_lengths>8,10</e164_nsn_lengths>
+      <prefix_regex>^\+229</prefix_regex>
+      <e164_length_regex>^\+229(?:\d{8}|\d{10})$</e164_length_regex>
+      <example_e123>+229 01 20 21 12 34</example_e123>
+      <number_format>'+XXX XX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="230">
+      <calling_code>230</calling_code>
+      <country>Mauritius</country>
+      <itu_territories>Mauritius</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8,10</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8,10</e164_nsn_lengths>
+      <prefix_regex>^\+230</prefix_regex>
+      <e164_length_regex>^\+230(?:\d{7}|\d{8}|\d{10})$</e164_length_regex>
+      <example_e123>+230 5448 0123</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="231">
+      <calling_code>231</calling_code>
+      <country>Liberia</country>
+      <itu_territories>Liberia</itu_territories>
+      <itu_nsn_raw>7 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-9</itu_nsn_lengths>
+      <e164_nsn_lengths>7-9</e164_nsn_lengths>
+      <prefix_regex>^\+231</prefix_regex>
+      <e164_length_regex>^\+231(?:\d{7}|\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+231 21 234 567</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="232">
+      <calling_code>232</calling_code>
+      <country>Sierra Leone</country>
+      <itu_territories>Sierra Leone</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+232</prefix_regex>
+      <e164_length_regex>^\+232(?:\d{8})$</e164_length_regex>
+      <example_e123>+232 22 221234</example_e123>
+      <number_format>'+XXX XX XXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="233">
+      <calling_code>233</calling_code>
+      <country>Ghana</country>
+      <itu_territories>Ghana</itu_territories>
+      <itu_nsn_raw>5 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+233</prefix_regex>
+      <e164_length_regex>^\+233(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+233 30 234 5678</example_e123>
+      <number_format>'+XXX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="234">
+      <calling_code>234</calling_code>
+      <country>Nigeria</country>
+      <itu_territories>Nigeria</itu_territories>
+      <itu_nsn_raw>7 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>009</itu_international_prefix>
+      <itu_nsn_lengths>6-7,10-14</itu_nsn_lengths>
+      <e164_nsn_lengths>10-14</e164_nsn_lengths>
+      <prefix_regex>^\+234</prefix_regex>
+      <e164_length_regex>^\+234(?:\d{10}|\d{11}|\d{12}|\d{13}|\d{14})$</e164_length_regex>
+      <example_e123>+234 2033 12 3456</example_e123>
+      <number_format>'+XXX XXXX XX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="235">
+      <calling_code>235</calling_code>
+      <country>Chad</country>
+      <itu_territories>Chad</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+235</prefix_regex>
+      <e164_length_regex>^\+235(?:\d{8})$</e164_length_regex>
+      <example_e123>+235 22 50 12 34</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="236">
+      <calling_code>236</calling_code>
+      <country>Central African Republic</country>
+      <itu_territories>Central African Rep.</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+236</prefix_regex>
+      <e164_length_regex>^\+236(?:\d{8})$</e164_length_regex>
+      <example_e123>+236 21 61 23 45</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="237">
+      <calling_code>237</calling_code>
+      <country>Cameroon</country>
+      <itu_territories>Cameroon</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+237</prefix_regex>
+      <e164_length_regex>^\+237(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+237 2 22 12 34 56</example_e123>
+      <number_format>'+XXX X XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="238">
+      <calling_code>238</calling_code>
+      <country>Cabo Verde</country>
+      <itu_territories>Cape Verde</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+238</prefix_regex>
+      <e164_length_regex>^\+238(?:\d{7})$</e164_length_regex>
+      <example_e123>+238 221 12 34</example_e123>
+      <number_format>'+XXX XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="239">
+      <calling_code>239</calling_code>
+      <country>Sao Tome and Principe</country>
+      <itu_territories>Sao Tome and Principe</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+239</prefix_regex>
+      <e164_length_regex>^\+239(?:\d{7})$</e164_length_regex>
+      <example_e123>+239 222 1234</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="240">
+      <calling_code>240</calling_code>
+      <country>Equatorial Guinea</country>
+      <itu_territories>Equatorial Guinea</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+240</prefix_regex>
+      <e164_length_regex>^\+240(?:\d{9})$</e164_length_regex>
+      <example_e123>+240 333 091 234</example_e123>
+      <number_format>'+XXX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="241">
+      <calling_code>241</calling_code>
+      <country>Gabon</country>
+      <itu_territories>Gabon</itu_territories>
+      <itu_nsn_raw>6, 7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8</e164_nsn_lengths>
+      <prefix_regex>^\+241</prefix_regex>
+      <e164_length_regex>^\+241(?:\d{7}|\d{8})$</e164_length_regex>
+      <example_e123>+241 01 44 12 34</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="242">
+      <calling_code>242</calling_code>
+      <country>Congo</country>
+      <itu_territories>Congo</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+242</prefix_regex>
+      <e164_length_regex>^\+242(?:\d{9})$</e164_length_regex>
+      <example_e123>+242 22 212 3456</example_e123>
+      <number_format>'+XXX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="243">
+      <calling_code>243</calling_code>
+      <country>Congo, The Democratic Republic of the</country>
+      <itu_territories>Korea Dem. Rep. of the Congo</itu_territories>
+      <itu_nsn_raw>5 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-10</itu_nsn_lengths>
+      <e164_nsn_lengths>7-10</e164_nsn_lengths>
+      <prefix_regex>^\+243</prefix_regex>
+      <e164_length_regex>^\+243(?:\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+243 12 34567</example_e123>
+      <number_format>'+XXX XX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="244">
+      <calling_code>244</calling_code>
+      <country>Angola</country>
+      <itu_territories>Angola</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+244</prefix_regex>
+      <e164_length_regex>^\+244(?:\d{9})$</e164_length_regex>
+      <example_e123>+244 222 123 456</example_e123>
+      <number_format>'+XXX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="245">
+      <calling_code>245</calling_code>
+      <country>Guinea-Bissau</country>
+      <itu_territories>Guinea-Bissau</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>7,9</e164_nsn_lengths>
+      <prefix_regex>^\+245</prefix_regex>
+      <e164_length_regex>^\+245(?:\d{7}|\d{9})$</e164_length_regex>
+      <example_e123>+245 443 201 234</example_e123>
+      <number_format>'+XXX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="246">
+      <calling_code>246</calling_code>
+      <country>British Indian Ocean Territory</country>
+      <itu_territories>Diego Garcia</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+246</prefix_regex>
+      <e164_length_regex>^\+246(?:\d{7})$</e164_length_regex>
+      <example_e123>+246 370 9100</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="247">
+      <calling_code>247</calling_code>
+      <country>AC</country>
+      <itu_territories>Saint Helena, Ascension</itu_territories>
+      <itu_nsn_raw>4 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-6</itu_nsn_lengths>
+      <e164_nsn_lengths>5-6</e164_nsn_lengths>
+      <prefix_regex>^\+247</prefix_regex>
+      <e164_length_regex>^\+247(?:\d{5}|\d{6})$</e164_length_regex>
+      <example_e123>+247 62889</example_e123>
+      <number_format>'+XXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="248">
+      <calling_code>248</calling_code>
+      <country>Seychelles</country>
+      <itu_territories>Seychelles</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+248</prefix_regex>
+      <e164_length_regex>^\+248(?:\d{7})$</e164_length_regex>
+      <example_e123>+248 4 217 123</example_e123>
+      <number_format>'+XXX X XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="249">
+      <calling_code>249</calling_code>
+      <country>Sudan</country>
+      <itu_territories>Sudan</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+249</prefix_regex>
+      <e164_length_regex>^\+249(?:\d{9})$</e164_length_regex>
+      <example_e123>+249 15 312 3456</example_e123>
+      <number_format>'+XXX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="250">
+      <calling_code>250</calling_code>
+      <country>Rwanda</country>
+      <itu_territories>Rwanda</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+250</prefix_regex>
+      <e164_length_regex>^\+250(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+250 250 123 456</example_e123>
+      <number_format>'+XXX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="251">
+      <calling_code>251</calling_code>
+      <country>Ethiopia</country>
+      <itu_territories>Ethiopia</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+251</prefix_regex>
+      <e164_length_regex>^\+251(?:\d{9})$</e164_length_regex>
+      <example_e123>+251 11 111 2345</example_e123>
+      <number_format>'+XXX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="252">
+      <calling_code>252</calling_code>
+      <country>Somalia</country>
+      <itu_territories>Somalia</itu_territories>
+      <itu_nsn_raw>5 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-9</itu_nsn_lengths>
+      <e164_nsn_lengths>6-9</e164_nsn_lengths>
+      <prefix_regex>^\+252</prefix_regex>
+      <e164_length_regex>^\+252(?:\d{6}|\d{7}|\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+252 4 012345</example_e123>
+      <number_format>'+XXX X XXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="253">
+      <calling_code>253</calling_code>
+      <country>Djibouti</country>
+      <itu_territories>Djibouti</itu_territories>
+      <itu_nsn_raw>6 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+253</prefix_regex>
+      <e164_length_regex>^\+253(?:\d{8})$</e164_length_regex>
+      <example_e123>+253 21 36 00 03</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="254">
+      <calling_code>254</calling_code>
+      <country>Kenya</country>
+      <itu_territories>Kenya</itu_territories>
+      <itu_nsn_raw>6 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>000</itu_international_prefix>
+      <itu_nsn_lengths>7-10</itu_nsn_lengths>
+      <e164_nsn_lengths>7-10</e164_nsn_lengths>
+      <prefix_regex>^\+254</prefix_regex>
+      <e164_length_regex>^\+254(?:\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+254 20 2012345</example_e123>
+      <number_format>'+XXX XX XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="255">
+      <calling_code>255</calling_code>
+      <country>Tanzania, United Republic of</country>
+      <itu_territories>Tanzania</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>000</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+255</prefix_regex>
+      <e164_length_regex>^\+255(?:\d{9})$</e164_length_regex>
+      <example_e123>+255 22 234 5678</example_e123>
+      <number_format>'+XXX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="256">
+      <calling_code>256</calling_code>
+      <country>Uganda</country>
+      <itu_territories>Uganda</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>000</itu_international_prefix>
+      <itu_nsn_lengths>5-7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+256</prefix_regex>
+      <e164_length_regex>^\+256(?:\d{9})$</e164_length_regex>
+      <example_e123>+256 31 2345678</example_e123>
+      <number_format>'+XXX XX XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="257">
+      <calling_code>257</calling_code>
+      <country>Burundi</country>
+      <itu_territories>Burundi</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+257</prefix_regex>
+      <e164_length_regex>^\+257(?:\d{8})$</e164_length_regex>
+      <example_e123>+257 22 20 12 34</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="258">
+      <calling_code>258</calling_code>
+      <country>Mozambique</country>
+      <itu_territories>Mozambique</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+258</prefix_regex>
+      <e164_length_regex>^\+258(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+258 21 123 456</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="260">
+      <calling_code>260</calling_code>
+      <country>Zambia</country>
+      <itu_territories>Zambia</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+260</prefix_regex>
+      <e164_length_regex>^\+260(?:\d{9})$</e164_length_regex>
+      <example_e123>+260 211 234 567</example_e123>
+      <number_format>'+XXX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="261">
+      <calling_code>261</calling_code>
+      <country>Madagascar</country>
+      <itu_territories>Madagascar</itu_territories>
+      <itu_nsn_raw>9 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+261</prefix_regex>
+      <e164_length_regex>^\+261(?:\d{9})$</e164_length_regex>
+      <example_e123>+261 20 21 234 56</example_e123>
+      <number_format>'+XXX XX XX XXX XX</number_format>
+    </Entry>
+    <Entry calling_code="262">
+      <calling_code>262</calling_code>
+      <country>Shared</country>
+      <itu_territories>French Departments and</itu_territories>
+      <itu_nsn_raw>9 digits +3,</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+262</prefix_regex>
+      <e164_length_regex>^\+262(?:\d{9})$</e164_length_regex>
+      <example_e123>+262 262 16 12 34</example_e123>
+      <number_format>'+XXX XXX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="263">
+      <calling_code>263</calling_code>
+      <country>Zimbabwe</country>
+      <itu_territories>Zimbabwe</itu_territories>
+      <itu_nsn_raw>5 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>3-10</itu_nsn_lengths>
+      <e164_nsn_lengths>5-10</e164_nsn_lengths>
+      <prefix_regex>^\+263</prefix_regex>
+      <e164_length_regex>^\+263(?:\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+263 13 12345</example_e123>
+      <number_format>'+XXX XX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="264">
+      <calling_code>264</calling_code>
+      <country>Namibia</country>
+      <itu_territories>Namibia</itu_territories>
+      <itu_nsn_raw>6 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+264</prefix_regex>
+      <e164_length_regex>^\+264(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+264 61 221 234</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="265">
+      <calling_code>265</calling_code>
+      <country>Malawi</country>
+      <itu_territories>Malawi</itu_territories>
+      <itu_nsn_raw>7, 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>7,9</e164_nsn_lengths>
+      <prefix_regex>^\+265</prefix_regex>
+      <e164_length_regex>^\+265(?:\d{7}|\d{9})$</e164_length_regex>
+      <example_e123>+265 1 234 567</example_e123>
+      <number_format>'+XXX X XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="266">
+      <calling_code>266</calling_code>
+      <country>Lesotho</country>
+      <itu_territories>Lesotho</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+266</prefix_regex>
+      <e164_length_regex>^\+266(?:\d{8})$</e164_length_regex>
+      <example_e123>+266 2212 3456</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="267">
+      <calling_code>267</calling_code>
+      <country>Botswana</country>
+      <itu_territories>Botswana</itu_territories>
+      <itu_nsn_raw>7 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8,10</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8,10</e164_nsn_lengths>
+      <prefix_regex>^\+267</prefix_regex>
+      <e164_length_regex>^\+267(?:\d{7}|\d{8}|\d{10})$</e164_length_regex>
+      <example_e123>+267 240 1234</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="268">
+      <calling_code>268</calling_code>
+      <country>Eswatini</country>
+      <itu_territories>Swaziland</itu_territories>
+      <itu_nsn_raw>7 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+268</prefix_regex>
+      <e164_length_regex>^\+268(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+268 2217 1234</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="269">
+      <calling_code>269</calling_code>
+      <country>Comoros</country>
+      <itu_territories>Comoros</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4,7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+269</prefix_regex>
+      <e164_length_regex>^\+269(?:\d{7})$</e164_length_regex>
+      <example_e123>+269 771 23 45</example_e123>
+      <number_format>'+XXX XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="290">
+      <calling_code>290</calling_code>
+      <country>Shared</country>
+      <itu_territories>and Tristan da Cunha Saint Helena, Ascension</itu_territories>
+      <itu_nsn_raw>4 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4-5</itu_nsn_lengths>
+      <e164_nsn_lengths>4-5</e164_nsn_lengths>
+      <prefix_regex>^\+290</prefix_regex>
+      <e164_length_regex>^\+290(?:\d{4}|\d{5})$</e164_length_regex>
+      <example_e123>+290 22158</example_e123>
+      <number_format>'+XXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="291">
+      <calling_code>291</calling_code>
+      <country>Eritrea</country>
+      <itu_territories>Eritrea</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+291</prefix_regex>
+      <e164_length_regex>^\+291(?:\d{7})$</e164_length_regex>
+      <example_e123>+291 8 370 362</example_e123>
+      <number_format>'+XXX X XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="297">
+      <calling_code>297</calling_code>
+      <country>Aruba</country>
+      <itu_territories>Aruba</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+297</prefix_regex>
+      <e164_length_regex>^\+297(?:\d{7})$</e164_length_regex>
+      <example_e123>+297 521 2345</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="298">
+      <calling_code>298</calling_code>
+      <country>Faroe Islands</country>
+      <itu_territories>Faroe Islands</itu_territories>
+      <itu_nsn_raw>6 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6</itu_nsn_lengths>
+      <e164_nsn_lengths>6</e164_nsn_lengths>
+      <prefix_regex>^\+298</prefix_regex>
+      <e164_length_regex>^\+298(?:\d{6})$</e164_length_regex>
+      <example_e123>+298 201234</example_e123>
+      <number_format>'+XXX XXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="299">
+      <calling_code>299</calling_code>
+      <country>Greenland</country>
+      <itu_territories>Greenland</itu_territories>
+      <itu_nsn_raw>6 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6</itu_nsn_lengths>
+      <e164_nsn_lengths>6</e164_nsn_lengths>
+      <prefix_regex>^\+299</prefix_regex>
+      <e164_length_regex>^\+299(?:\d{6})$</e164_length_regex>
+      <example_e123>+299 32 10 00</example_e123>
+      <number_format>'+XXX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="350">
+      <calling_code>350</calling_code>
+      <country>Gibraltar</country>
+      <itu_territories>Gibraltar</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+350</prefix_regex>
+      <e164_length_regex>^\+350(?:\d{8})$</e164_length_regex>
+      <example_e123>+350 200 12345</example_e123>
+      <number_format>'+XXX XXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="351">
+      <calling_code>351</calling_code>
+      <country>Portugal</country>
+      <itu_territories>Portugal</itu_territories>
+      <itu_nsn_raw>9, 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+351</prefix_regex>
+      <e164_length_regex>^\+351(?:\d{9})$</e164_length_regex>
+      <example_e123>+351 21 234 5678</example_e123>
+      <number_format>'+XXX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="352">
+      <calling_code>352</calling_code>
+      <country>Luxembourg</country>
+      <itu_territories>Luxembourg</itu_territories>
+      <itu_nsn_raw>4 to 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4-11</itu_nsn_lengths>
+      <e164_nsn_lengths>4-11</e164_nsn_lengths>
+      <prefix_regex>^\+352</prefix_regex>
+      <e164_length_regex>^\+352(?:\d{4}|\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+352 27 12 34 56</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="353">
+      <calling_code>353</calling_code>
+      <country>Ireland</country>
+      <itu_territories>Ireland</itu_territories>
+      <itu_nsn_raw>7 to 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-10</itu_nsn_lengths>
+      <e164_nsn_lengths>7-10</e164_nsn_lengths>
+      <prefix_regex>^\+353</prefix_regex>
+      <e164_length_regex>^\+353(?:\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+353 22 12345</example_e123>
+      <number_format>'+XXX XX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="354">
+      <calling_code>354</calling_code>
+      <country>Iceland</country>
+      <itu_territories>Iceland</itu_territories>
+      <itu_nsn_raw>7, 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>7,9</e164_nsn_lengths>
+      <prefix_regex>^\+354</prefix_regex>
+      <e164_length_regex>^\+354(?:\d{7}|\d{9})$</e164_length_regex>
+      <example_e123>+354 410 1234</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="355">
+      <calling_code>355</calling_code>
+      <country>Albania</country>
+      <itu_territories>Albania</itu_territories>
+      <itu_nsn_raw>3 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-9</itu_nsn_lengths>
+      <e164_nsn_lengths>6-9</e164_nsn_lengths>
+      <prefix_regex>^\+355</prefix_regex>
+      <e164_length_regex>^\+355(?:\d{6}|\d{7}|\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+355 22 345 678</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="356">
+      <calling_code>356</calling_code>
+      <country>Malta</country>
+      <itu_territories>Malta</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+356</prefix_regex>
+      <e164_length_regex>^\+356(?:\d{8})$</e164_length_regex>
+      <example_e123>+356 2100 1234</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="357">
+      <calling_code>357</calling_code>
+      <country>Cyprus</country>
+      <itu_territories>Cyprus</itu_territories>
+      <itu_nsn_raw>8, 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+357</prefix_regex>
+      <e164_length_regex>^\+357(?:\d{8})$</e164_length_regex>
+      <example_e123>+357 22 345678</example_e123>
+      <number_format>'+XXX XX XXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="358">
+      <calling_code>358</calling_code>
+      <country>Shared</country>
+      <itu_territories>Finland</itu_territories>
+      <itu_nsn_raw>5 to 12 digits</itu_nsn_raw>
+      <itu_international_prefix>00,99X</itu_international_prefix>
+      <itu_nsn_lengths>5-12</itu_nsn_lengths>
+      <e164_nsn_lengths>5-12</e164_nsn_lengths>
+      <prefix_regex>^\+358</prefix_regex>
+      <e164_length_regex>^\+358(?:\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12})$</e164_length_regex>
+      <example_e123>+358 18 1234567</example_e123>
+      <number_format>'+XXX XX XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="359">
+      <calling_code>359</calling_code>
+      <country>Bulgaria</country>
+      <itu_territories>Bulgaria</itu_territories>
+      <itu_nsn_raw>7 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4-9,12</itu_nsn_lengths>
+      <e164_nsn_lengths>6-9,12</e164_nsn_lengths>
+      <prefix_regex>^\+359</prefix_regex>
+      <e164_length_regex>^\+359(?:\d{6}|\d{7}|\d{8}|\d{9}|\d{12})$</e164_length_regex>
+      <example_e123>+359 2 123 456</example_e123>
+      <number_format>'+XXX X XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="370">
+      <calling_code>370</calling_code>
+      <country>Lithuania</country>
+      <itu_territories>Lithuania</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+370</prefix_regex>
+      <e164_length_regex>^\+370(?:\d{8})$</e164_length_regex>
+      <example_e123>+370 312 34567</example_e123>
+      <number_format>'+XXX XXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="371">
+      <calling_code>371</calling_code>
+      <country>Latvia</country>
+      <itu_territories>Latvia</itu_territories>
+      <itu_nsn_raw>7, 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+371</prefix_regex>
+      <e164_length_regex>^\+371(?:\d{8})$</e164_length_regex>
+      <example_e123>+371 63 123 456</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="372">
+      <calling_code>372</calling_code>
+      <country>Estonia</country>
+      <itu_territories>Estonia</itu_territories>
+      <itu_nsn_raw>7 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8,10</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8,10</e164_nsn_lengths>
+      <prefix_regex>^\+372</prefix_regex>
+      <e164_length_regex>^\+372(?:\d{7}|\d{8}|\d{10})$</e164_length_regex>
+      <example_e123>+372 321 2345</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="373">
+      <calling_code>373</calling_code>
+      <country>Moldova, Republic of</country>
+      <itu_territories>Moldova (Republic of)</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+373</prefix_regex>
+      <e164_length_regex>^\+373(?:\d{8})$</e164_length_regex>
+      <example_e123>+373 22 212 345</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="374">
+      <calling_code>374</calling_code>
+      <country>Armenia</country>
+      <itu_territories>Armenia</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-6,8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+374</prefix_regex>
+      <e164_length_regex>^\+374(?:\d{8})$</e164_length_regex>
+      <example_e123>+374 10 123456</example_e123>
+      <number_format>'+XXX XX XXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="375">
+      <calling_code>375</calling_code>
+      <country>Belarus</country>
+      <itu_territories>Belarus</itu_territories>
+      <itu_nsn_raw>9 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>810</itu_international_prefix>
+      <itu_nsn_lengths>5-11</itu_nsn_lengths>
+      <e164_nsn_lengths>6-11</e164_nsn_lengths>
+      <prefix_regex>^\+375</prefix_regex>
+      <e164_length_regex>^\+375(?:\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+375 152 45-09-11</example_e123>
+      <number_format>'+XXX XXX XX-XX-XX</number_format>
+    </Entry>
+    <Entry calling_code="376">
+      <calling_code>376</calling_code>
+      <country>Andorra</country>
+      <itu_territories>Andorra</itu_territories>
+      <itu_nsn_raw>6, 8, 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>6,8-9</e164_nsn_lengths>
+      <prefix_regex>^\+376</prefix_regex>
+      <e164_length_regex>^\+376(?:\d{6}|\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+376 712 345</example_e123>
+      <number_format>'+XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="377">
+      <calling_code>377</calling_code>
+      <country>Monaco</country>
+      <itu_territories>Monaco</itu_territories>
+      <itu_nsn_raw>5 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+377</prefix_regex>
+      <e164_length_regex>^\+377(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+377 99 12 34 56</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="378">
+      <calling_code>378</calling_code>
+      <country>San Marino</country>
+      <itu_territories>San Marino</itu_territories>
+      <itu_nsn_raw>6 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,8,10</itu_nsn_lengths>
+      <e164_nsn_lengths>8,10</e164_nsn_lengths>
+      <prefix_regex>^\+378</prefix_regex>
+      <e164_length_regex>^\+378(?:\d{8}|\d{10})$</e164_length_regex>
+      <example_e123>+378 0549 886377</example_e123>
+      <number_format>'+XXX XXXX XXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="380">
+      <calling_code>380</calling_code>
+      <country>Ukraine</country>
+      <itu_territories>Ukraine</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-7,9-10</itu_nsn_lengths>
+      <e164_nsn_lengths>9-10</e164_nsn_lengths>
+      <prefix_regex>^\+380</prefix_regex>
+      <e164_length_regex>^\+380(?:\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+380 3112 34567</example_e123>
+      <number_format>'+XXX XXXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="381">
+      <calling_code>381</calling_code>
+      <country>Serbia</country>
+      <itu_territories>Serbia</itu_territories>
+      <itu_nsn_raw>4 to 12 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4-12</itu_nsn_lengths>
+      <e164_nsn_lengths>6-12</e164_nsn_lengths>
+      <prefix_regex>^\+381</prefix_regex>
+      <e164_length_regex>^\+381(?:\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12})$</e164_length_regex>
+      <example_e123>+381 10 234567</example_e123>
+      <number_format>'+XXX XX XXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="382">
+      <calling_code>382</calling_code>
+      <country>Montenegro</country>
+      <itu_territories>Montenegro</itu_territories>
+      <itu_nsn_raw>4 to 12 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+382</prefix_regex>
+      <e164_length_regex>^\+382(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+382 30 234 567</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="385">
+      <calling_code>385</calling_code>
+      <country>Croatia</country>
+      <itu_territories>Croatia</itu_territories>
+      <itu_nsn_raw>8 to 12 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-9</itu_nsn_lengths>
+      <e164_nsn_lengths>7-9</e164_nsn_lengths>
+      <prefix_regex>^\+385</prefix_regex>
+      <e164_length_regex>^\+385(?:\d{7}|\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+385 1 2345 678</example_e123>
+      <number_format>'+XXX X XXXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="386">
+      <calling_code>386</calling_code>
+      <country>Slovenia</country>
+      <itu_territories>Slovenia</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-8</itu_nsn_lengths>
+      <e164_nsn_lengths>5-8</e164_nsn_lengths>
+      <prefix_regex>^\+386</prefix_regex>
+      <e164_length_regex>^\+386(?:\d{5}|\d{6}|\d{7}|\d{8})$</e164_length_regex>
+      <example_e123>+386 1 234 56 78</example_e123>
+      <number_format>'+XXX X XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="387">
+      <calling_code>387</calling_code>
+      <country>Bosnia and Herzegovina</country>
+      <itu_territories>Saba Bosnia and Herzegovina</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+387</prefix_regex>
+      <e164_length_regex>^\+387(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+387 30 212-345</example_e123>
+      <number_format>'+XXX XX XXX-XXX</number_format>
+    </Entry>
+    <Entry calling_code="389">
+      <calling_code>389</calling_code>
+      <country>North Macedonia</country>
+      <itu_territories>The Former Yugoslav</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+389</prefix_regex>
+      <e164_length_regex>^\+389(?:\d{8})$</e164_length_regex>
+      <example_e123>+389 2 201 2345</example_e123>
+      <number_format>'+XXX X XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="420">
+      <calling_code>420</calling_code>
+      <country>Czechia</country>
+      <itu_territories>Czech Rep.</itu_territories>
+      <itu_nsn_raw>4 to 12 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9-12</itu_nsn_lengths>
+      <e164_nsn_lengths>9-12</e164_nsn_lengths>
+      <prefix_regex>^\+420</prefix_regex>
+      <e164_length_regex>^\+420(?:\d{9}|\d{10}|\d{11}|\d{12})$</e164_length_regex>
+      <example_e123>+420 212 345 678</example_e123>
+      <number_format>'+XXX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="421">
+      <calling_code>421</calling_code>
+      <country>Slovakia</country>
+      <itu_territories>Slovakia</itu_territories>
+      <itu_nsn_raw>4 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>6-7,9</e164_nsn_lengths>
+      <prefix_regex>^\+421</prefix_regex>
+      <e164_length_regex>^\+421(?:\d{6}|\d{7}|\d{9})$</e164_length_regex>
+      <example_e123>+421 2/212 345 67</example_e123>
+      <number_format>'+XXX X/XXX XXX XX</number_format>
+    </Entry>
+    <Entry calling_code="423">
+      <calling_code>423</calling_code>
+      <country>Liechtenstein</country>
+      <itu_territories>Liechtenstein</itu_territories>
+      <itu_nsn_raw>7 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,9</itu_nsn_lengths>
+      <e164_nsn_lengths>7,9</e164_nsn_lengths>
+      <prefix_regex>^\+423</prefix_regex>
+      <e164_length_regex>^\+423(?:\d{7}|\d{9})$</e164_length_regex>
+      <example_e123>+423 234 56 78</example_e123>
+      <number_format>'+XXX XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="500">
+      <calling_code>500</calling_code>
+      <country>Falkland Islands (Malvinas)</country>
+      <itu_territories>Falkland Islands (Malvinas)</itu_territories>
+      <itu_nsn_raw>5 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5</itu_nsn_lengths>
+      <e164_nsn_lengths>5</e164_nsn_lengths>
+      <prefix_regex>^\+500</prefix_regex>
+      <e164_length_regex>^\+500(?:\d{5})$</e164_length_regex>
+      <example_e123>+500 31234</example_e123>
+      <number_format>'+XXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="501">
+      <calling_code>501</calling_code>
+      <country>Belize</country>
+      <itu_territories>Belize</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,11</itu_nsn_lengths>
+      <e164_nsn_lengths>7,11</e164_nsn_lengths>
+      <prefix_regex>^\+501</prefix_regex>
+      <e164_length_regex>^\+501(?:\d{7}|\d{11})$</e164_length_regex>
+      <example_e123>+501 222-1234</example_e123>
+      <number_format>'+XXX XXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="502">
+      <calling_code>502</calling_code>
+      <country>Guatemala</country>
+      <itu_territories>Guatemala</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8,11</itu_nsn_lengths>
+      <e164_nsn_lengths>8,11</e164_nsn_lengths>
+      <prefix_regex>^\+502</prefix_regex>
+      <e164_length_regex>^\+502(?:\d{8}|\d{11})$</e164_length_regex>
+      <example_e123>+502 2245 6789</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="503">
+      <calling_code>503</calling_code>
+      <country>El Salvador</country>
+      <itu_territories>El Salvador</itu_territories>
+      <itu_nsn_raw>7, 8, 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8,11</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8,11</e164_nsn_lengths>
+      <prefix_regex>^\+503</prefix_regex>
+      <e164_length_regex>^\+503(?:\d{7}|\d{8}|\d{11})$</e164_length_regex>
+      <example_e123>+503 2123 4567</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="504">
+      <calling_code>504</calling_code>
+      <country>Honduras</country>
+      <itu_territories>Honduras</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8,11</itu_nsn_lengths>
+      <e164_nsn_lengths>8,11</e164_nsn_lengths>
+      <prefix_regex>^\+504</prefix_regex>
+      <e164_length_regex>^\+504(?:\d{8}|\d{11})$</e164_length_regex>
+      <example_e123>+504 2212-3456</example_e123>
+      <number_format>'+XXX XXXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="505">
+      <calling_code>505</calling_code>
+      <country>Nicaragua</country>
+      <itu_territories>Nicaragua</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+505</prefix_regex>
+      <e164_length_regex>^\+505(?:\d{8})$</e164_length_regex>
+      <example_e123>+505 2123 4567</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="506">
+      <calling_code>506</calling_code>
+      <country>Costa Rica</country>
+      <itu_territories>Costa Rica</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8,10</itu_nsn_lengths>
+      <e164_nsn_lengths>8,10</e164_nsn_lengths>
+      <prefix_regex>^\+506</prefix_regex>
+      <e164_length_regex>^\+506(?:\d{8}|\d{10})$</e164_length_regex>
+      <example_e123>+506 2212 3456</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="507">
+      <calling_code>507</calling_code>
+      <country>Panama</country>
+      <itu_territories>Panama</itu_territories>
+      <itu_nsn_raw>7, 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8,10-11</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8,10-11</e164_nsn_lengths>
+      <prefix_regex>^\+507</prefix_regex>
+      <e164_length_regex>^\+507(?:\d{7}|\d{8}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+507 200-1234</example_e123>
+      <number_format>'+XXX XXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="508">
+      <calling_code>508</calling_code>
+      <country>Saint Pierre and Miquelon</country>
+      <itu_territories>Saint Pierre and Miquelon</itu_territories>
+      <itu_nsn_raw>6 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,9</itu_nsn_lengths>
+      <e164_nsn_lengths>6,9</e164_nsn_lengths>
+      <prefix_regex>^\+508</prefix_regex>
+      <e164_length_regex>^\+508(?:\d{6}|\d{9})$</e164_length_regex>
+      <example_e123>+508 43 01 23</example_e123>
+      <number_format>'+XXX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="509">
+      <calling_code>509</calling_code>
+      <country>Haiti</country>
+      <itu_territories>Haiti</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+509</prefix_regex>
+      <e164_length_regex>^\+509(?:\d{8})$</e164_length_regex>
+      <example_e123>+509 22 45 3300</example_e123>
+      <number_format>'+XXX XX XX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="590">
+      <calling_code>590</calling_code>
+      <country>Shared</country>
+      <itu_territories>code Guadeloupe</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+590</prefix_regex>
+      <e164_length_regex>^\+590(?:\d{9})$</e164_length_regex>
+      <example_e123>+590 590 27 12 34</example_e123>
+      <number_format>'+XXX XXX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="591">
+      <calling_code>591</calling_code>
+      <country>Bolivia, Plurinational State of</country>
+      <itu_territories>Bolivia (Plurinational State</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+591</prefix_regex>
+      <e164_length_regex>^\+591(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+591 2 2123456</example_e123>
+      <number_format>'+XXX X XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="592">
+      <calling_code>592</calling_code>
+      <country>Guyana</country>
+      <itu_territories>Guyana</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>001</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+592</prefix_regex>
+      <e164_length_regex>^\+592(?:\d{7})$</e164_length_regex>
+      <example_e123>+592 220 1234</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="593">
+      <calling_code>593</calling_code>
+      <country>Ecuador</country>
+      <itu_territories>Ecuador</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-11</itu_nsn_lengths>
+      <e164_nsn_lengths>8-11</e164_nsn_lengths>
+      <prefix_regex>^\+593</prefix_regex>
+      <e164_length_regex>^\+593(?:\d{8}|\d{9}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+593 2-212-3456</example_e123>
+      <number_format>'+XXX X-XXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="594">
+      <calling_code>594</calling_code>
+      <country>French Guiana</country>
+      <itu_territories>Territories in the Indian Ocean French Guiana</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+594</prefix_regex>
+      <e164_length_regex>^\+594(?:\d{9})$</e164_length_regex>
+      <example_e123>+594 594 10 12 34</example_e123>
+      <number_format>'+XXX XXX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="595">
+      <calling_code>595</calling_code>
+      <country>Paraguay</country>
+      <itu_territories>Paraguay</itu_territories>
+      <itu_nsn_raw>5 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-11</itu_nsn_lengths>
+      <e164_nsn_lengths>6-11</e164_nsn_lengths>
+      <prefix_regex>^\+595</prefix_regex>
+      <e164_length_regex>^\+595(?:\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+595 21 234 5678</example_e123>
+      <number_format>'+XXX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="596">
+      <calling_code>596</calling_code>
+      <country>Martinique</country>
+      <itu_territories>Martinique</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+596</prefix_regex>
+      <e164_length_regex>^\+596(?:\d{9})$</e164_length_regex>
+      <example_e123>+596 596 30 12 34</example_e123>
+      <number_format>'+XXX XXX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="597">
+      <calling_code>597</calling_code>
+      <country>Suriname</country>
+      <itu_territories>Suriname</itu_territories>
+      <itu_nsn_raw>6 to 7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-7</itu_nsn_lengths>
+      <e164_nsn_lengths>6-7</e164_nsn_lengths>
+      <prefix_regex>^\+597</prefix_regex>
+      <e164_length_regex>^\+597(?:\d{6}|\d{7})$</e164_length_regex>
+      <example_e123>+597 211-234</example_e123>
+      <number_format>'+XXX XXX-XXX</number_format>
+    </Entry>
+    <Entry calling_code="598">
+      <calling_code>598</calling_code>
+      <country>Uruguay</country>
+      <itu_territories>Telecommunication (UPT) Uruguay</itu_territories>
+      <itu_nsn_raw>4 to 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4-13</itu_nsn_lengths>
+      <e164_nsn_lengths>4-13</e164_nsn_lengths>
+      <prefix_regex>^\+598</prefix_regex>
+      <e164_length_regex>^\+598(?:\d{4}|\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12}|\d{13})$</e164_length_regex>
+      <example_e123>+598 2123 1234</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="599">
+      <calling_code>599</calling_code>
+      <country>Shared</country>
+      <itu_territories>Curaçao; of) Bonaire, Sint Eustatius and</itu_territories>
+      <itu_nsn_raw>7 digits; 7 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8</e164_nsn_lengths>
+      <prefix_regex>^\+599</prefix_regex>
+      <e164_length_regex>^\+599(?:\d{7}|\d{8})$</e164_length_regex>
+      <example_e123>+599 715 1234</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="670">
+      <calling_code>670</calling_code>
+      <country>Timor-Leste</country>
+      <itu_territories>Republic of Macedonia Timor-Leste</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8</e164_nsn_lengths>
+      <prefix_regex>^\+670</prefix_regex>
+      <e164_length_regex>^\+670(?:\d{7}|\d{8})$</e164_length_regex>
+      <example_e123>+670 211 2345</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="672">
+      <calling_code>672</calling_code>
+      <country>Norfolk Island</country>
+      <itu_territories>Australian External</itu_territories>
+      <itu_nsn_raw>6 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-6</itu_nsn_lengths>
+      <e164_nsn_lengths>6</e164_nsn_lengths>
+      <prefix_regex>^\+672</prefix_regex>
+      <e164_length_regex>^\+672(?:\d{6})$</e164_length_regex>
+      <example_e123>+672 10 6609</example_e123>
+      <number_format>'+XXX XX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="673">
+      <calling_code>673</calling_code>
+      <country>Brunei Darussalam</country>
+      <itu_territories>Brunei Darussalam</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+673</prefix_regex>
+      <e164_length_regex>^\+673(?:\d{7})$</e164_length_regex>
+      <example_e123>+673 234 5678</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="674">
+      <calling_code>674</calling_code>
+      <country>Nauru</country>
+      <itu_territories>Nauru</itu_territories>
+      <itu_nsn_raw>4, 7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+674</prefix_regex>
+      <e164_length_regex>^\+674(?:\d{7})$</e164_length_regex>
+      <example_e123>+674 444 1234</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="675">
+      <calling_code>675</calling_code>
+      <country>Papua New Guinea</country>
+      <itu_territories>Papua New Guinea</itu_territories>
+      <itu_nsn_raw>4 to 11 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8</e164_nsn_lengths>
+      <prefix_regex>^\+675</prefix_regex>
+      <e164_length_regex>^\+675(?:\d{7}|\d{8})$</e164_length_regex>
+      <example_e123>+675 312 3456</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="676">
+      <calling_code>676</calling_code>
+      <country>Tonga</country>
+      <itu_territories>Tonga</itu_territories>
+      <itu_nsn_raw>5, 7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5,7</itu_nsn_lengths>
+      <e164_nsn_lengths>5,7</e164_nsn_lengths>
+      <prefix_regex>^\+676</prefix_regex>
+      <e164_length_regex>^\+676(?:\d{5}|\d{7})$</e164_length_regex>
+      <example_e123>+676 20-123</example_e123>
+      <number_format>'+XXX XX-XXX</number_format>
+    </Entry>
+    <Entry calling_code="677">
+      <calling_code>677</calling_code>
+      <country>Solomon Islands</country>
+      <itu_territories>Solomon Islands</itu_territories>
+      <itu_nsn_raw>5 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5,7</itu_nsn_lengths>
+      <e164_nsn_lengths>5,7</e164_nsn_lengths>
+      <prefix_regex>^\+677</prefix_regex>
+      <e164_length_regex>^\+677(?:\d{5}|\d{7})$</e164_length_regex>
+      <example_e123>+677 40123</example_e123>
+      <number_format>'+XXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="678">
+      <calling_code>678</calling_code>
+      <country>Vanuatu</country>
+      <itu_territories>Vanuatu</itu_territories>
+      <itu_nsn_raw>5, 7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5,7</itu_nsn_lengths>
+      <e164_nsn_lengths>5,7</e164_nsn_lengths>
+      <prefix_regex>^\+678</prefix_regex>
+      <e164_length_regex>^\+678(?:\d{5}|\d{7})$</e164_length_regex>
+      <example_e123>+678 22123</example_e123>
+      <number_format>'+XXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="679">
+      <calling_code>679</calling_code>
+      <country>Fiji</country>
+      <itu_territories>Fiji</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7,11</itu_nsn_lengths>
+      <e164_nsn_lengths>7,11</e164_nsn_lengths>
+      <prefix_regex>^\+679</prefix_regex>
+      <e164_length_regex>^\+679(?:\d{7}|\d{11})$</e164_length_regex>
+      <example_e123>+679 321 2345</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="680">
+      <calling_code>680</calling_code>
+      <country>Palau</country>
+      <itu_territories>Palau</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>011</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+680</prefix_regex>
+      <e164_length_regex>^\+680(?:\d{7})$</e164_length_regex>
+      <example_e123>+680 277 1234</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="681">
+      <calling_code>681</calling_code>
+      <country>Wallis and Futuna</country>
+      <itu_territories>Wallis and Futuna</itu_territories>
+      <itu_nsn_raw>6 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,9</itu_nsn_lengths>
+      <e164_nsn_lengths>6,9</e164_nsn_lengths>
+      <prefix_regex>^\+681</prefix_regex>
+      <e164_length_regex>^\+681(?:\d{6}|\d{9})$</e164_length_regex>
+      <example_e123>+681 72 12 34</example_e123>
+      <number_format>'+XXX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="682">
+      <calling_code>682</calling_code>
+      <country>Cook Islands</country>
+      <itu_territories>Cook Islands</itu_territories>
+      <itu_nsn_raw>5 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5</itu_nsn_lengths>
+      <e164_nsn_lengths>5</e164_nsn_lengths>
+      <prefix_regex>^\+682</prefix_regex>
+      <e164_length_regex>^\+682(?:\d{5})$</e164_length_regex>
+      <example_e123>+682 21 234</example_e123>
+      <number_format>'+XXX XX XXX</number_format>
+    </Entry>
+    <Entry calling_code="683">
+      <calling_code>683</calling_code>
+      <country>Niue</country>
+      <itu_territories>Niue</itu_territories>
+      <itu_nsn_raw>4 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4,7</itu_nsn_lengths>
+      <e164_nsn_lengths>4,7</e164_nsn_lengths>
+      <prefix_regex>^\+683</prefix_regex>
+      <e164_length_regex>^\+683(?:\d{4}|\d{7})$</e164_length_regex>
+      <example_e123>+683 7012</example_e123>
+      <number_format>'+XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="685">
+      <calling_code>685</calling_code>
+      <country>Samoa</country>
+      <itu_territories>Grenadines Samoa</itu_territories>
+      <itu_nsn_raw>3 to 7 digits</itu_nsn_raw>
+      <itu_international_prefix>0</itu_international_prefix>
+      <itu_nsn_lengths>5-7,10</itu_nsn_lengths>
+      <e164_nsn_lengths>5-7,10</e164_nsn_lengths>
+      <prefix_regex>^\+685</prefix_regex>
+      <e164_length_regex>^\+685(?:\d{5}|\d{6}|\d{7}|\d{10})$</e164_length_regex>
+      <example_e123>+685 22123</example_e123>
+      <number_format>'+XXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="686">
+      <calling_code>686</calling_code>
+      <country>Kiribati</country>
+      <itu_territories>Kiribati</itu_territories>
+      <itu_nsn_raw>5 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5,8</itu_nsn_lengths>
+      <e164_nsn_lengths>5,8</e164_nsn_lengths>
+      <prefix_regex>^\+686</prefix_regex>
+      <e164_length_regex>^\+686(?:\d{5}|\d{8})$</e164_length_regex>
+      <example_e123>+686 31234</example_e123>
+      <number_format>'+XXX XXXXX</number_format>
+    </Entry>
+    <Entry calling_code="687">
+      <calling_code>687</calling_code>
+      <country>New Caledonia</country>
+      <itu_territories>New Caledonia</itu_territories>
+      <itu_nsn_raw>6 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6</itu_nsn_lengths>
+      <e164_nsn_lengths>6</e164_nsn_lengths>
+      <prefix_regex>^\+687</prefix_regex>
+      <e164_length_regex>^\+687(?:\d{6})$</e164_length_regex>
+      <example_e123>+687 20.12.34</example_e123>
+      <number_format>'+XXX XX.XX.XX</number_format>
+    </Entry>
+    <Entry calling_code="688">
+      <calling_code>688</calling_code>
+      <country>Tuvalu</country>
+      <itu_territories>Tuvalu</itu_territories>
+      <itu_nsn_raw>5, 6 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-7</itu_nsn_lengths>
+      <e164_nsn_lengths>5-7</e164_nsn_lengths>
+      <prefix_regex>^\+688</prefix_regex>
+      <e164_length_regex>^\+688(?:\d{5}|\d{6}|\d{7})$</e164_length_regex>
+      <example_e123>+688 20 123</example_e123>
+      <number_format>'+XXX XX XXX</number_format>
+    </Entry>
+    <Entry calling_code="689">
+      <calling_code>689</calling_code>
+      <country>French Polynesia</country>
+      <itu_territories>French Polynesia</itu_territories>
+      <itu_nsn_raw>6 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6,8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>6,8-9</e164_nsn_lengths>
+      <prefix_regex>^\+689</prefix_regex>
+      <e164_length_regex>^\+689(?:\d{6}|\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+689 40 41 23 45</example_e123>
+      <number_format>'+XXX XX XX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="690">
+      <calling_code>690</calling_code>
+      <country>Tokelau</country>
+      <itu_territories>Tokelau</itu_territories>
+      <itu_nsn_raw>4 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>4-7</itu_nsn_lengths>
+      <e164_nsn_lengths>4-7</e164_nsn_lengths>
+      <prefix_regex>^\+690</prefix_regex>
+      <e164_length_regex>^\+690(?:\d{4}|\d{5}|\d{6}|\d{7})$</e164_length_regex>
+      <example_e123>+690 3101</example_e123>
+      <number_format>'+XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="691">
+      <calling_code>691</calling_code>
+      <country>Micronesia, Federated States of</country>
+      <itu_territories>Micronesia</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>011</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+691</prefix_regex>
+      <e164_length_regex>^\+691(?:\d{7})$</e164_length_regex>
+      <example_e123>+691 320 1234</example_e123>
+      <number_format>'+XXX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="692">
+      <calling_code>692</calling_code>
+      <country>Marshall Islands</country>
+      <itu_territories>Marshall Islands</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>011</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7</e164_nsn_lengths>
+      <prefix_regex>^\+692</prefix_regex>
+      <e164_length_regex>^\+692(?:\d{7})$</e164_length_regex>
+      <example_e123>+692 247-1234</example_e123>
+      <number_format>'+XXX XXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="850">
+      <calling_code>850</calling_code>
+      <country>Korea, Democratic People's Republic of</country>
+      <itu_territories>Dem. People's Rep. of</itu_territories>
+      <itu_nsn_raw>6 to 17 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-17</itu_nsn_lengths>
+      <e164_nsn_lengths>8,10</e164_nsn_lengths>
+      <prefix_regex>^\+850</prefix_regex>
+      <e164_length_regex>^\+850(?:\d{8}|\d{10})$</e164_length_regex>
+      <example_e123>+850 2 123 4567</example_e123>
+      <number_format>'+XXX X XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="852">
+      <calling_code>852</calling_code>
+      <country>Hong Kong</country>
+      <itu_territories>Hong Kong, China</itu_territories>
+      <itu_nsn_raw>4, 8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>001</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>5-9,11</e164_nsn_lengths>
+      <prefix_regex>^\+852</prefix_regex>
+      <e164_length_regex>^\+852(?:\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{11})$</e164_length_regex>
+      <example_e123>+852 2123 4567</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="853">
+      <calling_code>853</calling_code>
+      <country>Macao</country>
+      <itu_territories>Macao, China</itu_territories>
+      <itu_nsn_raw>7 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8</e164_nsn_lengths>
+      <prefix_regex>^\+853</prefix_regex>
+      <e164_length_regex>^\+853(?:\d{7}|\d{8})$</e164_length_regex>
+      <example_e123>+853 2821 2345</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="855">
+      <calling_code>855</calling_code>
+      <country>Cambodia</country>
+      <itu_territories>Cambodia</itu_territories>
+      <itu_nsn_raw>0 8 digits</itu_nsn_raw>
+      <itu_international_prefix>001,</itu_international_prefix>
+      <itu_nsn_lengths>0,8</itu_nsn_lengths>
+      <e164_nsn_lengths>8-10</e164_nsn_lengths>
+      <prefix_regex>^\+855</prefix_regex>
+      <e164_length_regex>^\+855(?:\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+855 23 756 789</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="856">
+      <calling_code>856</calling_code>
+      <country>Lao People's Democratic Republic</country>
+      <itu_territories>Lao P.D.R.</itu_territories>
+      <itu_nsn_raw>8 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-10</itu_nsn_lengths>
+      <e164_nsn_lengths>8-10</e164_nsn_lengths>
+      <prefix_regex>^\+856</prefix_regex>
+      <e164_length_regex>^\+856(?:\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+856 21 212 862</example_e123>
+      <number_format>'+XXX XX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="880">
+      <calling_code>880</calling_code>
+      <country>Bangladesh</country>
+      <itu_territories>Bangladesh</itu_territories>
+      <itu_nsn_raw>6 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-10</itu_nsn_lengths>
+      <e164_nsn_lengths>6-10</e164_nsn_lengths>
+      <prefix_regex>^\+880</prefix_regex>
+      <e164_length_regex>^\+880(?:\d{6}|\d{7}|\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+880 2-7111234</example_e123>
+      <number_format>'+XXX X-XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="886">
+      <calling_code>886</calling_code>
+      <country>Taiwan, Province of China</country>
+      <itu_territories>Taiwan, China</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>002</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>7-11</e164_nsn_lengths>
+      <prefix_regex>^\+886</prefix_regex>
+      <e164_length_regex>^\+886(?:\d{7}|\d{8}|\d{9}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+886 2 2123 4567</example_e123>
+      <number_format>'+XXX X XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="960">
+      <calling_code>960</calling_code>
+      <country>Maldives</country>
+      <itu_territories>Maldives</itu_territories>
+      <itu_nsn_raw>7 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7</itu_nsn_lengths>
+      <e164_nsn_lengths>7,10</e164_nsn_lengths>
+      <prefix_regex>^\+960</prefix_regex>
+      <e164_length_regex>^\+960(?:\d{7}|\d{10})$</e164_length_regex>
+      <example_e123>+960 670-1234</example_e123>
+      <number_format>'+XXX XXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="961">
+      <calling_code>961</calling_code>
+      <country>Lebanon</country>
+      <itu_territories>Lebanon</itu_territories>
+      <itu_nsn_raw>7 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8</e164_nsn_lengths>
+      <prefix_regex>^\+961</prefix_regex>
+      <e164_length_regex>^\+961(?:\d{7}|\d{8})$</e164_length_regex>
+      <example_e123>+961 1 123 456</example_e123>
+      <number_format>'+XXX X XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="962">
+      <calling_code>962</calling_code>
+      <country>Jordan</country>
+      <itu_territories>Jordan</itu_territories>
+      <itu_nsn_raw>5 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>5-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+962</prefix_regex>
+      <e164_length_regex>^\+962(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+962 6 200 1234</example_e123>
+      <number_format>'+XXX X XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="963">
+      <calling_code>963</calling_code>
+      <country>Syrian Arab Republic</country>
+      <itu_territories>Syrian Arab Republic</itu_territories>
+      <itu_nsn_raw>8 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-10</itu_nsn_lengths>
+      <e164_nsn_lengths>8-9</e164_nsn_lengths>
+      <prefix_regex>^\+963</prefix_regex>
+      <e164_length_regex>^\+963(?:\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+963 11 234 5678</example_e123>
+      <number_format>'+XXX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="964">
+      <calling_code>964</calling_code>
+      <country>Iraq</country>
+      <itu_territories>Iraq</itu_territories>
+      <itu_nsn_raw>8 to 10 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-10</itu_nsn_lengths>
+      <e164_nsn_lengths>8-10</e164_nsn_lengths>
+      <prefix_regex>^\+964</prefix_regex>
+      <e164_length_regex>^\+964(?:\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+964 1 234 5678</example_e123>
+      <number_format>'+XXX X XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="965">
+      <calling_code>965</calling_code>
+      <country>Kuwait</country>
+      <itu_territories>Kuwait</itu_territories>
+      <itu_nsn_raw>7, 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8</e164_nsn_lengths>
+      <prefix_regex>^\+965</prefix_regex>
+      <e164_length_regex>^\+965(?:\d{7}|\d{8})$</e164_length_regex>
+      <example_e123>+965 2234 5678</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="966">
+      <calling_code>966</calling_code>
+      <country>Saudi Arabia</country>
+      <itu_territories>Saudi Arabia</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>9-10</e164_nsn_lengths>
+      <prefix_regex>^\+966</prefix_regex>
+      <e164_length_regex>^\+966(?:\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+966 11 234 5678</example_e123>
+      <number_format>'+XXX XX XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="967">
+      <calling_code>967</calling_code>
+      <country>Yemen</country>
+      <itu_territories>Yemen</itu_territories>
+      <itu_nsn_raw>6 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>6-9</itu_nsn_lengths>
+      <e164_nsn_lengths>7-9</e164_nsn_lengths>
+      <prefix_regex>^\+967</prefix_regex>
+      <e164_length_regex>^\+967(?:\d{7}|\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+967 1 234 567</example_e123>
+      <number_format>'+XXX X XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="968">
+      <calling_code>968</calling_code>
+      <country>Oman</country>
+      <itu_territories>Oman</itu_territories>
+      <itu_nsn_raw>7 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-9</e164_nsn_lengths>
+      <prefix_regex>^\+968</prefix_regex>
+      <e164_length_regex>^\+968(?:\d{7}|\d{8}|\d{9})$</e164_length_regex>
+      <example_e123>+968 23 123456</example_e123>
+      <number_format>'+XXX XX XXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="971">
+      <calling_code>971</calling_code>
+      <country>United Arab Emirates</country>
+      <itu_territories>United Arab Emirates</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>5-12</e164_nsn_lengths>
+      <prefix_regex>^\+971</prefix_regex>
+      <e164_length_regex>^\+971(?:\d{5}|\d{6}|\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12})$</e164_length_regex>
+      <example_e123>+971 2 234 5678</example_e123>
+      <number_format>'+XXX X XXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="972">
+      <calling_code>972</calling_code>
+      <country>Israel</country>
+      <itu_territories>Israel</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00,012,013,</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>7-12</e164_nsn_lengths>
+      <prefix_regex>^\+972</prefix_regex>
+      <e164_length_regex>^\+972(?:\d{7}|\d{8}|\d{9}|\d{10}|\d{11}|\d{12})$</e164_length_regex>
+      <example_e123>+972 2-123-4567</example_e123>
+      <number_format>'+XXX X-XXX-XXXX</number_format>
+    </Entry>
+    <Entry calling_code="973">
+      <calling_code>973</calling_code>
+      <country>Bahrain</country>
+      <itu_territories>Bahrain</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+973</prefix_regex>
+      <e164_length_regex>^\+973(?:\d{8})$</e164_length_regex>
+      <example_e123>+973 1700 1234</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="974">
+      <calling_code>974</calling_code>
+      <country>Qatar</country>
+      <itu_territories>Qatar</itu_territories>
+      <itu_nsn_raw>3 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>3-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-9,11</e164_nsn_lengths>
+      <prefix_regex>^\+974</prefix_regex>
+      <e164_length_regex>^\+974(?:\d{7}|\d{8}|\d{9}|\d{11})$</e164_length_regex>
+      <example_e123>+974 4412 3456</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="975">
+      <calling_code>975</calling_code>
+      <country>Bhutan</country>
+      <itu_territories>Bhutan</itu_territories>
+      <itu_nsn_raw>7 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>7-8</e164_nsn_lengths>
+      <prefix_regex>^\+975</prefix_regex>
+      <e164_length_regex>^\+975(?:\d{7}|\d{8})$</e164_length_regex>
+      <example_e123>+975 2 345 678</example_e123>
+      <number_format>'+XXX X XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="976">
+      <calling_code>976</calling_code>
+      <country>Mongolia</country>
+      <itu_territories>Mongolia</itu_territories>
+      <itu_nsn_raw>7 to 8 digits</itu_nsn_raw>
+      <itu_international_prefix>001</itu_international_prefix>
+      <itu_nsn_lengths>7-8</itu_nsn_lengths>
+      <e164_nsn_lengths>8-10</e164_nsn_lengths>
+      <prefix_regex>^\+976</prefix_regex>
+      <e164_length_regex>^\+976(?:\d{8}|\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+976 5312 3456</example_e123>
+      <number_format>'+XXX XXXX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="977">
+      <calling_code>977</calling_code>
+      <country>Nepal</country>
+      <itu_territories>Nepal</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>8,10-11</e164_nsn_lengths>
+      <prefix_regex>^\+977</prefix_regex>
+      <e164_length_regex>^\+977(?:\d{8}|\d{10}|\d{11})$</e164_length_regex>
+      <example_e123>+977 1-4567890</example_e123>
+      <number_format>'+XXX X-XXXXXXX</number_format>
+    </Entry>
+    <Entry calling_code="992">
+      <calling_code>992</calling_code>
+      <country>Tajikistan</country>
+      <itu_territories>Tajikistan</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>810</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+992</prefix_regex>
+      <e164_length_regex>^\+992(?:\d{9})$</e164_length_regex>
+      <example_e123>+992 372 12 3456</example_e123>
+      <number_format>'+XXX XXX XX XXXX</number_format>
+    </Entry>
+    <Entry calling_code="993">
+      <calling_code>993</calling_code>
+      <country>Turkmenistan</country>
+      <itu_territories>Turkmenistan</itu_territories>
+      <itu_nsn_raw>8 digits</itu_nsn_raw>
+      <itu_international_prefix>810</itu_international_prefix>
+      <itu_nsn_lengths>8</itu_nsn_lengths>
+      <e164_nsn_lengths>8</e164_nsn_lengths>
+      <prefix_regex>^\+993</prefix_regex>
+      <e164_length_regex>^\+993(?:\d{8})$</e164_length_regex>
+      <example_e123>+993 12 34-56-78</example_e123>
+      <number_format>'+XXX XX XX-XX-XX</number_format>
+    </Entry>
+    <Entry calling_code="994">
+      <calling_code>994</calling_code>
+      <country>Azerbaijan</country>
+      <itu_territories>Azerbaijan</itu_territories>
+      <itu_nsn_raw>8 to 9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>8-9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+994</prefix_regex>
+      <e164_length_regex>^\+994(?:\d{9})$</e164_length_regex>
+      <example_e123>+994 12 312 34 56</example_e123>
+      <number_format>'+XXX XX XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="995">
+      <calling_code>995</calling_code>
+      <country>Georgia</country>
+      <itu_territories>Georgia</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+995</prefix_regex>
+      <e164_length_regex>^\+995(?:\d{9})$</e164_length_regex>
+      <example_e123>+995 32 212 34 56</example_e123>
+      <number_format>'+XXX XX XXX XX XX</number_format>
+    </Entry>
+    <Entry calling_code="996">
+      <calling_code>996</calling_code>
+      <country>Kyrgyzstan</country>
+      <itu_territories>Kyrgyzstan</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>00</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9-10</e164_nsn_lengths>
+      <prefix_regex>^\+996</prefix_regex>
+      <e164_length_regex>^\+996(?:\d{9}|\d{10})$</e164_length_regex>
+      <example_e123>+996 312 123 456</example_e123>
+      <number_format>'+XXX XXX XXX XXX</number_format>
+    </Entry>
+    <Entry calling_code="998">
+      <calling_code>998</calling_code>
+      <country>Uzbekistan</country>
+      <itu_territories>Uzbekistan</itu_territories>
+      <itu_nsn_raw>9 digits</itu_nsn_raw>
+      <itu_international_prefix>810</itu_international_prefix>
+      <itu_nsn_lengths>9</itu_nsn_lengths>
+      <e164_nsn_lengths>9</e164_nsn_lengths>
+      <prefix_regex>^\+998</prefix_regex>
+      <e164_length_regex>^\+998(?:\d{9})$</e164_length_regex>
+      <example_e123>+998 66 905 01 23</example_e123>
+      <number_format>'+XXX XX XXX XX XX</number_format>
+    </Entry>
+  </Entries>
+</E164E123CountryCodeTable>
