@@ -231,8 +231,8 @@ The integration requires the following custom fields to be configured in HaloPSA
 
 **Lead Entity Custom Fields (18 fields):**
 
-| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
-|-----------|-------------|------|---------------|------------|-----------|
+| FieldName | Field Label | Type | Default Value | Field Hint | Field Group |
+|-----------|-------------|------|---------------|------------|-------------|
 | CFLeadSource | Lead Source | Dropdown | Apollo.io | Source platform identification | Lead Basics |
 | CFLeadServicesOffered | Services Offered | Text |  | Primary business offerings | Lead Basics |
 | CFLeadGrowthSignals | Growth Signals | Text |  | Expansion/growth indicators | Lead Basics |
@@ -252,31 +252,33 @@ The integration requires the following custom fields to be configured in HaloPSA
 | CFLeadLastIntentActivity | Last Intent Activity | Date |  | Date of most recent intent signal | Intent & Behavior |
 | CFLeadIntentTopics | Intent Topics | Text |  | Specific topics/products showing interest (e.g., "cloud migration, cybersecurity, data analytics") | Intent & Behavior |
 
-**Prospect Entity Custom Fields (18 fields) - Organized by Tab:**
+**Prospect Entity Custom Fields (20 fields) - Organised by Field Groups (sections):**
 
-### Qualification Tab (6 fields)
-| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
-|-----------|-------------|------|---------------|------------|-----------|
+### Qualification Section (8 fields)
+| FieldName | Field Label | Type | Default Value | Field Hint | Field Group |
+|-----------|-------------|------|---------------|------------|-------------|
 | CFProspectPainPoints | Pain Points | Text |  | Confirmed business challenges | Qualification |
 | CFProspectServices | Qualified Services | Text |  | Matching service offerings | Qualification |
 | CFProspectDecisionMakers | Decision Maker | String |  | Key stakeholder information | Qualification |
 | CFProspectFitScore | Fit Score | Integer |  | Overall qualification score (0-100) | Qualification |
 | CFProspectBudget | Budget Range | Dropdown | <$10K | Available budget estimation (<$10K, $10K-$50K, $50K-$100K, $100K-$500K, $500K+) | Qualification |
 | CFProspectTimeframe | Timeframe | Dropdown | 3-6 months | Expected implementation timeline (Immediate, 1-3 months, 3-6 months, 6-12 months, 12+ months) | Qualification |
+| CFProspectIndustry | Industry/Sector | Dropdown | Technology | Primary industry classification (Technology, Healthcare, Finance, Manufacturing, Retail, Education, Government, Professional Services, Construction, Real Estate, Transportation, Energy, Utilities, Telecommunications, Media & Entertainment, Agriculture, Food & Beverage, Hospitality, Automotive, Aerospace, Defence, Pharmaceuticals, Biotechnology, Chemicals, Mining, Insurance, Legal Services, Non-Profit, Other) | Qualification |
+| CFProspectRegion | Geographic Region | Dropdown | UK | Geographic territory (North America, USA, Canada, Mexico, Central America, Caribbean, South America, Brazil, Argentina, Chile, Colombia, Peru, Venezuela, Europe, UK, Germany, France, Italy, Spain, Netherlands, Belgium, Switzerland, Austria, Nordic Countries, Eastern Europe, Russia, Asia Pacific, China, Japan, South Korea, India, Australia, New Zealand, Southeast Asia, Indonesia, Thailand, Philippines, Vietnam, Singapore, Middle East, UAE, Saudi Arabia, Qatar, Kuwait, Oman, Bahrain, Israel, Turkey, Iran, Iraq, Africa, South Africa, Nigeria, Kenya, Egypt, Morocco, Ghana, Ethiopia, Tanzania, Sub-Saharan Africa, North Africa, East Africa, West Africa, Central Africa, Southern Africa) | Qualification |
 
-### Prospect Management Tab (6 fields)
-| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
-|-----------|-------------|------|---------------|------------|-----------|
-| CFProspectStatus | Prospect Status | Dropdown | New | Current prospect status (New, Contacted, Qualified, Nurturing, Disqualified) | Prospect Management |
-| CFProspectNextFollowUp | Next Follow-up Date | Date |  | When to contact prospect next | Prospect Management |
+### Prospect Management Section (6 fields)
+| FieldName | Field Label | Type | Default Value | Field Hint | Field Group |
+|-----------|-------------|------|---------------|------------|-------------|
 | CFProspectCompetition | Competition | Text |  | Who else they're talking to | Prospect Management |
-| CFProspectTechnicalReqs | Technical Requirements | Memo |  | Specific technical needs and constraints | Prospect Management |
+| CFProspectCompetitionStrength | Competition Strength | Dropdown | Moderate | Competitive landscape assessment (Weak, Moderate, Strong, Dominant) | Prospect Management |
 | CFProspectDealValue | Estimated Deal Value | Text |  | Estimated deal size/value | Prospect Management |
-| CFProspectWinProbability | Win Probability | Integer |  | Win probability percentage (0-100) | Prospect Management |
+| CFProspectExpectedClose | Expected Close Date | Date |  | Anticipated deal closure date | Prospect Management |
+| CFProspectNextAction | Next Action Item | Text |  | Specific action required to advance the deal | Prospect Management |
+| CFProspectPriority | Sales Priority | Dropdown | Medium | Priority level for follow-up activities (Low, Medium, High, Critical) | Prospect Management |
 
-### Stakeholders & Communication Tab (6 fields)
-| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
-|-----------|-------------|------|---------------|------------|-----------|
+### Stakeholders & Communication Section (6 fields)
+| FieldName | Field Label | Type | Default Value | Field Hint | Field Group |
+|-----------|-------------|------|---------------|------------|-------------|
 | CFProspectAdditionalStakeholders | Additional Stakeholders | Text |  | Other key people involved in decision | Stakeholders & Communication |
 | CFProspectInternalChampion | Internal Champion | String |  | Prospect's internal advocate | Stakeholders & Communication |
 | CFProspectCommunicationHistory | Communication History | Memo |  | Summary of all interactions and touchpoints | Stakeholders & Communication |
@@ -284,16 +286,17 @@ The integration requires the following custom fields to be configured in HaloPSA
 | CFProspectBuyingProcess | Buying Process Stage | Dropdown | Awareness | Where they are in their buying journey (Awareness, Consideration, Decision, Purchase) | Stakeholders & Communication |
 | CFProspectComments | Comments | Memo |  | Additional notes and observations | Stakeholders & Communication |
 
-**Opportunity Entity Custom Fields (20 fields):**
+**Opportunity Entity Custom Fields (21 fields):**
 
-| FieldName | Field Label | Type | Default Value | Field Hint | Tab/Group |
-|-----------|-------------|------|---------------|------------|-----------|
+| FieldName | Field Label | Type | Default Value | Field Hint | Field Group |
+|-----------|-------------|------|---------------|------------|-------------|
 | CFOpportunitySolutions | Solutions/Products/Services | Text |  | Solution components being offered | Deal Basics |
 | CFOpportunityQuotes | Quotes/Proposals | Text |  | Proposal and pricing information | Deal Basics |
 | CFOpportunityCompetitors | Competitors | Text |  | Competitive landscape details | Deal Basics |
 | CFOpportunityOutcome | Win/Loss Reason | Text |  | Deal outcome analysis | Deal Basics |
 | CFOpportunityDealStage | Deal Stage | Dropdown | Discovery | Internal deal progression (Discovery, Technical Review, POC, Proposal, Contract, Closed) | Deal Basics |
 | CFOpportunityForecast | Forecast Category | Dropdown | Pipeline | Forecast confidence (Pipeline, Best Case, Commit, Closed) | Deal Basics |
+| CFOpportunityBudgetConfidence | Budget Confidence | Dropdown | Medium | Confidence level in customer's budget approval (Low, Medium, High, Confirmed) | Deal Basics |
 | CFOpportunityScope | Scope and Requirements | Memo |  | Project scope, deliverables, and requirements | Technical Requirements |
 | CFOpportunityTechnicalReqs | Technical Requirements | Memo |  | Technical specifications and infrastructure needs | Technical Requirements |
 | CFOpportunityArchitecture | Technical Architecture | Memo |  | Technical solution architecture and design | Technical Requirements |
@@ -305,8 +308,6 @@ The integration requires the following custom fields to be configured in HaloPSA
 | CFOpportunityContractTerms | Contract Terms | Memo |  | Contract terms, SLAs, and legal requirements | Contract & Legal |
 | CFOpportunityRisks | Risk Factors | Memo |  | Identified risks and mitigation strategies | Contract & Legal |
 | CFOpportunityTimeline | Implementation Timeline | Date |  | Proposed implementation schedule | Contract & Legal |
-| CFOpportunityNextSteps | Next Steps/Action Items | Memo |  | Immediate next steps and action items | Implementation & Success |
-| CFOpportunityGoLive | Go-Live Date | Date |  | Planned go-live or implementation date | Implementation & Success |
 | CFOpportunitySuccessMetrics | Success Metrics | Memo |  | Success criteria and KPIs for the implementation | Implementation & Success |
 
 ## Getting Started
