@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Number Normaliser - Browser Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007cba;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #005a87;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #007cba;
+            border-radius: 4px;
+        }
+        .result pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .examples {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+        }
+        .examples h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .example-item {
+            margin: 10px 0;
+            font-family: monospace;
+            background: white;
+            padding: 8px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔢 Phone Number Normaliser - Browser Demo</h1>
+        
+        <div class="form-group">
+            <label for="phoneInput">Phone Number:</label>
+            <input type="text" id="phoneInput" placeholder="Enter phone number (e.g., (555) 123-4567, 020 7946 0123)" value="(555) 123-4567">
+        </div>
+
+        <div class="form-group">
+            <label for="regionSelect">Region:</label>
+            <select id="regionSelect">
+                <option value="USA">USA</option>
+                <option value="UK">UK</option>
+                <option value="Germany">Germany</option>
+                <option value="France">France</option>
+                <option value="Australia">Australia</option>
+                <option value="Japan">Japan</option>
+                <option value="China">China</option>
+                <option value="India">India</option>
+            </select>
+        </div>
+
+        <button onclick="normalisePhone()">Normalise Phone Number</button>
+
+        <div id="result" class="result" style="display: none;">
+            <h3>Result:</h3>
+            <pre id="resultContent"></pre>
+        </div>
+
+        <div class="examples">
+            <h3>Example Phone Numbers to Try:</h3>
+            <div class="example-item">🇺🇸 USA: (555) 123-4567, 555.123.4567, +1-555-123-4567</div>
+            <div class="example-item">🇬🇧 UK: 020 7946 0123, +44 20 7946 0123, 07123456789</div>
+            <div class="example-item">🇩🇪 Germany: 030 12345678, +49 30 12345678</div>
+            <div class="example-item">🇫🇷 France: 01 42 68 53 00, +33 1 42 68 53 00</div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center; color: #666;">
+            <p>This demo shows the browser-compatible version of the Phone Number Normaliser.</p>
+            <p>It works entirely in the browser without requiring Node.js or server-side processing.</p>
+        </div>
+    </div>
+
+    <!-- Include the browser-compatible normaliser -->
+    <script src="phone-number-normaliser-browser.js"></script>
+    
+    <script>
+        // Global normaliser instance
+        let normaliser;
+
+        // Initialise when page loads
+        window.addEventListener('load', async function() {
+            try {
+                normaliser = new PhoneNumberNormaliser();
+                console.log('Phone Number Normaliser loaded successfully!');
+            } catch (error) {
+                console.error('Error loading normaliser:', error);
+            }
+        });
+
+        function normalisePhone() {
+            const phoneInput = document.getElementById('phoneInput').value;
+            const region = document.getElementById('regionSelect').value;
+            const resultDiv = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+
+            if (!phoneInput.trim()) {
+                alert('Please enter a phone number');
+                return;
+            }
+
+            if (!normaliser) {
+                alert('Normaliser not loaded yet, please wait a moment and try again');
+                return;
+            }
+
+            try {
+                const result = normaliser.normalise(phoneInput, region);
+                
+                resultContent.textContent = JSON.stringify(result, null, 2);
+                resultDiv.style.display = 'block';
+
+                // Also log to console for developers
+                console.log('Normalisation result:', result);
+
+            } catch (error) {
+                console.error('Error normalising phone number:', error);
+                resultContent.textContent = `Error: ${error.message}`;
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        // Allow Enter key to trigger normalisation
+        document.getElementById('phoneInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                normalisePhone();
+            }
+        });
+
+        // Example of batch processing (check console)
+        function demoAdvancedUsage() {
+            if (!normaliser) {
+                console.log('Normaliser not loaded yet');
+                return;
+            }
+
+            console.group('Advanced Usage Examples');
+            
+            // Batch processing
+            const phoneNumbers = ['(555) 123-4567', '020 7946 0123', '+33 1 42 68 53 00'];
+            console.log('Batch normalisation:', normaliser.normaliseBatch(phoneNumbers, 'USA'));
+
+            // Static method
+            console.log('Quick normalise:', PhoneNumberNormaliser.quickNormalise('555.123.4567'));
+
+            console.groupEnd();
+        }
+
+        // Run advanced demo automatically
+        setTimeout(demoAdvancedUsage, 1000);
+    </script>
+</body>
+</html>

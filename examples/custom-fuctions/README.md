@@ -2,6 +2,12 @@
 
 A utility for normalising phone numbers to standardised formats for CRM integration.
 
+## Available Versions
+
+- **`phone-number-normaliser.js`**: Node.js version with full XML parsing
+- **`phone-number-normaliser-browser.js`**: Browser-compatible version with embedded country data
+- **`phone-normaliser-browser-demo.html`**: Live browser demo
+
 ## Features
 
 - **E.164 Format**: International standard (+1234567890)
@@ -9,9 +15,11 @@ A utility for normalising phone numbers to standardised formats for CRM integrat
 - **Country Detection**: Uses CRM region field to determine country-specific formatting
 - **Multiple Input Formats**: Handles various input formats (with/without country codes, different separators)
 - **Fallback Formatting**: Graceful handling of unknown countries
+- **Cross-Platform**: Works in Node.js and web browsers
 
 ## Usage
 
+### Node.js Version
 ```javascript
 const PhoneNumberNormaliser = require('./phone-number-normaliser');
 
@@ -31,6 +39,29 @@ console.log(result);
 // Batch normalise multiple numbers
 const results = normaliser.normaliseBatch(['+44 20 7946 0123', '07123456789'], 'UK');
 ```
+
+### Browser Version
+```html
+<!-- Include the script -->
+<script src="phone-number-normaliser-browser.js"></script>
+
+<script>
+// Create normaliser instance
+const normaliser = new PhoneNumberNormaliser();
+
+// Single number
+const result = normaliser.normalise('(555) 123-4567', 'USA');
+console.log(result);
+
+// Quick static method
+const quickResult = PhoneNumberNormaliser.quickNormalise('555.123.4567');
+
+// Batch processing
+const batchResults = normaliser.normaliseBatch(['020 7946 0123', '555-123-4567'], 'UK');
+</script>
+```
+
+**Browser Demo**: Open `phone-normaliser-browser-demo.html` in your web browser for a live demonstration.
 
 ## Supported Regions
 
@@ -67,8 +98,30 @@ This utility is designed to work with the HaloPSA CRM custom fields:
 
 ## Dependencies
 
+### Node.js Version
 - `@xmldom/xmldom`: XML parsing for country code data
 - `e164_e123_country_code_table.xml`: Country-specific formatting rules
+
+### Browser Version
+- No external dependencies
+- Uses native browser `DOMParser` if XML loading is enabled
+- Embedded country data for reliability
+
+## Browser Compatibility
+
+The browser version (`phone-number-normaliser-browser.js`) is compatible with:
+
+- ✅ **Modern Browsers**: Chrome 60+, Firefox 55+, Safari 12+, Edge 79+
+- ✅ **Mobile Browsers**: iOS Safari 12+, Chrome Mobile 60+
+- ✅ **Module Systems**: CommonJS (Node.js), AMD (RequireJS), Global variables
+- ✅ **Zero Dependencies**: No external libraries required
+- ✅ **Offline Ready**: Embedded country data, no external API calls
+
+### Browser Features Used:
+- ES6 Classes (widely supported)
+- Template literals (widely supported)  
+- Arrow functions (widely supported)
+- Optional: `fetch()` API (for XML loading, if enabled)
 
 ## Examples
 
