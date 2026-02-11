@@ -188,7 +188,7 @@ schemas/
 
 
 ### Data Models & Field Mappings
-- HaloPSA entity schemas (Prospects, Organizations, Contacts)
+- HaloPSA entity schemas (Prospects, Organisations, Contacts)
 - B2B tool data structure mapping
 - Field transformation patterns
 - Data validation rules
