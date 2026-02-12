@@ -30,7 +30,7 @@
       <prefix_regex>^\+1</prefix_regex>
       <e164_length_regex>^\+1(?:\d{7}|\d{10})$</e164_length_regex>
       <example_e123>+1 268-460-1234</example_e123>
-      <number_format>'+X XXX-XXX-XXXX</number_format>
+      <number_format>'+X (XXX) XXX-XXXX</number_format>
     </Entry>
     <Entry calling_code="7">
       <calling_code>7</calling_code>
@@ -211,8 +211,8 @@
       <e164_nsn_lengths>7,9-10</e164_nsn_lengths>
       <prefix_regex>^\+44</prefix_regex>
       <e164_length_regex>^\+44(?:\d{7}|\d{9}|\d{10})$</e164_length_regex>
-      <example_e123>+44 121 234 5678</example_e123>
-      <number_format>'+XX XXX XXX XXXX</number_format>
+      <example_e123>+44 1212 345 678</example_e123>
+      <number_format>'+XX XXXX XXX XXX</number_format>
     </Entry>
     <Entry calling_code="45">
       <calling_code>45</calling_code>

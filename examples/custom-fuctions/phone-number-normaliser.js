@@ -186,133 +186,68 @@ class PhoneNumberNormaliser {
   }
 
   /**
-   * Apply country-specific E.123 formatting
+   * Apply country-specific E.123 formatting using XML rules
    */
   applyCountryFormatting(nationalNumber, countryInfo, countryCode) {
     const format = countryInfo.numberFormat;
 
     if (!format) {
-      // Fallback to basic grouping
+      // Fallback to basic grouping if no format specified in XML
       return '+' + countryCode + ' ' + this.formatBasicNational(nationalNumber);
     }
 
     try {
-      // For now, use a simpler approach based on country and length
-      const totalDigits = nationalNumber.length;
-
-      // Choose format based on country and length
-      if (countryCode === '1' && totalDigits === 10) {
-        // US/Canada 10-digit: +1 XXX-XXX-XXXX
-        return `+${countryCode} ${nationalNumber.slice(0,3)}-${nationalNumber.slice(3,6)}-${nationalNumber.slice(6)}`;
-      } else if (countryCode === '1' && totalDigits === 7) {
-        // US/Canada 7-digit: +1 XXX-XXXX
-        return `+${countryCode} ${nationalNumber.slice(0,3)}-${nationalNumber.slice(3)}`;
-      } else if (countryCode === '44') {
-        // UK numbers: strip leading 0 from national number for formatting
-        let formattedNational = nationalNumber;
-        if (formattedNational.startsWith('0')) {
-          formattedNational = formattedNational.substring(1);
-        }
-
-        if (formattedNational.length === 10) {
-          // UK 10-digit: +44 XXX XXX XXXX
-          return `+${countryCode} ${formattedNational.slice(0,3)} ${formattedNational.slice(3,6)} ${formattedNational.slice(6)}`;
-        } else if (formattedNational.length === 9) {
-          // UK 9-digit: +44 XX XXX XXXX
-          return `+${countryCode} ${formattedNational.slice(0,2)} ${formattedNational.slice(2,5)} ${formattedNational.slice(5)}`;
-        } else {
-          // Fallback
-          return `+${countryCode} ${formattedNational}`;
-        }
-      } else if (countryCode === '49') {
-        // German numbers: handle area codes properly
-        // German area codes are 2-5 digits starting with 0, followed by subscriber number
-        let formattedNational = nationalNumber;
-
-        // If it starts with 0, this indicates an area code
-        if (formattedNational.startsWith('0')) {
-          // Common German area codes: 2-5 digits
-          // Try to identify area code length by common patterns
-          let areaCode = '';
-          let subscriber = '';
-
-          if (formattedNational.length >= 10) { // Likely 3-digit area code + 7-digit subscriber
-            areaCode = formattedNational.substring(0, 3);
-            subscriber = formattedNational.substring(3);
-          } else if (formattedNational.length >= 9) { // Likely 2-digit area code + 7-digit subscriber
-            areaCode = formattedNational.substring(0, 2);
-            subscriber = formattedNational.substring(2);
-          } else if (formattedNational.length >= 8) { // Likely 4-digit area code + 4-digit subscriber or other combinations
-            // Check for common patterns
-            if (formattedNational.startsWith('015') || formattedNational.startsWith('016') || formattedNational.startsWith('017')) {
-              // Mobile numbers: 3-digit prefix + 7-8 digits
-              areaCode = formattedNational.substring(0, 3);
-              subscriber = formattedNational.substring(3);
-            } else {
-              // Assume 3-digit area code
-              areaCode = formattedNational.substring(0, 3);
-              subscriber = formattedNational.substring(3);
-            }
-          } else {
-            // Short number, treat as is
-            areaCode = formattedNational.substring(0, 2);
-            subscriber = formattedNational.substring(2);
-          }
-
-          // Remove leading 0 from area code for international format
-          if (areaCode.startsWith('0')) {
-            areaCode = areaCode.substring(1);
-          }
-
-          return `+${countryCode} ${areaCode} ${subscriber}`;
-        } else {
-          // No leading 0, might be already formatted or mobile
-          return `+${countryCode} ${formattedNational}`;
-        }
-      } else if (countryCode === '43') {
-        // Austrian numbers: handle area codes and mobile numbers properly
-        // Austrian area codes start with 0 (1-4 digits), mobile numbers start with 6
-        // Note: nationalNumber has already had leading 0 stripped by toE164 for geographic numbers
-        let formattedNational = nationalNumber;
-
-        if (formattedNational.startsWith('6')) {
-          // Mobile number: format as +43 6xx xxxxxxx
-          return `+${countryCode} ${formattedNational.substring(0,3)} ${formattedNational.substring(3,10)}`;
-        } else {
-          // Landline: format as +43 xxx xxxxxxx
-          return `+${countryCode} ${formattedNational.substring(0,3)} ${formattedNational.substring(3)}`;
-        }
-      } else {
-
-        // Try to use the format from XML, but fall back to basic formatting
-        let processedFormat = format.replace(/'\+X+/, '+' + countryCode);
-        processedFormat = processedFormat.replace(/'/g, '');
-
-        let formatted = '';
-        let digitIndex = 0;
-
-        for (let i = 0; i < processedFormat.length && digitIndex < nationalNumber.length; i++) {
-          const char = processedFormat[i];
-          if (char === 'X') {
-            formatted += nationalNumber[digitIndex++];
-          } else {
-            formatted += char;
-          }
-        }
-
-        // Append any remaining digits
-        if (digitIndex < nationalNumber.length) {
-          if (formatted.match(/\d$/)) {
-            formatted += nationalNumber.substring(digitIndex);
-          } else {
-            formatted += ' ' + nationalNumber.substring(digitIndex);
-          }
-        }
-
-        return formatted;
-      }
+      // Use the XML-defined number format pattern for all countries
+      return this.applyE123Pattern(nationalNumber, countryCode, format);
+      
     } catch (error) {
-      console.warn('Error applying country format, using fallback:', error);
+      console.warn('Error applying XML formatting, using fallback:', error);
+      return '+' + countryCode + ' ' + this.formatBasicNational(nationalNumber);
+    }
+  }
+
+  /**
+   * Apply E.123 pattern from XML format specification
+   */
+  applyE123Pattern(nationalNumber, countryCode, formatPattern) {
+    if (!formatPattern) {
+      return '+' + countryCode + ' ' + this.formatBasicNational(nationalNumber);
+    }
+
+    try {
+      // Parse the XML number format (e.g., '+XX XXXX XXX XXX')
+      // XX represents country code positions
+      // X represents national number digit positions
+      
+      // Remove the '+XX ' part to get the national format pattern
+      const nationalPattern = formatPattern.replace(/^\+XX\s+/, '');
+      
+      // Count X's to determine grouping
+      const xGroups = nationalPattern.split(' ').filter(group => group.trim());
+      
+      let formattedNumber = '+' + countryCode;
+      let digitIndex = 0;
+      
+      // Apply spacing and grouping based on pattern
+      for (let i = 0; i < xGroups.length && digitIndex < nationalNumber.length; i++) {
+        const groupLength = xGroups[i].length;
+        const digits = nationalNumber.substring(digitIndex, digitIndex + groupLength);
+        
+        if (digits.length > 0) {
+          formattedNumber += ' ' + digits;
+          digitIndex += groupLength;
+        }
+      }
+      
+      // Add any remaining digits
+      if (digitIndex < nationalNumber.length) {
+        formattedNumber += nationalNumber.substring(digitIndex);
+      }
+      
+      return formattedNumber;
+      
+    } catch (error) {
+      console.warn('Error parsing XML format pattern:', formatPattern, error);
       return '+' + countryCode + ' ' + this.formatBasicNational(nationalNumber);
     }
   }
