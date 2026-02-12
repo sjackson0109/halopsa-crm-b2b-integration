@@ -91,17 +91,11 @@
         </div>
 
         <div class="form-group">
-            <label for="regionSelect">Region:</label>
-            <select id="regionSelect">
-                <option value="USA">USA</option>
-                <option value="UK">UK</option>
-                <option value="Germany">Germany</option>
-                <option value="France">France</option>
-                <option value="Australia">Australia</option>
-                <option value="Japan">Japan</option>
-                <option value="China">China</option>
-                <option value="India">India</option>
-            </select>
+            <label for="countryInput">Country (Optional):</label>
+            <input type="text" id="countryInput" placeholder="e.g., UK, US, DE, FR (optional for national numbers)" />
+            <small style="display: block; color: #666; margin-top: 5px;">
+                Use for "national formatted numbers" like "02072259129" → specify "UK". 2-digit country codes.
+            </small>
         </div>
 
         <button onclick="normalisePhone()">Normalise Phone Number</button>
@@ -112,11 +106,12 @@
         </div>
 
         <div class="examples">
-            <h3>Example Phone Numbers to Try:</h3>
+            <h3>Example Phone Numbers to Try (Auto-Detection):</h3>
             <div class="example-item">🇺🇸 USA: (555) 123-4567, 555.123.4567, +1-555-123-4567</div>
-            <div class="example-item">🇬🇧 UK: 020 7946 0123, +44 20 7946 0123, 07123456789</div>
+            <div class="example-item">🇬🇧 UK: 020 7946 0123, +44 20 7946 0123, +44 78 7566 3300</div>
             <div class="example-item">🇩🇪 Germany: 030 12345678, +49 30 12345678</div>
             <div class="example-item">🇫🇷 France: 01 42 68 53 00, +33 1 42 68 53 00</div>
+            <div class="example-item">🌍 Any country with +XX prefix will be auto-detected!</div>
         </div>
 
         <div style="margin-top: 30px; text-align: center; color: #666;">
@@ -125,26 +120,114 @@
         </div>
     </div>
 
-    <!-- Include the browser-compatible normaliser -->
-    <script src="phone-number-normaliser-browser.js"></script>
-    
     <script>
         // Global normaliser instance
         let normaliser;
+        let scriptLoaded = false;
+        let loadAttempted = false;
 
-        // Initialise when page loads
-        window.addEventListener('load', async function() {
+        function handleScriptLoaded() {
+            console.log('Script loaded successfully from GitHub');
+            scriptLoaded = true;
+            setTimeout(initialiseNormaliser, 100); // Small delay to ensure script is fully parsed
+        }
+
+        function handleScriptLoadError() {
+            console.error('Failed to load script from GitHub, using fallback...');
+            scriptLoaded = false;
+            createFallbackNormaliser();
+            setTimeout(initialiseNormaliser, 100);
+        }
+
+        function createFallbackNormaliser() {
+            // MINIMAL fallback normaliser - NO country-specific rules
+            window.PhoneNumberNormaliser = class {
+                constructor() {
+                    console.log('Using minimal fallback normaliser - XML rules not available');
+                }
+                
+                normalise(phoneNumber, region = 'USA') {
+                    // Absolute minimum processing - no country-specific logic
+                    const digits = phoneNumber.replace(/[^0-9]/g, '');
+                    
+                    // Basic E.164-like format (just digits with +)
+                    let e164 = phoneNumber.startsWith('+') ? phoneNumber.replace(/[^0-9+]/g, '') : '+' + digits;
+                    
+                    // No formatting - just return basic structure
+                    return {
+                        original: phoneNumber,
+                        e164: e164,
+                        e123: e164, // No formatting available
+                        countryCode: 'unknown',
+                        region: region,
+                        fallback: true,
+                        error: 'XML country data not loaded - no formatting rules available'
+                    };
+                }
+                
+                normaliseBatch(phoneNumbers, region) {
+                    return phoneNumbers.map(phone => this.normalise(phone, region));
+                }
+                
+                static quickNormalise(phoneNumber, region = 'USA') {
+                    const normaliser = new PhoneNumberNormaliser();
+                    return normaliser.normalise(phoneNumber, region);
+                }
+            };
+            console.log('Minimal fallback PhoneNumberNormaliser created - all rules should come from XML');
+        }
+
+        // Initialise when page loads OR when script loads
+        function initialiseNormaliser() {
             try {
-                normaliser = new PhoneNumberNormaliser();
-                console.log('Phone Number Normaliser loaded successfully!');
+                if (typeof PhoneNumberNormaliser !== 'undefined') {
+                    normaliser = new PhoneNumberNormaliser();
+                    console.log('Phone Number Normaliser initialised successfully!');
+                    
+                    // Update UI to show it's ready
+                    const button = document.querySelector('button');
+                    if (button) {
+                        button.style.backgroundColor = '#28a745';
+                        button.textContent = 'Normalise Phone Number (Ready!)';
+                        setTimeout(() => {
+                            button.style.backgroundColor = '#007cba';
+                            button.textContent = 'Normalise Phone Number';
+                        }, 2000);
+                    }
+                } else {
+                    console.log('PhoneNumberNormaliser not available, using fallback...');
+                    createFallbackNormaliser();
+                    if (typeof PhoneNumberNormaliser !== 'undefined') {
+                        normaliser = new PhoneNumberNormaliser();
+                        console.log('Fallback normaliser created successfully!');
+                    } else {
+                        throw new Error('Failed to create fallback normaliser');
+                    }
+                }
             } catch (error) {
-                console.error('Error loading normaliser:', error);
+                console.error('Error initialising normaliser:', error);
+                // Force create fallback if everything fails
+                createFallbackNormaliser();
+                if (typeof PhoneNumberNormaliser !== 'undefined') {
+                    normaliser = new PhoneNumberNormaliser();
+                } else {
+                    console.error('Complete failure to initialise normaliser');
+                }
             }
-        });
+        }
 
-        function normalisePhone() {
+        function getCountryName(regionCode) {
+            if (!normaliser || !normaliser.countryData || !regionCode) {
+                return null;
+            }
+            
+            const countryInfo = normaliser.countryData[regionCode];
+            return countryInfo ? countryInfo.name || regionCode : null;
+        }
+
+        async function normalisePhone() {
             const phoneInput = document.getElementById('phoneInput').value;
-            const region = document.getElementById('regionSelect').value;
+            const countryInput = document.getElementById('countryInput').value.trim();
             const resultDiv = document.getElementById('result');
             const resultContent = document.getElementById('resultContent');
 
@@ -154,35 +237,109 @@
             }
 
             if (!normaliser) {
-                alert('Normaliser not loaded yet, please wait a moment and try again');
-                return;
+                // Try to initialise one more time
+                try {
+                    initialiseNormaliser();
+                    if (!normaliser) {
+                        throw new Error('Still not initialised');
+                    }
+                } catch (error) {
+                    resultDiv.style.display = 'block';
+                    resultContent.textContent = 'Error: Phone normaliser failed to load. Please refresh the page and try again.\n\nTechnical details: ' + error.message;
+                    return;
+                }
             }
 
             try {
-                const result = normaliser.normalise(phoneInput, region);
-                
-                resultContent.textContent = JSON.stringify(result, null, 2);
+                // Show loading state
+                resultContent.textContent = 'Processing...';
                 resultDiv.style.display = 'block';
+                
+                // Let the normaliser auto-detect the region from the number prefix
+                // Use country input if provided for national format numbers
+                const result = await normaliser.normalise(phoneInput, countryInput || null);
+                
+                // Enhanced result display showing detected region
+                const enhancedResult = {
+                    ...result,
+                    detectedRegion: result.region || 'Unknown',
+                    detectedCountry: getCountryName(result.countryCode) || 'Unknown'
+                };
+                
+                let displayResult = JSON.stringify(enhancedResult, null, 2);
+                if (result.fallback) {
+                    displayResult = 'ℹ️ Using fallback normaliser (GitHub script failed to load)\n\n' + displayResult;
+                }
+                
+                resultContent.textContent = displayResult;
 
                 // Also log to console for developers
-                console.log('Normalisation result:', result);
+                console.log('Normalisation result:', enhancedResult);
 
             } catch (error) {
                 console.error('Error normalising phone number:', error);
                 resultContent.textContent = `Error: ${error.message}`;
-                resultDiv.style.display = 'block';
             }
         }
 
-        // Allow Enter key to trigger normalisation
-        document.getElementById('phoneInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                normalisePhone();
+        function getCountryName(regionCode) {
+            if (!normaliser || !normaliser.countryData || !regionCode) {
+                return null;
             }
+            
+            const countryInfo = normaliser.countryData[regionCode];
+            if (!countryInfo) return null;
+            
+            // Try different property names for country name
+            return countryInfo.name || countryInfo.country || countryInfo.territories || regionCode;
+        }
+
+        // Allow Enter key to trigger normalisation
+        function setupEventListeners() {
+            const phoneInput = document.getElementById('phoneInput');
+            const countryInput = document.getElementById('countryInput');
+            
+            function handleEnterKey(e) {
+                if (e.key === 'Enter') {
+                    normalisePhone();
+                }
+            }
+            
+            if (phoneInput) {
+                phoneInput.addEventListener('keypress', handleEnterKey);
+            }
+            
+            if (countryInput) {
+                countryInput.addEventListener('keypress', handleEnterKey);
+                // Also trigger normalisation when country field changes
+                countryInput.addEventListener('change', normalisePhone);
+            }
+        }
+
+        // Try to initialise when DOM is ready
+        window.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            
+            // Give the script time to load, then try fallback if needed
+            setTimeout(() => {
+                if (!normaliser) {
+                    console.log('Initialising normaliser after DOM load...');
+                    initialiseNormaliser();
+                }
+            }, 500);
+            
+            // Final fallback after more time
+            setTimeout(() => {
+                if (!normaliser) {
+                    console.log('Final fallback attempt...');
+                    createFallbackNormaliser();
+                    initialiseNormaliser();
+                }
+            }, 2000);
         });
 
         // Example of batch processing (check console)
-        function demoAdvancedUsage() {
+        async function demoAdvancedUsage() {
             if (!normaliser) {
                 console.log('Normaliser not loaded yet');
                 return;
@@ -190,12 +347,16 @@
 
             console.group('Advanced Usage Examples');
             
-            // Batch processing
-            const phoneNumbers = ['(555) 123-4567', '020 7946 0123', '+33 1 42 68 53 00'];
-            console.log('Batch normalisation:', normaliser.normaliseBatch(phoneNumbers, 'USA'));
+            try {
+                // Batch processing
+                const phoneNumbers = ['(555) 123-4567', '020 7946 0123', '+33 1 42 68 53 00'];
+                console.log('Batch normalisation:', await normaliser.normaliseBatch(phoneNumbers, 'USA'));
 
-            // Static method
-            console.log('Quick normalise:', PhoneNumberNormaliser.quickNormalise('555.123.4567'));
+                // Static method
+                console.log('Quick normalise:', await PhoneNumberNormaliser.quickNormalise('555.123.4567'));
+            } catch (error) {
+                console.error('Demo error:', error);
+            }
 
             console.groupEnd();
         }
@@ -203,5 +364,10 @@
         // Run advanced demo automatically
         setTimeout(demoAdvancedUsage, 1000);
     </script>
+
+    <!-- Include the browser-compatible normaliser -->
+    <script src="./phone-number-normaliser-browser.js" 
+            onerror="handleScriptLoadError()" 
+            onload="handleScriptLoaded()"></script>
 </body>
 </html>
