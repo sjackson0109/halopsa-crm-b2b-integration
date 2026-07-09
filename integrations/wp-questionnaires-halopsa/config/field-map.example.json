@@ -1,0 +1,33 @@
+{
+  "description": "Example HaloPSA custom-field mapping for WP Questionnaires submissions. Replace field IDs/names with tenant-specific values.",
+  "prospect": {
+    "source": "CF_WPQ_Source",
+    "submission_id": "CF_WPQ_SubmissionId",
+    "submission_ref": "CF_WPQ_SubmissionRef",
+    "questionnaire_ref": "CF_WPQ_QuestionnaireRef",
+    "questionnaire_name": "CF_WPQ_Campaign",
+    "overall_score": "CF_WPQ_OverallScore",
+    "grade_label": "CF_WPQ_Grade",
+    "domain_scores_json": "CF_WPQ_DomainScores",
+    "answers_json": "CF_WPQ_Answers",
+    "recommendations_json": "CF_WPQ_Recommendations",
+    "utm_source": "CF_WPQ_UtmSource",
+    "utm_medium": "CF_WPQ_UtmMedium",
+    "utm_campaign": "CF_WPQ_UtmCampaign",
+    "landing_page": "CF_WPQ_LandingPage",
+    "referrer_url": "CF_WPQ_ReferrerUrl",
+    "completed_at": "CF_WPQ_CompletedAt"
+  },
+  "client": {
+    "source": "CF_Client_Source",
+    "campaign": "CF_Client_Campaign"
+  },
+  "contact": {
+    "source": "CF_Contact_Source",
+    "campaign": "CF_Contact_Campaign",
+    "submission_ref": "CF_Contact_WPQSubmissionRef"
+  },
+  "status": {
+    "prospect_interested_label": "Prospect - Interested"
+  }
+}
