@@ -1,0 +1,16 @@
+{
+  "name": "@alltime/wp-questionnaires-halopsa-sync",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Synchronise WP Questionnaires submissions into HaloPSA CRM prospects.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dry-run": "node src/index.js --dry-run",
+    "once": "node src/index.js --once"
+  },
+  "license": "UNLICENSED"
+}
